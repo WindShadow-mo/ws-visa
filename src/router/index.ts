@@ -13,6 +13,11 @@ const router = createRouter({
           name: 'home',
           component: () => import('@/views/HomePage.vue'),
         },
+        {
+          path: '/uk-visa',
+          name: 'uk-visa',
+          component: () => import('@/views/UKVisaForm.vue'),
+        },
       ],
     },
   ],

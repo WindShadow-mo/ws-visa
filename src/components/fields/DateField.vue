@@ -67,8 +67,9 @@ function onDateSelect(date: CalendarDate) {
       </PopoverTrigger>
       <PopoverContent class="w-auto p-0">
         <Calendar
-          :value="calendarValue"
-          @update:value="onDateSelect"
+          :model-value="calendarValue"
+          :locale="locale"
+          @update:model-value="onDateSelect"
         />
       </PopoverContent>
     </Popover>

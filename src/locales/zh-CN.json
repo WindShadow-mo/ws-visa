@@ -1,5 +1,11 @@
 {
   "common": {
+    "home": "首页",
+    "language": {
+      "label": "语言",
+      "zh-CN": "中文",
+      "en": "English"
+    },
     "buttons": {
       "submit": "提交",
       "reset": "重置",
@@ -32,6 +38,103 @@
     "nationality": {
       "CN": "中国",
       "US": "美国"
+    }
+  },
+  "home": {
+    "title": "签证信息填写助手",
+    "description": "帮助您正确、完整、快速地填写签证所需信息",
+    "startUkVisa": "英国签证申请",
+    "startUkVisaDesc": "填写英国标准访客签证（Standard Visitor Visa）申请表"
+  },
+  "ukVisa": {
+    "title": "英国签证申请",
+    "subtitle": "标准访客签证（Standard Visitor Visa）",
+    "sections": {
+      "personalInfo": "个人信息",
+      "passportInfo": "护照信息",
+      "travelPlan": "旅行计划",
+      "contactInfo": "联系方式"
+    },
+    "clearForm": "清除数据",
+    "clearConfirm": "确定要清除所有已填写的数据吗？此操作无法撤销。",
+    "exportPdf": "导出 PDF",
+    "exporting": "正在生成...",
+    "previewTitle": "预览表单内容",
+    "previewHint": "确认信息无误后点击导出",
+    "fields": {
+      "lastName": {
+        "label": "姓",
+        "placeholder": "请输入您的姓（如护照所示）"
+      },
+      "firstName": {
+        "label": "名",
+        "placeholder": "请输入您的名（如护照所示）"
+      },
+      "dateOfBirth": {
+        "label": "出生日期"
+      },
+      "nationality": {
+        "label": "国籍"
+      },
+      "gender": {
+        "label": "性别"
+      },
+      "passportNumber": {
+        "label": "护照号码",
+        "placeholder": "请输入护照号码"
+      },
+      "passportIssueDate": {
+        "label": "护照签发日期"
+      },
+      "passportExpiryDate": {
+        "label": "护照有效期至"
+      },
+      "issuingAuthority": {
+        "label": "签发机关",
+        "placeholder": "请输入护照签发机关"
+      },
+      "purposeOfVisit": {
+        "label": "访问目的"
+      },
+      "intendedArrivalDate": {
+        "label": "预计到达日期"
+      },
+      "intendedDepartureDate": {
+        "label": "预计离开日期"
+      },
+      "ukAddress": {
+        "label": "英国住址",
+        "placeholder": "请输入在英国的住宿地址"
+      },
+      "email": {
+        "label": "电子邮箱",
+        "placeholder": "请输入电子邮箱地址"
+      },
+      "phone": {
+        "label": "联系电话",
+        "placeholder": "请输入联系电话"
+      }
+    },
+    "options": {
+      "nationality": {
+        "CN": "中国",
+        "US": "美国",
+        "GB": "英国",
+        "OTHER": "其他"
+      },
+      "gender": {
+        "male": "男",
+        "female": "女",
+        "other": "其他"
+      },
+      "purposeOfVisit": {
+        "tourism": "旅游",
+        "business": "商务",
+        "familyVisit": "探亲访友",
+        "study": "学习",
+        "medical": "医疗",
+        "other": "其他"
+      }
     }
   }
 }

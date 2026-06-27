@@ -28,6 +28,7 @@ target/
 /.nb-gradle/
 build/
 doc/
+docs/
 tmp/
 
 ### VS Code ###

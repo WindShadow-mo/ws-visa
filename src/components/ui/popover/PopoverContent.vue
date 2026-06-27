@@ -18,6 +18,7 @@ const props = withDefaults(
   {
     align: "center",
     sideOffset: 4,
+    updatePositionStrategy: "always",
   },
 )
 const emits = defineEmits<PopoverContentEmits>()

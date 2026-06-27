@@ -1,29 +1,46 @@
 <script lang="ts" setup>
 import type { CalendarRootEmits, CalendarRootProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-import { reactiveOmit } from "@vueuse/core"
+import { computed, ref } from "vue"
+import { CalendarDate } from "@internationalized/date"
 import { CalendarRoot, useForwardPropsEmits } from "reka-ui"
 import { cn } from "@/lib/utils"
-import { CalendarCell, CalendarCellTrigger, CalendarGrid, CalendarGridBody, CalendarGridHead, CalendarGridRow, CalendarHeadCell, CalendarHeader, CalendarHeading, CalendarNextButton, CalendarPrevButton } from "."
+import { CalendarCell, CalendarCellTrigger, CalendarGrid, CalendarGridBody, CalendarGridHead, CalendarGridRow, CalendarHeadCell, CalendarHeader, CalendarNextButton, CalendarPrevButton } from "."
 
-const props = defineProps<CalendarRootProps & { class?: HTMLAttributes["class"] }>()
+const props = defineProps<CalendarRootProps & { class?: HTMLAttributes["class"], locale?: string }>()
 
 const emits = defineEmits<CalendarRootEmits>()
 
-const delegatedProps = reactiveOmit(props, "class")
+const delegatedProps = computed(() => {
+  const { class: _, locale: _l, ...rest } = props
+  return rest
+})
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
+
+// 控制当前显示的年月
+const now = new CalendarDate(new Date().getFullYear(), new Date().getMonth() + 1, 1)
+const placeholder = ref<CalendarDate>(props.placeholder ?? now)
+
+function handlePlaceholderUpdate(date: CalendarDate) {
+  placeholder.value = date
+}
+
+const displayedMonth = computed(() => placeholder.value.month)
+const displayedYear = computed(() => placeholder.value.year)
 </script>
 
 <template>
   <CalendarRoot
     v-slot="{ grid, weekDays }"
     :class="cn('p-3', props.class)"
+    :locale="locale"
+    :placeholder="placeholder"
+    @update:placeholder="handlePlaceholderUpdate"
     v-bind="forwarded"
   >
-    <CalendarHeader>
+    <CalendarHeader :month="displayedMonth" :year="displayedYear" :locale="locale" @update:placeholder="handlePlaceholderUpdate">
       <CalendarPrevButton />
-      <CalendarHeading />
       <CalendarNextButton />
     </CalendarHeader>
 

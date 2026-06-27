@@ -50,6 +50,10 @@
 }
 
 @layer base {
+  html {
+    overflow-y: auto;
+  }
+
   * {
     @apply border-border;
   }
@@ -61,4 +65,87 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+}
+
+/* ========== PDF 导出样式 ========== */
+
+/* 隐藏非内容元素 */
+body.pdf-exporting .form-breadcrumb,
+body.pdf-exporting .form-header button,
+body.pdf-exporting footer {
+  display: none !important;
+}
+
+/* 页面背景 → 纯白 */
+body.pdf-exporting .form-page {
+  background: #ffffff !important;
+  min-height: auto !important;
+  padding: 1rem !important;
+}
+
+body.pdf-exporting .form-page::before {
+  display: none !important;
+}
+
+body.pdf-exporting .form-container {
+  max-width: 100% !important;
+}
+
+/* 毛玻璃卡片 → 白底去装饰 */
+body.pdf-exporting .glass-card {
+  background: #ffffff !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0.5rem 1rem !important;
+}
+
+body.pdf-exporting .glass-card:hover {
+  box-shadow: none !important;
+}
+
+/* Accordion 内容区 — 强制展开 */
+body.pdf-exporting [data-state="closed"] {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  animation: none !important;
+}
+
+/* Accordion 触发器 — 去交互样式 */
+body.pdf-exporting button[aria-expanded] {
+  pointer-events: none !important;
+  background: transparent !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* 隐藏 Accordion 箭头图标 */
+body.pdf-exporting button[aria-expanded] > svg:last-child {
+  display: none !important;
+}
+
+/* 输入框 → 简洁下划线样式 */
+body.pdf-exporting input,
+body.pdf-exporting [role="combobox"],
+body.pdf-exporting select {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid #d1d5db !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0.25rem 0 !important;
+  -webkit-appearance: none !important;
+}
+
+/* Radio 按钮去交互 */
+body.pdf-exporting [role="radiogroup"] {
+  display: flex !important;
+  gap: 1.5rem !important;
+}
+
+body.pdf-exporting [role="radio"] {
+  pointer-events: none !important;
 }

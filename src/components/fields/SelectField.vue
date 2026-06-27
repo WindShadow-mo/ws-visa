@@ -39,6 +39,14 @@ const label = computed(() => t(props.labelKey))
 const description = computed(() =>
   props.descriptionKey ? t(props.descriptionKey) : undefined,
 )
+
+// 根据当前值返回翻译后的标签（响应式，语言切换时自动更新）
+const selectedLabel = computed(() => {
+  const value = props.modelValue
+  if (Array.isArray(value)) return ''
+  const option = props.options.find(o => o.value === value)
+  return option ? t(option.labelKey) : ''
+})
 </script>
 
 <template>
@@ -55,7 +63,7 @@ const description = computed(() =>
       @update:model-value="emit('update:modelValue', $event)"
     >
       <SelectTrigger :id="name">
-        <SelectValue />
+        <SelectValue :placeholder="selectedLabel">{{ selectedLabel }}</SelectValue>
       </SelectTrigger>
       <SelectContent>
         <SelectItem

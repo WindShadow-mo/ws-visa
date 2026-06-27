@@ -1,5 +1,11 @@
 {
   "common": {
+    "home": "Home",
+    "language": {
+      "label": "Language",
+      "zh-CN": "中文",
+      "en": "English"
+    },
     "buttons": {
       "submit": "Submit",
       "reset": "Reset",
@@ -32,6 +38,103 @@
     "nationality": {
       "CN": "China",
       "US": "United States"
+    }
+  },
+  "home": {
+    "title": "Visa Application Assistant",
+    "description": "Help you fill in visa information correctly, completely and quickly",
+    "startUkVisa": "UK Visa Application",
+    "startUkVisaDesc": "Fill in the UK Standard Visitor Visa application form"
+  },
+  "ukVisa": {
+    "title": "UK Visa Application",
+    "subtitle": "Standard Visitor Visa",
+    "sections": {
+      "personalInfo": "Personal Information",
+      "passportInfo": "Passport Information",
+      "travelPlan": "Travel Plan",
+      "contactInfo": "Contact Information"
+    },
+    "clearForm": "Clear Data",
+    "clearConfirm": "Are you sure you want to clear all filled data? This action cannot be undone.",
+    "exportPdf": "Export PDF",
+    "exporting": "Generating...",
+    "previewTitle": "Preview Form Content",
+    "previewHint": "Review and confirm before exporting",
+    "fields": {
+      "lastName": {
+        "label": "Last Name",
+        "placeholder": "Enter your last name (as shown in passport)"
+      },
+      "firstName": {
+        "label": "First Name",
+        "placeholder": "Enter your first name (as shown in passport)"
+      },
+      "dateOfBirth": {
+        "label": "Date of Birth"
+      },
+      "nationality": {
+        "label": "Nationality"
+      },
+      "gender": {
+        "label": "Gender"
+      },
+      "passportNumber": {
+        "label": "Passport Number",
+        "placeholder": "Enter your passport number"
+      },
+      "passportIssueDate": {
+        "label": "Passport Issue Date"
+      },
+      "passportExpiryDate": {
+        "label": "Passport Expiry Date"
+      },
+      "issuingAuthority": {
+        "label": "Issuing Authority",
+        "placeholder": "Enter the issuing authority"
+      },
+      "purposeOfVisit": {
+        "label": "Purpose of Visit"
+      },
+      "intendedArrivalDate": {
+        "label": "Intended Arrival Date"
+      },
+      "intendedDepartureDate": {
+        "label": "Intended Departure Date"
+      },
+      "ukAddress": {
+        "label": "UK Address",
+        "placeholder": "Enter your accommodation address in the UK"
+      },
+      "email": {
+        "label": "Email Address",
+        "placeholder": "Enter your email address"
+      },
+      "phone": {
+        "label": "Phone Number",
+        "placeholder": "Enter your phone number"
+      }
+    },
+    "options": {
+      "nationality": {
+        "CN": "China",
+        "US": "United States",
+        "GB": "United Kingdom",
+        "OTHER": "Other"
+      },
+      "gender": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      },
+      "purposeOfVisit": {
+        "tourism": "Tourism",
+        "business": "Business",
+        "familyVisit": "Family Visit",
+        "study": "Study",
+        "medical": "Medical",
+        "other": "Other"
+      }
     }
   }
 }

@@ -1,0 +1,306 @@
+import { ref } from 'vue'
+
+// ---- 通用预览/导出类型 ----
+
+/** 预览中单个字段的展示数据 */
+export interface PreviewField {
+  /** 字段标签（已翻译的文本） */
+  label: string
+  /** 字段值（已解析的展示文本） */
+  value: string
+  /** 是否为必填字段（用于导出前校验） */
+  required?: boolean
+}
+
+/** 预览中一个分组 */
+export interface PreviewSection {
+  /** 分组标题（已翻译的文本） */
+  title: string
+  /** 分组内的字段列表 */
+  fields: PreviewField[]
+}
+
+/**
+ * PDF 导出 composable
+ *
+ * 按 [data-pdf-section] 元素逐个捕获，智能分页避免内容割裂。
+ * 若单个 section 超过一页高度，才对该 section 做固定裁切。
+ */
+export function usePdfExport() {
+  const isExporting = ref(false)
+
+  async function exportPdf(target?: HTMLElement | null, filename?: string, docTitle?: string): Promise<void> {
+    if (isExporting.value) return
+
+    const needsCssOverride = !target
+    const container = target ?? document.querySelector('.glass-card') as HTMLElement | null
+    if (!container) return
+
+    isExporting.value = true
+    const scrollFix = expandForCapture(container)
+
+    if (needsCssOverride) {
+      document.body.classList.add('pdf-exporting')
+      await new Promise((r) => setTimeout(r, 400))
+    }
+
+    try {
+      await new Promise((r) => setTimeout(r, 50))
+
+      const html2canvas = (await import('html2canvas')).default
+      const { jsPDF } = await import('jspdf')
+
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
+      if (docTitle) {
+        pdf.setProperties({ title: docTitle })
+      }
+      const marginMm = 10
+      const usableWidthMm = 190  // 210 - 10*2
+      const usableHeightMm = 277 // 297 - 10*2
+
+      // 查找分页锚点
+      const sectionEls = container.querySelectorAll<HTMLElement>('[data-pdf-section]')
+      const breakEls = container.querySelectorAll<HTMLElement>('[data-pdf-break]')
+
+      if (sectionEls.length > 0) {
+        // ---- 按 section 逐个捕获 ----
+        const containerRect = container.getBoundingClientRect()
+
+        // 收集标题区域（第一个 section 之前的内容）
+        const firstSectionTop = sectionEls[0].getBoundingClientRect().top
+        const headerHeight = firstSectionTop - containerRect.top
+        if (headerHeight > 2) {
+          const headerCanvas = await html2canvas(container, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#ffffff',
+            logging: false,
+            y: containerRect.top,
+            height: headerHeight,
+            scrollY: 0,
+            scrollX: 0,
+          })
+          const h = (headerCanvas.height / headerCanvas.width) * usableWidthMm
+          pdf.addImage(headerCanvas.toDataURL('image/png'), 'PNG', marginMm, marginMm, usableWidthMm, h)
+        }
+
+        // 逐个 section 捕获并放置
+        let cursorMm = headerHeight > 2
+          ? (headerHeight / containerRect.width) * usableWidthMm + 4 // 4mm 间距
+          : 0
+
+        for (const section of Array.from(sectionEls)) {
+          const sectionCanvas = await html2canvas(section, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#ffffff',
+            logging: false,
+          })
+
+          const sectionHeightMm = (sectionCanvas.height / sectionCanvas.width) * usableWidthMm
+
+          if (sectionHeightMm <= usableHeightMm) {
+            // 整块放得下
+            if (cursorMm + sectionHeightMm > usableHeightMm) {
+              pdf.addPage()
+              cursorMm = 0
+            }
+            pdf.addImage(sectionCanvas.toDataURL('image/png'), 'PNG', marginMm, marginMm + cursorMm, usableWidthMm, sectionHeightMm)
+            cursorMm += sectionHeightMm + 4 // 4mm section 间距
+          } else {
+            // 单个 section 超过一页，强制裁切
+            if (cursorMm > 0) {
+              pdf.addPage()
+              cursorMm = 0
+            }
+            addSlicedToPdf(pdf, sectionCanvas, usableWidthMm, usableHeightMm, marginMm)
+          }
+        }
+      } else {
+        // ---- 无 section 标记，退回到整体捕获 + 智能裁切 ----
+        // 尝试在 [data-pdf-break] 元素处分页
+        const canvas = await html2canvas(container, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+        })
+
+        if (breakEls.length > 0) {
+          addWithBreakPointsToPdf(pdf, canvas, container, breakEls, usableWidthMm, usableHeightMm, marginMm)
+        } else {
+          addSlicedToPdf(pdf, canvas, usableWidthMm, usableHeightMm, marginMm)
+        }
+      }
+
+      pdf.save(filename ?? `UK-Visa-Application-${Date.now()}.pdf`)
+    } catch (err) {
+      console.error('PDF export failed:', err)
+      alert('PDF 生成失败，请重试。')
+    } finally {
+      scrollFix()
+      if (needsCssOverride) {
+        document.body.classList.remove('pdf-exporting')
+      }
+      isExporting.value = false
+    }
+  }
+
+  return { exportPdf, isExporting }
+}
+
+// ---- PDF 页面填充工具函数 ----
+
+/**
+ * 将 canvas 按 A4 高度裁切，逐页放入 PDF。
+ */
+function addSlicedToPdf(
+  pdf: import('jspdf').jsPDF,
+  canvas: HTMLCanvasElement,
+  usableWidthMm: number,
+  usableHeightMm: number,
+  marginMm: number,
+) {
+  const imgHeightMm = (canvas.height / canvas.width) * usableWidthMm
+  if (imgHeightMm <= usableHeightMm) {
+    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', marginMm, marginMm, usableWidthMm, imgHeightMm)
+    return
+  }
+
+  const pagePixelH = (usableHeightMm / usableWidthMm) * canvas.width
+  const totalPages = Math.ceil(canvas.height / pagePixelH)
+
+  for (let p = 0; p < totalPages; p++) {
+    if (p > 0) pdf.addPage()
+    const sliceH = Math.min(pagePixelH, canvas.height - p * pagePixelH)
+    const sc = document.createElement('canvas')
+    sc.width = canvas.width
+    sc.height = Math.ceil(sliceH)
+    sc.getContext('2d')!.drawImage(canvas, 0, -(p * pagePixelH))
+    const h = (sc.height / sc.width) * usableWidthMm
+    pdf.addImage(sc.toDataURL('image/png'), 'PNG', marginMm, marginMm, usableWidthMm, h)
+  }
+}
+
+/**
+ * 利用 data-pdf-break 元素的位置在 PDF 中智能分页。
+ */
+function addWithBreakPointsToPdf(
+  pdf: import('jspdf').jsPDF,
+  canvas: HTMLCanvasElement,
+  container: HTMLElement,
+  breakEls: NodeListOf<HTMLElement>,
+  usableWidthMm: number,
+  usableHeightMm: number,
+  marginMm: number,
+) {
+  const containerRect = container.getBoundingClientRect()
+  const scale = canvas.width / containerRect.width
+  const pagePixelH = usableHeightMm / usableWidthMm * canvas.width
+
+  // 收集每个 break 元素底部的 y 坐标（像素）
+  const breakYs: number[] = []
+  for (const el of Array.from(breakEls)) {
+    const rect = el.getBoundingClientRect()
+    breakYs.push(Math.round((rect.bottom - containerRect.top) * scale))
+  }
+
+  let start = 0
+  for (let i = 0; i < breakYs.length; i++) {
+    const breakY = breakYs[i]
+    const chunkH = breakY - start
+
+    if (chunkH <= pagePixelH) {
+      // 这块能放下
+      if (i === breakYs.length - 1) {
+        // 最后一块：把剩余内容也加上
+        addSliceToPdf(pdf, canvas, start, canvas.height - start, usableWidthMm, marginMm)
+      } else {
+        addSliceToPdf(pdf, canvas, start, chunkH, usableWidthMm, marginMm)
+      }
+      start = breakY
+    } else {
+      // 放不下，在 break 处切页
+      addSliceToPdf(pdf, canvas, start, chunkH > pagePixelH ? pagePixelH : chunkH, usableWidthMm, marginMm)
+      start = breakY
+    }
+  }
+
+  // 处理最后一个 break 之后的剩余内容
+  if (start < canvas.height) {
+    const remaining = canvas.height - start
+    const remainingMm = (remaining / canvas.width) * usableWidthMm
+    if (remainingMm > usableHeightMm) {
+      addSlicedToPdf(pdf, cropCanvas(canvas, start, remaining), usableWidthMm, usableHeightMm, marginMm)
+    } else {
+      pdf.addPage()
+      addSliceToPdf(pdf, canvas, start, remaining, usableWidthMm, marginMm)
+    }
+  }
+}
+
+function addSliceToPdf(
+  pdf: import('jspdf').jsPDF,
+  canvas: HTMLCanvasElement,
+  yPx: number,
+  hPx: number,
+  usableWidthMm: number,
+  marginMm: number,
+) {
+  const sc = cropCanvas(canvas, yPx, hPx)
+  const h = (sc.height / sc.width) * usableWidthMm
+  pdf.addImage(sc.toDataURL('image/png'), 'PNG', marginMm, marginMm, usableWidthMm, h)
+}
+
+function cropCanvas(src: HTMLCanvasElement, y: number, h: number): HTMLCanvasElement {
+  const c = document.createElement('canvas')
+  c.width = src.width
+  c.height = Math.ceil(h)
+  c.getContext('2d')!.drawImage(src, 0, -y)
+  return c
+}
+
+// ---- DOM 展开工具 ----
+
+/**
+ * 临时展开可滚动容器及其祖先，使 html2canvas 能捕获完整内容。
+ */
+function expandForCapture(el: HTMLElement): () => void {
+  const saved: Array<{ el: HTMLElement; css: Partial<CSSStyleDeclaration> }> = []
+
+  let node: HTMLElement | null = el
+  while (node && node !== document.body) {
+    const cs = getComputedStyle(node)
+    const needsFix =
+      cs.overflowY === 'auto' || cs.overflowY === 'scroll'
+      || cs.overflow === 'auto' || cs.overflow === 'scroll'
+      || (cs.maxHeight !== 'none' && cs.maxHeight !== '')
+      || cs.height !== 'auto'
+
+    if (needsFix) {
+      saved.push({
+        el: node,
+        css: {
+          overflow: node.style.overflow,
+          overflowY: node.style.overflowY,
+          height: node.style.height,
+          maxHeight: node.style.maxHeight,
+        },
+      })
+      node.style.overflow = 'visible'
+      node.style.overflowY = 'visible'
+      node.style.height = 'auto'
+      node.style.maxHeight = 'none'
+    }
+    node = node.parentElement
+  }
+
+  return () => {
+    for (const s of saved) {
+      s.el.style.overflow = s.css.overflow ?? ''
+      s.el.style.overflowY = s.css.overflowY ?? ''
+      s.el.style.height = s.css.height ?? ''
+      s.el.style.maxHeight = s.css.maxHeight ?? ''
+    }
+  }
+}
