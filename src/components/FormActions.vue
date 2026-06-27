@@ -2,20 +2,23 @@
 /**
  * FormActions — 表单通用操作栏 + 标题区域
  *
- * 包含：表单标题/副标题、导出 PDF 按钮（必填校验 + 预览弹窗）、
+ * 包含：表单标题/副标题、导出 PDF 按钮（触发外部校验 + 预览弹窗）、
  * 清除数据按钮（二次确认）、PreviewModal。
- * 各签证表单页面只需传入数据和回调，无需关心标题渲染和导出/校验逻辑。
+ * 各签证表单页面只需传入数据和回调，无需关心标题渲染和导出逻辑。
+ *
+ * 导出按钮点击时 emit('export')，由父组件负责校验逻辑：
+ * - 若校验通过，调用 formActionsRef.openPreview() 打开预览
+ * - 若校验失败，父组件自行处理（如聚焦到第一个缺失字段）
  */
 
 import { nextTick, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { FileDown, Loader2 } from 'lucide-vue-next'
 import { usePdfExport, type PreviewSection } from '@/composables/usePdfExport'
-import { useFormValidator } from '@/composables/useFormValidator'
 import PreviewModal from '@/components/PreviewModal.vue'
 
 interface Props {
-  /** 预览数据（同时驱动预览和必填校验） */
+  /** 预览数据（驱动预览弹窗） */
   sections: PreviewSection[]
   /** 表单标题（如"英国签证申请"） */
   formTitle: string
@@ -30,7 +33,10 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-const emit = defineEmits<{ (e: 'clear'): void }>()
+const emit = defineEmits<{
+  (e: 'clear'): void
+  (e: 'export'): void
+}>()
 
 const { t } = useI18n()
 
@@ -39,8 +45,6 @@ const { t } = useI18n()
 const { exportPdf, isExporting } = usePdfExport()
 const showPreview = ref(false)
 const previewContentRef = ref<HTMLElement | null>(null)
-
-const { hasMissingFields } = useFormValidator(() => props.sections)
 
 async function openPreview() {
   showPreview.value = true
@@ -63,6 +67,9 @@ function clearData() {
   if (!confirm(t(`${props.i18nPrefix}.clearConfirm`))) return
   emit('clear')
 }
+
+// 暴露 openPreview 供父组件调用
+defineExpose({ openPreview })
 </script>
 
 <template>
@@ -75,9 +82,7 @@ function clearData() {
       <div class="flex gap-2">
         <button
           class="clear-btn"
-          :disabled="hasMissingFields"
-          :class="{ 'is-disabled': hasMissingFields }"
-          @click="openPreview"
+          @click="emit('export')"
         >
           <FileDown class="inline h-4 w-4 mr-1" />
           {{ t(`${i18nPrefix}.exportPdf`) }}
@@ -156,13 +161,6 @@ function clearData() {
   border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-.clear-btn.is-disabled,
-.clear-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
 }
 
 /* 清除数据按钮 — 明显的危险操作样式 */

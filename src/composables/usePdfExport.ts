@@ -10,6 +10,8 @@ export interface PreviewField {
   value: string
   /** 是否为必填字段（用于导出前校验） */
   required?: boolean
+  /** 对应 DOM 元素的 name 属性（用于聚焦到缺失字段） */
+  name?: string
 }
 
 /** 预览中一个分组 */

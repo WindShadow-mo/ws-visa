@@ -43,17 +43,26 @@
   "home": {
     "title": "Visa Application Assistant",
     "description": "Help you fill in visa information correctly, completely and quickly",
-    "startUkVisa": "UK Visa Application",
-    "startUkVisaDesc": "Fill in the UK Standard Visitor Visa application form"
+    "startUkVisa": "UK Visa",
+    "startUkVisaDesc": "Fill in the UK visa information collection form"
   },
   "ukVisa": {
-    "title": "UK Visa Application",
-    "subtitle": "Standard Visitor Visa",
+    "title": "UK Visa",
+    "subtitle": "Visa Information Collection",
     "sections": {
       "personalInfo": "Personal Information",
-      "passportInfo": "Passport Information",
+      "passportInfo": "Passport & ID",
+      "addressInfo": "Current Address",
       "travelPlan": "Travel Plan",
-      "contactInfo": "Contact Information"
+      "companions": "Companion Information",
+      "marriageInfo": "Marriage & Spouse",
+      "parentInfo": "Parent Information",
+      "childrenInfo": "Children Information",
+      "employmentInfo": "Employment & Income",
+      "financialInfo": "Financial Information",
+      "ukContacts": "UK Contacts & Accommodation",
+      "visaHistory": "Visa & Travel History",
+      "securityBackground": "Security & Background"
     },
     "clearForm": "Clear Data",
     "clearConfirm": "Are you sure you want to clear all filled data? This action cannot be undone.",
@@ -61,6 +70,9 @@
     "exporting": "Generating...",
     "previewTitle": "Preview Form Content",
     "previewHint": "Review and confirm before exporting",
+    "addRow": "+ Add",
+    "removeRow": "Remove",
+    "backToTop": "Back to Top",
     "fields": {
       "lastName": {
         "label": "Last Name",
@@ -70,14 +82,17 @@
         "label": "First Name",
         "placeholder": "Enter your first name (as shown in passport)"
       },
-      "dateOfBirth": {
-        "label": "Date of Birth"
+      "formerName": {
+        "label": "Former Name",
+        "placeholder": "Enter any previous name (leave blank if none)"
       },
-      "nationality": {
-        "label": "Nationality"
+      "phone": {
+        "label": "Phone Number",
+        "placeholder": "Enter your phone number"
       },
-      "gender": {
-        "label": "Gender"
+      "email": {
+        "label": "Email Address",
+        "placeholder": "Enter your email address"
       },
       "passportNumber": {
         "label": "Passport Number",
@@ -93,6 +108,43 @@
         "label": "Issuing Authority",
         "placeholder": "Enter the issuing authority"
       },
+      "nationality": {
+        "label": "Nationality"
+      },
+      "gender": {
+        "label": "Gender"
+      },
+      "dateOfBirth": {
+        "label": "Date of Birth"
+      },
+      "hasOtherPassport": {
+        "label": "Do you hold a passport/travel document from another country?"
+      },
+      "otherPassportDetail": {
+        "label": "Passport/travel document number and issuing country",
+        "placeholder": "Enter document number and issuing country"
+      },
+      "isFirstPassport": {
+        "label": "Is this your first passport?"
+      },
+      "currentAddress": {
+        "label": "Current Address",
+        "placeholder": "Enter country/province/city/county/street/number"
+      },
+      "postalCode": {
+        "label": "Postal Code",
+        "placeholder": "Enter postal code"
+      },
+      "housingStatus": {
+        "label": "Housing Status"
+      },
+      "residenceStartDate": {
+        "label": "Residence Start Date"
+      },
+      "houseOwner": {
+        "label": "Who owns the property",
+        "placeholder": "Enter the property owner's name"
+      },
       "purposeOfVisit": {
         "label": "Purpose of Visit"
       },
@@ -102,17 +154,316 @@
       "intendedDepartureDate": {
         "label": "Intended Departure Date"
       },
-      "ukAddress": {
-        "label": "UK Address",
-        "placeholder": "Enter your accommodation address in the UK"
+      "travelPlanDesc": {
+        "label": "Travel Plan Description",
+        "placeholder": "Briefly describe your travel itinerary (optional)"
       },
-      "email": {
-        "label": "Email Address",
-        "placeholder": "Enter your email address"
+      "hasCompanion": {
+        "label": "Are you traveling with anyone?"
       },
-      "phone": {
+      "companion": {
+        "name": { "label": "Name", "placeholder": "Enter companion's name" },
+        "dob": { "label": "Date of Birth" },
+        "nationality": { "label": "Nationality" },
+        "passport": { "label": "Passport Number", "placeholder": "Enter companion's passport number" },
+        "relation": { "label": "Relationship with applicant" }
+      },
+      "idCardNumber": {
+        "label": "ID Card Number",
+        "placeholder": "Enter your ID card number"
+      },
+      "idCardAuthority": {
+        "label": "ID Card Issuing Authority",
+        "placeholder": "Enter the issuing authority"
+      },
+      "idCardExpiry": {
+        "label": "ID Card Expiry"
+      },
+      "maritalStatus": {
+        "label": "Marital Status"
+      },
+      "spouseName": {
+        "label": "Spouse Name",
+        "placeholder": "Enter spouse's full name"
+      },
+      "spouseDob": {
+        "label": "Spouse Date of Birth"
+      },
+      "spouseNationality": {
+        "label": "Spouse Nationality",
+        "placeholder": "Enter spouse's nationality"
+      },
+      "spouseChangedNationality": {
+        "label": "Has your spouse ever changed nationality?"
+      },
+      "spouseOtherNationality": {
+        "label": "Spouse Other Nationality",
+        "placeholder": "Enter other nationality"
+      },
+      "spouseBirthCity": {
+        "label": "Spouse Birth City",
+        "placeholder": "Enter spouse's city of birth"
+      },
+      "spouseAddress": {
+        "label": "Spouse Address",
+        "placeholder": "Enter spouse's current address"
+      },
+      "father_name": {
+        "label": "Father's Name",
+        "placeholder": "Enter father's full name"
+      },
+      "father_nationality": {
+        "label": "Father's Nationality",
+        "placeholder": "Enter father's nationality"
+      },
+      "father_changed_nationality": {
+        "label": "Has your father ever changed nationality?"
+      },
+      "father_other_nationality": {
+        "label": "Father's Other Nationality",
+        "placeholder": "Enter other nationality"
+      },
+      "father_dob": {
+        "label": "Father's Date of Birth"
+      },
+      "father_going_to_uk": {
+        "label": "Is your father traveling to the UK with you?"
+      },
+      "father_address": {
+        "label": "Father's Current Address",
+        "placeholder": "Enter father's current address"
+      },
+      "mother_name": {
+        "label": "Mother's Name",
+        "placeholder": "Enter mother's full name"
+      },
+      "mother_nationality": {
+        "label": "Mother's Nationality",
+        "placeholder": "Enter mother's nationality"
+      },
+      "mother_changed_nationality": {
+        "label": "Has your mother ever changed nationality?"
+      },
+      "mother_other_nationality": {
+        "label": "Mother's Other Nationality",
+        "placeholder": "Enter other nationality"
+      },
+      "mother_dob": {
+        "label": "Mother's Date of Birth"
+      },
+      "mother_going_to_uk": {
+        "label": "Is your mother traveling to the UK with you?"
+      },
+      "mother_address": {
+        "label": "Mother's Current Address",
+        "placeholder": "Enter mother's current address"
+      },
+      "hasChildren": {
+        "label": "Do you have any children?"
+      },
+      "child": {
+        "name": { "label": "Name", "placeholder": "Enter child's full name" },
+        "nationality": { "label": "Nationality" },
+        "changedNationality": { "label": "Has the child ever changed nationality?" },
+        "otherNationality": { "label": "Other Nationality", "placeholder": "Enter other nationality" },
+        "relation": { "label": "Relationship with applicant" },
+        "dob": { "label": "Date of Birth" },
+        "goingToUK": { "label": "Is the child traveling to the UK with you?" },
+        "address": { "label": "Current Address", "placeholder": "Enter child's current address" }
+      },
+      "employmentStatus": {
+        "label": "Current employment status"
+      },
+      "jobStartDate": {
+        "label": "Start Date"
+      },
+      "companyName": {
+        "label": "Company/School Name",
+        "placeholder": "Enter company or school name"
+      },
+      "companyAddress": {
+        "label": "Company/School Address",
+        "placeholder": "Enter company or school address"
+      },
+      "companyPostalCode": {
+        "label": "Postal Code",
+        "placeholder": "Enter postal code"
+      },
+      "companyPhone": {
         "label": "Phone Number",
-        "placeholder": "Enter your phone number"
+        "placeholder": "Enter phone number"
+      },
+      "jobTitle": {
+        "label": "Job Title",
+        "placeholder": "Enter your job title"
+      },
+      "jobDuties": {
+        "label": "Job Duties",
+        "placeholder": "Enter your job duties"
+      },
+      "monthlySalary": {
+        "label": "Monthly after-tax salary (CNY)",
+        "placeholder": "Enter monthly after-tax salary amount"
+      },
+      "otherIncome": {
+        "label": "Other income besides salary",
+        "placeholder": "Enter other income sources and amounts"
+      },
+      "unemployedReason": {
+        "label": "Reason for not working",
+        "placeholder": "Briefly explain why you are not currently working (optional)"
+      },
+      "estimatedUKSpend": {
+        "label": "Estimated spending in the UK (CNY)",
+        "placeholder": "Enter estimated spending amount"
+      },
+      "monthlyExpense": {
+        "label": "Monthly expenses (CNY)",
+        "placeholder": "Enter monthly expense amount"
+      },
+      "hasSponsor": {
+        "label": "Do you have a sponsor?"
+      },
+      "sponsorName": {
+        "label": "Sponsor Name",
+        "placeholder": "Enter sponsor's full name"
+      },
+      "sponsorRelation": {
+        "label": "Relationship with Sponsor",
+        "placeholder": "Enter your relationship with the sponsor"
+      },
+      "sponsorAmount": {
+        "label": "Sponsorship Amount (CNY)",
+        "placeholder": "Enter sponsorship amount"
+      },
+      "hasUKContact": {
+        "label": "Do you have relatives/friends in the UK?"
+      },
+      "ukContactName": {
+        "label": "Contact Name",
+        "placeholder": "Enter UK contact's full name"
+      },
+      "ukContactStatus": {
+        "label": "Status in the UK",
+        "placeholder": "Enter contact's immigration status in the UK"
+      },
+      "ukContactDocNumber": {
+        "label": "Passport/Residence Permit Number",
+        "placeholder": "Enter contact's passport or residence permit number"
+      },
+      "ukContactRelation": {
+        "label": "Relationship with applicant",
+        "placeholder": "Enter relationship with the applicant"
+      },
+      "ukContactPhone": {
+        "label": "UK Phone Number",
+        "placeholder": "Enter UK phone number"
+      },
+      "ukContactPostal": {
+        "label": "Postal Code",
+        "placeholder": "Enter postal code"
+      },
+      "hasUKAccommodation": {
+        "label": "Do you have confirmed accommodation?"
+      },
+      "ukAccommodationDetail": {
+        "label": "Accommodation Details",
+        "placeholder": "Enter friend's home/hotel name etc."
+      },
+      "ukAccommodationAddress": {
+        "label": "Accommodation Address",
+        "placeholder": "Enter full accommodation address"
+      },
+      "ukAccommodationPostal": {
+        "label": "Accommodation Postal Code",
+        "placeholder": "Enter accommodation postal code"
+      },
+      "ukCheckinDate": {
+        "label": "Check-in Date"
+      },
+      "ukCheckoutDate": {
+        "label": "Check-out Date"
+      },
+      "hadUKVisa": {
+        "label": "Have you obtained a UK visa in the past 10 years?"
+      },
+      "lastUKVisaDate": {
+        "label": "Most Recent Visa Issue Date"
+      },
+      "visitedUK": {
+        "label": "Have you visited the UK in the past 10 years?"
+      },
+      "ukVisit": {
+        "date": { "label": "Visit Date" },
+        "duration": { "label": "Duration of Stay", "placeholder": "Enter duration of stay" },
+        "purpose": { "label": "Purpose of Visit", "placeholder": "Enter purpose of visit" }
+      },
+      "beenRefused": {
+        "label": "Have you ever been refused a visa?"
+      },
+      "refusal": {
+        "date": { "label": "Refusal Date" },
+        "country": { "label": "Refusing Country", "placeholder": "Enter the refusing country" },
+        "reason": { "label": "Reason for Refusal", "placeholder": "Enter reason for refusal" },
+        "refNumber": { "label": "Application Reference Number", "placeholder": "Enter visa application reference number" }
+      },
+      "appliedUKStay": {
+        "label": "Have you applied to the UK Home Office to stay in the UK in the past 10 years?"
+      },
+      "applyDetail_date": {
+        "label": "Application Date"
+      },
+      "applyDetail_reason": {
+        "label": "Application Reason",
+        "placeholder": "Enter reason for application"
+      },
+      "applyDetail_approved": {
+        "label": "Was the application approved?"
+      },
+      "visitedOtherCountries": {
+        "label": "Have you visited Australia/Canada/New Zealand/USA/Schengen area in the past 10 years?"
+      },
+      "otherCountry": {
+        "name": { "label": "Country" },
+        "date": { "label": "Travel Date" },
+        "duration": { "label": "Duration of Stay", "placeholder": "Enter duration of stay" },
+        "purpose": { "label": "Purpose of Visit", "placeholder": "Enter purpose of visit" }
+      },
+      "hasUKInsurance": {
+        "label": "Do you have a UK National Insurance number?"
+      },
+      "insuranceNumber": {
+        "label": "National Insurance Number",
+        "placeholder": "Enter your UK National Insurance number"
+      },
+      "insuranceReason": {
+        "label": "Reason for Obtaining",
+        "placeholder": "Enter reason for obtaining insurance"
+      },
+      "hasCriminalRecord": {
+        "label": "Do you have a criminal record?"
+      },
+      "hasTerrorism": {
+        "label": "Have you ever been involved in terrorism?"
+      },
+      "hasBeenProsecuted": {
+        "label": "Have you ever been prosecuted?"
+      },
+      "hasGenocide": {
+        "label": "Have you ever been involved in genocide?"
+      },
+      "hasArmedConflict": {
+        "label": "Have you ever been involved in armed conflict?"
+      },
+      "hasSpecialIndustry": {
+        "label": "Have you worked in any special industry?"
+      },
+      "specialIndustries": {
+        "label": "Industry type"
+      },
+      "specialIndustryDetail": {
+        "label": "Industry Details",
+        "placeholder": "Enter details of your work in the special industry"
       }
     },
     "options": {
@@ -134,7 +485,64 @@
         "study": "Study",
         "medical": "Medical",
         "other": "Other"
+      },
+      "yesNo": {
+        "yes": "Yes",
+        "no": "No"
+      },
+      "housingStatus": {
+        "own": "Owner",
+        "tenant": "Tenant",
+        "other": "Other"
+      },
+      "maritalStatus": {
+        "unmarried": "Unmarried",
+        "married": "Married",
+        "divorced": "Divorced",
+        "widowed": "Widowed",
+        "separated": "Separated"
+      },
+      "companionRelation": {
+        "spouse": "Spouse",
+        "parent": "Parent",
+        "child": "Child",
+        "sibling": "Sibling",
+        "friend": "Friend",
+        "other": "Other"
+      },
+      "childRelation": {
+        "son": "Son",
+        "daughter": "Daughter"
+      },
+      "employmentStatus": {
+        "working": "Employed",
+        "studying": "Student",
+        "unemployed": "Unemployed"
+      },
+      "specialIndustries": {
+        "military": "Military",
+        "media": "Media",
+        "government": "Government",
+        "judicial": "Judicial",
+        "police": "Police",
+        "publicAdministration": "Public Administration"
+      },
+      "otherCountry": {
+        "AU": "Australia",
+        "CA": "Canada",
+        "NZ": "New Zealand",
+        "US": "United States",
+        "SCHENGEN": "Schengen Area"
       }
+    },
+    "subLabels": {
+      "father": "Father",
+      "mother": "Mother",
+      "companion": "Companion",
+      "child": "Child",
+      "ukVisit": "Visit {index}",
+      "refusal": "Refusal {index}",
+      "otherCountry": "Country {index}"
     }
   }
 }

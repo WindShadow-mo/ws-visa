@@ -61,7 +61,7 @@ function onDateSelect(date: CalendarDate) {
   >
     <Popover>
       <PopoverTrigger as-child>
-        <Button variant="outline" :id="name" class="w-full justify-start text-left font-normal">
+        <Button variant="outline" :id="name" :name="name" class="w-full justify-start text-left font-normal">
           {{ displayText }}
         </Button>
       </PopoverTrigger>

@@ -43,17 +43,26 @@
   "home": {
     "title": "签证信息填写助手",
     "description": "帮助您正确、完整、快速地填写签证所需信息",
-    "startUkVisa": "英国签证申请",
-    "startUkVisaDesc": "填写英国标准访客签证（Standard Visitor Visa）申请表"
+    "startUkVisa": "英国签证",
+    "startUkVisaDesc": "填写英国签证信息收集表"
   },
   "ukVisa": {
-    "title": "英国签证申请",
-    "subtitle": "标准访客签证（Standard Visitor Visa）",
+    "title": "英国签证",
+    "subtitle": "签证信息收集",
     "sections": {
-      "personalInfo": "个人信息",
-      "passportInfo": "护照信息",
+      "personalInfo": "基本信息",
+      "passportInfo": "护照与证件",
+      "addressInfo": "居住地址",
       "travelPlan": "旅行计划",
-      "contactInfo": "联系方式"
+      "companions": "同行人信息",
+      "marriageInfo": "婚姻与配偶",
+      "parentInfo": "父母信息",
+      "childrenInfo": "子女信息",
+      "employmentInfo": "工作与收入",
+      "financialInfo": "财务信息",
+      "ukContacts": "英国联系人与住宿",
+      "visaHistory": "签证与旅行历史",
+      "securityBackground": "安全与背景"
     },
     "clearForm": "清除数据",
     "clearConfirm": "确定要清除所有已填写的数据吗？此操作无法撤销。",
@@ -61,6 +70,9 @@
     "exporting": "正在生成...",
     "previewTitle": "预览表单内容",
     "previewHint": "确认信息无误后点击导出",
+    "addRow": "+ 添加",
+    "removeRow": "移除",
+    "backToTop": "回到顶部",
     "fields": {
       "lastName": {
         "label": "姓",
@@ -70,14 +82,17 @@
         "label": "名",
         "placeholder": "请输入您的名（如护照所示）"
       },
-      "dateOfBirth": {
-        "label": "出生日期"
+      "formerName": {
+        "label": "曾用名",
+        "placeholder": "请输入曾用名（如无请留空）"
       },
-      "nationality": {
-        "label": "国籍"
+      "phone": {
+        "label": "联系电话",
+        "placeholder": "请输入联系电话"
       },
-      "gender": {
-        "label": "性别"
+      "email": {
+        "label": "电子邮箱",
+        "placeholder": "请输入电子邮箱地址"
       },
       "passportNumber": {
         "label": "护照号码",
@@ -93,6 +108,43 @@
         "label": "签发机关",
         "placeholder": "请输入护照签发机关"
       },
+      "nationality": {
+        "label": "国籍"
+      },
+      "gender": {
+        "label": "性别"
+      },
+      "dateOfBirth": {
+        "label": "出生日期"
+      },
+      "hasOtherPassport": {
+        "label": "是否有其他国家护照/旅行证件"
+      },
+      "otherPassportDetail": {
+        "label": "其他国家证件号码及签发国家",
+        "placeholder": "请输入证件号码及签发国家"
+      },
+      "isFirstPassport": {
+        "label": "是否是第一本护照"
+      },
+      "currentAddress": {
+        "label": "当前住址",
+        "placeholder": "请输入国家/省/市/县/街道/门牌"
+      },
+      "postalCode": {
+        "label": "邮政编码",
+        "placeholder": "请输入邮政编码"
+      },
+      "housingStatus": {
+        "label": "住房状况"
+      },
+      "residenceStartDate": {
+        "label": "居住开始时间"
+      },
+      "houseOwner": {
+        "label": "房子属于谁",
+        "placeholder": "请输入房东姓名"
+      },
       "purposeOfVisit": {
         "label": "访问目的"
       },
@@ -102,17 +154,316 @@
       "intendedDepartureDate": {
         "label": "预计离开日期"
       },
-      "ukAddress": {
-        "label": "英国住址",
-        "placeholder": "请输入在英国的住宿地址"
+      "travelPlanDesc": {
+        "label": "行程描述",
+        "placeholder": "请简要描述您的行程安排（选填）"
       },
-      "email": {
-        "label": "电子邮箱",
-        "placeholder": "请输入电子邮箱地址"
+      "hasCompanion": {
+        "label": "是否有同行人"
       },
-      "phone": {
+      "companion": {
+        "name": { "label": "姓名", "placeholder": "请输入同行人姓名" },
+        "dob": { "label": "出生日期" },
+        "nationality": { "label": "国籍" },
+        "passport": { "label": "护照号", "placeholder": "请输入同行人护照号码" },
+        "relation": { "label": "与申请人关系" }
+      },
+      "idCardNumber": {
+        "label": "身份证号码",
+        "placeholder": "请输入身份证号码"
+      },
+      "idCardAuthority": {
+        "label": "身份证签发机关",
+        "placeholder": "请输入签发机关"
+      },
+      "idCardExpiry": {
+        "label": "身份证有效期"
+      },
+      "maritalStatus": {
+        "label": "婚姻状况"
+      },
+      "spouseName": {
+        "label": "配偶姓名",
+        "placeholder": "请输入配偶姓名"
+      },
+      "spouseDob": {
+        "label": "配偶出生日期"
+      },
+      "spouseNationality": {
+        "label": "配偶国籍",
+        "placeholder": "请输入配偶国籍"
+      },
+      "spouseChangedNationality": {
+        "label": "配偶是否更换过国籍"
+      },
+      "spouseOtherNationality": {
+        "label": "配偶其他国籍",
+        "placeholder": "请输入其他国籍"
+      },
+      "spouseBirthCity": {
+        "label": "配偶出生城市",
+        "placeholder": "请输入配偶出生城市"
+      },
+      "spouseAddress": {
+        "label": "配偶住址",
+        "placeholder": "请输入配偶住址"
+      },
+      "father_name": {
+        "label": "父亲姓名",
+        "placeholder": "请输入父亲姓名"
+      },
+      "father_nationality": {
+        "label": "父亲国籍",
+        "placeholder": "请输入父亲国籍"
+      },
+      "father_changed_nationality": {
+        "label": "父亲是否更换过国籍"
+      },
+      "father_other_nationality": {
+        "label": "父亲其他国籍",
+        "placeholder": "请输入其他国籍"
+      },
+      "father_dob": {
+        "label": "父亲出生日期"
+      },
+      "father_going_to_uk": {
+        "label": "父亲是否一起前往英国"
+      },
+      "father_address": {
+        "label": "父亲目前居住地址",
+        "placeholder": "请输入父亲居住地址"
+      },
+      "mother_name": {
+        "label": "母亲姓名",
+        "placeholder": "请输入母亲姓名"
+      },
+      "mother_nationality": {
+        "label": "母亲国籍",
+        "placeholder": "请输入母亲国籍"
+      },
+      "mother_changed_nationality": {
+        "label": "母亲是否更换过国籍"
+      },
+      "mother_other_nationality": {
+        "label": "母亲其他国籍",
+        "placeholder": "请输入其他国籍"
+      },
+      "mother_dob": {
+        "label": "母亲出生日期"
+      },
+      "mother_going_to_uk": {
+        "label": "母亲是否一起前往英国"
+      },
+      "mother_address": {
+        "label": "母亲目前居住地址",
+        "placeholder": "请输入母亲居住地址"
+      },
+      "hasChildren": {
+        "label": "是否有子女"
+      },
+      "child": {
+        "name": { "label": "姓名", "placeholder": "请输入子女姓名" },
+        "nationality": { "label": "国籍" },
+        "changedNationality": { "label": "是否更换过国籍" },
+        "otherNationality": { "label": "其他国籍", "placeholder": "请输入其他国籍" },
+        "relation": { "label": "与申请人关系" },
+        "dob": { "label": "出生日期" },
+        "goingToUK": { "label": "是否一起前往英国" },
+        "address": { "label": "目前居住地址", "placeholder": "请输入子女居住地址" }
+      },
+      "employmentStatus": {
+        "label": "当前状态"
+      },
+      "jobStartDate": {
+        "label": "开始时间"
+      },
+      "companyName": {
+        "label": "公司/学校名称",
+        "placeholder": "请输入公司或学校名称"
+      },
+      "companyAddress": {
+        "label": "公司/学校地址",
+        "placeholder": "请输入公司或学校地址"
+      },
+      "companyPostalCode": {
+        "label": "邮编",
+        "placeholder": "请输入邮政编码"
+      },
+      "companyPhone": {
         "label": "联系电话",
         "placeholder": "请输入联系电话"
+      },
+      "jobTitle": {
+        "label": "工作职位",
+        "placeholder": "请输入工作职位"
+      },
+      "jobDuties": {
+        "label": "工作职责",
+        "placeholder": "请输入工作职责"
+      },
+      "monthlySalary": {
+        "label": "税后月薪（人民币）",
+        "placeholder": "请输入税后月薪金额"
+      },
+      "otherIncome": {
+        "label": "除工资外其他收入",
+        "placeholder": "请输入其他收入来源及金额"
+      },
+      "unemployedReason": {
+        "label": "未工作原因",
+        "placeholder": "请简要说明未工作的原因（选填）"
+      },
+      "estimatedUKSpend": {
+        "label": "预计在英国花费（人民币）",
+        "placeholder": "请输入预计花费金额"
+      },
+      "monthlyExpense": {
+        "label": "每月支出（人民币）",
+        "placeholder": "请输入每月支出金额"
+      },
+      "hasSponsor": {
+        "label": "是否有资助人"
+      },
+      "sponsorName": {
+        "label": "资助人姓名",
+        "placeholder": "请输入资助人姓名"
+      },
+      "sponsorRelation": {
+        "label": "与资助人关系",
+        "placeholder": "请输入与资助人的关系"
+      },
+      "sponsorAmount": {
+        "label": "资助金额（人民币）",
+        "placeholder": "请输入资助金额"
+      },
+      "hasUKContact": {
+        "label": "在英国是否有亲属/朋友"
+      },
+      "ukContactName": {
+        "label": "联系人姓名",
+        "placeholder": "请输入在英国联系人姓名"
+      },
+      "ukContactStatus": {
+        "label": "在英国的身份",
+        "placeholder": "请输入联系人在英国的身份"
+      },
+      "ukContactDocNumber": {
+        "label": "护照/居留卡号码",
+        "placeholder": "请输入联系人护照或居留卡号码"
+      },
+      "ukContactRelation": {
+        "label": "与申请人关系",
+        "placeholder": "请输入与申请人的关系"
+      },
+      "ukContactPhone": {
+        "label": "英国电话",
+        "placeholder": "请输入英国电话号码"
+      },
+      "ukContactPostal": {
+        "label": "邮政编码",
+        "placeholder": "请输入邮政编码"
+      },
+      "hasUKAccommodation": {
+        "label": "是否有确定住宿"
+      },
+      "ukAccommodationDetail": {
+        "label": "住宿详情",
+        "placeholder": "请输入朋友家/酒店名称等"
+      },
+      "ukAccommodationAddress": {
+        "label": "住宿详细地址",
+        "placeholder": "请输入详细住宿地址"
+      },
+      "ukAccommodationPostal": {
+        "label": "住宿邮编",
+        "placeholder": "请输入住宿邮政编码"
+      },
+      "ukCheckinDate": {
+        "label": "入住日期"
+      },
+      "ukCheckoutDate": {
+        "label": "离开日期"
+      },
+      "hadUKVisa": {
+        "label": "过去10年是否获得过英国签证"
+      },
+      "lastUKVisaDate": {
+        "label": "最近获签时间"
+      },
+      "visitedUK": {
+        "label": "过去10年是否去过英国"
+      },
+      "ukVisit": {
+        "date": { "label": "访问日期" },
+        "duration": { "label": "停留时间", "placeholder": "请输入停留时间" },
+        "purpose": { "label": "访问目的", "placeholder": "请输入访问目的" }
+      },
+      "beenRefused": {
+        "label": "是否曾被拒签"
+      },
+      "refusal": {
+        "date": { "label": "拒签日期" },
+        "country": { "label": "拒签国家", "placeholder": "请输入拒签国家" },
+        "reason": { "label": "拒签原因", "placeholder": "请输入拒签原因" },
+        "refNumber": { "label": "签证受理号", "placeholder": "请输入签证受理号" }
+      },
+      "appliedUKStay": {
+        "label": "过去10年是否向英国内政部申请留在英国"
+      },
+      "applyDetail_date": {
+        "label": "申请日期"
+      },
+      "applyDetail_reason": {
+        "label": "申请原因",
+        "placeholder": "请输入申请原因"
+      },
+      "applyDetail_approved": {
+        "label": "是否被批准"
+      },
+      "visitedOtherCountries": {
+        "label": "过去10年是否去过澳/加/新/美/申根"
+      },
+      "otherCountry": {
+        "name": { "label": "国家" },
+        "date": { "label": "前往时间" },
+        "duration": { "label": "停留时长", "placeholder": "请输入停留时长" },
+        "purpose": { "label": "访问目的", "placeholder": "请输入访问目的" }
+      },
+      "hasUKInsurance": {
+        "label": "是否有英国国家保险"
+      },
+      "insuranceNumber": {
+        "label": "保险号码",
+        "placeholder": "请输入英国国家保险号码"
+      },
+      "insuranceReason": {
+        "label": "获得原因",
+        "placeholder": "请输入获得保险的原因"
+      },
+      "hasCriminalRecord": {
+        "label": "是否有犯罪记录"
+      },
+      "hasTerrorism": {
+        "label": "是否从事过恐怖活动"
+      },
+      "hasBeenProsecuted": {
+        "label": "是否曾被控诉"
+      },
+      "hasGenocide": {
+        "label": "是否参加过种族灭绝"
+      },
+      "hasArmedConflict": {
+        "label": "是否参加过武装冲突"
+      },
+      "hasSpecialIndustry": {
+        "label": "是否从事过特殊行业"
+      },
+      "specialIndustries": {
+        "label": "行业类型"
+      },
+      "specialIndustryDetail": {
+        "label": "从业详情",
+        "placeholder": "请输入从业详情"
       }
     },
     "options": {
@@ -134,7 +485,64 @@
         "study": "学习",
         "medical": "医疗",
         "other": "其他"
+      },
+      "yesNo": {
+        "yes": "是",
+        "no": "否"
+      },
+      "housingStatus": {
+        "own": "业主",
+        "tenant": "租户",
+        "other": "其他"
+      },
+      "maritalStatus": {
+        "unmarried": "未婚",
+        "married": "已婚",
+        "divorced": "离异",
+        "widowed": "丧偶",
+        "separated": "分居"
+      },
+      "companionRelation": {
+        "spouse": "配偶",
+        "parent": "父母",
+        "child": "子女",
+        "sibling": "兄弟姐妹",
+        "friend": "朋友",
+        "other": "其他"
+      },
+      "childRelation": {
+        "son": "儿子",
+        "daughter": "女儿"
+      },
+      "employmentStatus": {
+        "working": "在职",
+        "studying": "学生",
+        "unemployed": "无业"
+      },
+      "specialIndustries": {
+        "military": "军队",
+        "media": "媒体",
+        "government": "政府",
+        "judicial": "司法",
+        "police": "警察",
+        "publicAdministration": "公共管理机构"
+      },
+      "otherCountry": {
+        "AU": "澳大利亚",
+        "CA": "加拿大",
+        "NZ": "新西兰",
+        "US": "美国",
+        "SCHENGEN": "申根国家"
       }
+    },
+    "subLabels": {
+      "father": "父亲",
+      "mother": "母亲",
+      "companion": "同行人",
+      "child": "子女",
+      "ukVisit": "第{index}次访问",
+      "refusal": "第{index}次拒签",
+      "otherCountry": "第{index}个国家"
     }
   }
 }

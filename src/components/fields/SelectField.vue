@@ -62,7 +62,7 @@ const selectedLabel = computed(() => {
       :multiple="multiple"
       @update:model-value="emit('update:modelValue', $event)"
     >
-      <SelectTrigger :id="name">
+      <SelectTrigger :id="name" :name="name">
         <SelectValue :placeholder="selectedLabel">{{ selectedLabel }}</SelectValue>
       </SelectTrigger>
       <SelectContent>

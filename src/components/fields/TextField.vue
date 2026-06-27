@@ -43,6 +43,7 @@ const description = computed(() =>
   >
     <Input
       :id="name"
+      :name="name"
       type="text"
       :model-value="modelValue"
       :placeholder="placeholder"

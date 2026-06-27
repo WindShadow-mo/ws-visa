@@ -47,6 +47,8 @@ const description = computed(() =>
       :model-value="modelValue"
       @update:model-value="emit('update:modelValue', $event)"
     >
+      <!-- 隐藏 input 用于校验聚焦定位 -->
+      <input type="hidden" :name="name" :value="modelValue" />
       <div
         v-for="option in options"
         :key="option.value"
