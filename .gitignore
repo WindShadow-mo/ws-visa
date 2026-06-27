@@ -1,0 +1,70 @@
+HELP.md
+target/
+.mvn/
+!**/src/main/java
+!**/src/test/**
+**/pom.xml.versionsBackup
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### VS Code ###
+.vscode/
+
+work.txt
+
+### claude ###
+.claude/
+.planning/
+./claude-plans
+CLAUDE.md
+
+### DOC ###
+doc/**
+
+### gsd ###
+.planning/
+claude-plans/
+claude-local-tmp/
+.codegraph/
+
+### Node.js ###
+node_modules/
+dist/
+*.local
+
+### delopy ###
+.deploy/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
