@@ -1,0 +1,37 @@
+{
+  "common": {
+    "buttons": {
+      "submit": "Submit",
+      "reset": "Reset",
+      "cancel": "Cancel"
+    },
+    "placeholders": {
+      "selectDate": "Select a date",
+      "selectOption": "Select an option",
+      "enterText": "Enter text"
+    },
+    "labels": {
+      "required": "Required"
+    }
+  },
+  "schema": {
+    "groups": {
+      "personalInfo": "Personal Information",
+      "passportInfo": "Passport Information",
+      "travelPlan": "Travel Plan"
+    },
+    "fields": {
+      "lastName": "Last Name",
+      "firstName": "First Name",
+      "dateOfBirth": "Date of Birth",
+      "nationality": "Nationality",
+      "passportNumber": "Passport Number"
+    }
+  },
+  "options": {
+    "nationality": {
+      "CN": "China",
+      "US": "United States"
+    }
+  }
+}

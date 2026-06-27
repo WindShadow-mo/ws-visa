@@ -1,0 +1,37 @@
+{
+  "common": {
+    "buttons": {
+      "submit": "提交",
+      "reset": "重置",
+      "cancel": "取消"
+    },
+    "placeholders": {
+      "selectDate": "请选择日期",
+      "selectOption": "请选择",
+      "enterText": "请输入"
+    },
+    "labels": {
+      "required": "必填"
+    }
+  },
+  "schema": {
+    "groups": {
+      "personalInfo": "个人信息",
+      "passportInfo": "护照信息",
+      "travelPlan": "旅行计划"
+    },
+    "fields": {
+      "lastName": "姓",
+      "firstName": "名",
+      "dateOfBirth": "出生日期",
+      "nationality": "国籍",
+      "passportNumber": "护照号码"
+    }
+  },
+  "options": {
+    "nationality": {
+      "CN": "中国",
+      "US": "美国"
+    }
+  }
+}
