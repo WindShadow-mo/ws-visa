@@ -1184,7 +1184,7 @@ if (typeof window !== 'undefined') {
 }
 
 .form-container {
-  max-width: 720px;
+  max-width: 960px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
@@ -1210,9 +1210,21 @@ if (typeof window !== 'undefined') {
 
 .fields-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(6, 1fr);
   gap: 1rem;
   margin-bottom: 1rem;
+}
+
+:deep(.field-span-full) {
+  grid-column: span 6;
+}
+
+:deep(.field-span-half) {
+  grid-column: span 3;
+}
+
+:deep(.field-span-third) {
+  grid-column: span 2;
 }
 
 .sub-label {
@@ -1336,6 +1348,26 @@ if (typeof window !== 'undefined') {
   }
   100% {
     box-shadow: 0 0 0 0px rgba(239, 68, 68, 0);
+  }
+}
+
+/* 平板端：third 降级为 half */
+@media (max-width: 1024px) {
+  :deep(.field-span-third) {
+    grid-column: span 3;
+  }
+}
+
+/* 手机端：全部单列 */
+@media (max-width: 768px) {
+  .fields-grid {
+    grid-template-columns: 1fr;
+  }
+
+  :deep(.field-span-full),
+  :deep(.field-span-half),
+  :deep(.field-span-third) {
+    grid-column: span 1;
   }
 }
 </style>

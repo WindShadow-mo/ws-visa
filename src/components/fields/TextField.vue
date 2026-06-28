@@ -16,6 +16,7 @@ const props = defineProps<{
   maxLength?: number
   modelValue: string
   error?: string
+  span?: 'full' | 'half' | 'third'
 }>()
 
 const emit = defineEmits<{
@@ -40,6 +41,7 @@ const description = computed(() =>
     :required="required"
     :error="error"
     :description="description"
+    :span="span"
   >
     <Input
       :id="name"
