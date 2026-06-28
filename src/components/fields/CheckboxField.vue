@@ -21,6 +21,7 @@ const props = defineProps<{
   options: CheckboxOption[]
   modelValue: string[]
   error?: string
+  span?: 'full' | 'half' | 'third'
 }>()
 
 const emit = defineEmits<{
@@ -53,6 +54,7 @@ function toggleOption(value: string) {
     :required="required"
     :error="error"
     :description="description"
+    :span="span"
   >
     <div class="space-y-2">
       <div

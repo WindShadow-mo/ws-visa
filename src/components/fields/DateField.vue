@@ -19,6 +19,7 @@ const props = defineProps<{
   required?: boolean
   modelValue: string  // ISO 8601 string like "2026-06-27"
   error?: string
+  span?: 'full' | 'half' | 'third'
 }>()
 
 const emit = defineEmits<{
@@ -58,6 +59,7 @@ function onDateSelect(date: CalendarDate) {
     :required="required"
     :error="error"
     :description="description"
+    :span="span"
   >
     <Popover>
       <PopoverTrigger as-child>

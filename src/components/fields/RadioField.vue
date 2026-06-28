@@ -21,6 +21,7 @@ const props = defineProps<{
   options: RadioOption[]
   modelValue: string
   error?: string
+  span?: 'full' | 'half' | 'third'
 }>()
 
 const emit = defineEmits<{
@@ -42,6 +43,7 @@ const description = computed(() =>
     :required="required"
     :error="error"
     :description="description"
+    :span="span"
   >
     <RadioGroup
       :model-value="modelValue"

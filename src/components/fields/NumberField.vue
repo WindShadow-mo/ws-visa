@@ -23,6 +23,7 @@ const props = defineProps<{
   step?: number
   modelValue: number | undefined
   error?: string
+  span?: 'full' | 'half' | 'third'
 }>()
 
 const emit = defineEmits<{
@@ -44,6 +45,7 @@ const description = computed(() =>
     :required="required"
     :error="error"
     :description="description"
+    :span="span"
   >
     <NumberField
       :id="name"

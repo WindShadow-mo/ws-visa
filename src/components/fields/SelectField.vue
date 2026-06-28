@@ -27,6 +27,7 @@ const props = defineProps<{
   multiple?: boolean
   modelValue: string | string[]
   error?: string
+  span?: 'full' | 'half' | 'third'
 }>()
 
 const emit = defineEmits<{
@@ -56,6 +57,7 @@ const selectedLabel = computed(() => {
     :required="required"
     :error="error"
     :description="description"
+    :span="span"
   >
     <Select
       :model-value="modelValue"
