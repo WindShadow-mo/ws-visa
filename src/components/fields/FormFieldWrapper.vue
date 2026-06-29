@@ -16,7 +16,7 @@ const props = defineProps<{
   error?: string
   /** 帮助文本 */
   description?: string
-  /** 网格跨度：full=6列, half=3列, third=2列 */
+  /** 网格跨度：full=4列, half=2列, third=1列 */
   span?: 'full' | 'half' | 'third'
 }>()
 

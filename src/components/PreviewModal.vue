@@ -6,7 +6,8 @@ import {
   DialogRoot,
   DialogTitle,
 } from 'reka-ui'
-import type { PreviewSection } from '@/composables/usePdfExport'
+import type { PreviewSection, PreviewField } from '@/composables/usePdfExport'
+import { DEFAULT_FIELD_SPAN } from '@/composables/usePdfExport'
 
 interface Props {
   open: boolean
@@ -20,6 +21,21 @@ interface Props {
 
 defineProps<Props>()
 defineEmits<{ (e: 'update:open', value: boolean): void }>()
+
+/** 计算字段的有效 span：优先用显式 span，否则按 type 取默认值 */
+function effectiveSpan(field: PreviewField): string {
+  if (field.span) return field.span
+  if (field.type) return DEFAULT_FIELD_SPAN[field.type]
+  return 'full'
+}
+
+/** 将有效 span 映射为 CSS class */
+function fieldSpanClass(field: PreviewField): string {
+  const span = effectiveSpan(field)
+  if (span === 'half') return 'field-span-half'
+  if (span === 'third') return 'field-span-third'
+  return 'field-span-full'
+}
 </script>
 
 <template>
@@ -29,7 +45,8 @@ defineEmits<{ (e: 'update:open', value: boolean): void }>()
         <DialogOverlay class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm" />
         <div class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8">
           <DialogContent
-            class="flex max-h-[90vh] w-full max-w-2xl flex-col rounded-xl bg-white shadow-2xl focus:outline-none"
+            class="flex max-h-[90vh] w-full max-w-5xl flex-col rounded-xl bg-white shadow-2xl focus:outline-none"
+            style="width: min(960px, 95vw)"
             :aria-describedby="undefined"
           >
             <DialogTitle class="sr-only">{{ formTitle }}</DialogTitle>
@@ -58,18 +75,14 @@ defineEmits<{ (e: 'update:open', value: boolean): void }>()
                   <h4 class="mb-3 text-sm font-semibold tracking-wide text-gray-500 uppercase">
                     {{ section.title }}
                   </h4>
-                  <div class="space-y-2">
+                  <div class="fields-grid">
                     <div
                       v-for="field in section.fields"
                       :key="field.label"
-                      class="flex items-baseline gap-3 py-1.5"
+                      :class="[fieldSpanClass(field), 'preview-field']"
                     >
-                      <span class="w-36 shrink-0 text-right text-sm text-gray-400">
-                        {{ field.label }}
-                      </span>
-                      <span class="min-w-0 flex-1 border-b border-dashed border-gray-200 pb-0.5 text-sm font-medium text-gray-900">
-                        {{ field.value || '—' }}
-                      </span>
+                      <span class="preview-field-label">{{ field.label }}</span>
+                      <span class="preview-field-value">{{ field.value || '—' }}</span>
                     </div>
                   </div>
                 </div>
@@ -90,5 +103,58 @@ defineEmits<{ (e: 'update:open', value: boolean): void }>()
 <style scoped>
 .preview-pdf-data {
   font-family: system-ui, -apple-system, sans-serif;
+  width: 920px;
+}
+
+.fields-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.field-row {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.field-row--triple {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.field-span-full {
+  grid-column: span 4;
+}
+
+.field-span-half {
+  grid-column: span 2;
+}
+
+.field-span-third {
+  grid-column: span 1;
+}
+
+.preview-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+.preview-field-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.preview-field-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111827;
 }
 </style>

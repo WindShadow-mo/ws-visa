@@ -12,15 +12,20 @@ import { Calendar } from '@/components/ui/calendar'
 import { formatDisplayDate } from '@/utils/date'
 import FormFieldWrapper from '@/components/fields/FormFieldWrapper.vue'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   name: string
   labelKey: string
   descriptionKey?: string
   required?: boolean
   modelValue: string  // ISO 8601 string like "2026-06-27"
+  minValue?: string   // ISO 8601 min date constraint
+  maxValue?: string   // ISO 8601 max date constraint
   error?: string
+  /** 网格跨度，默认 third（日期是短字段，占1/4行） */
   span?: 'full' | 'half' | 'third'
-}>()
+}>(), {
+  span: 'third',
+})
 
 const emit = defineEmits<{
   'update:modelValue': [value: string]
@@ -38,6 +43,10 @@ const calendarValue = computed(() => {
   if (!props.modelValue) return undefined
   return parseDate(props.modelValue)
 })
+
+// min/max 约束转 CalendarDate
+const calendarMin = computed(() => props.minValue ? parseDate(props.minValue) : undefined)
+const calendarMax = computed(() => props.maxValue ? parseDate(props.maxValue) : undefined)
 
 // 显示文本：按当前 locale 格式化
 const displayText = computed(() => {
@@ -70,6 +79,8 @@ function onDateSelect(date: CalendarDate) {
       <PopoverContent class="w-auto p-0">
         <Calendar
           :model-value="calendarValue"
+          :min-value="calendarMin"
+          :max-value="calendarMax"
           :locale="locale"
           @update:model-value="onDateSelect"
         />

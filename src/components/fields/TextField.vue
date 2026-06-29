@@ -7,17 +7,21 @@ import { useI18n } from 'vue-i18n'
 import { Input } from '@/components/ui/input'
 import FormFieldWrapper from '@/components/fields/FormFieldWrapper.vue'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   name: string
   labelKey: string
   placeholderKey?: string
   descriptionKey?: string
   required?: boolean
   maxLength?: number
+  inputmode?: 'text' | 'numeric' | 'tel' | 'email' | 'url' | 'search' | 'decimal'
   modelValue: string
   error?: string
+  /** 网格跨度，默认 half（文本字段中等长度，占1/2行；长文本描述用 full，短字段用 third） */
   span?: 'full' | 'half' | 'third'
-}>()
+}>(), {
+  span: 'half',
+})
 
 const emit = defineEmits<{
   'update:modelValue': [value: string]
@@ -50,6 +54,7 @@ const description = computed(() =>
       :model-value="modelValue"
       :placeholder="placeholder"
       :maxlength="maxLength"
+      :inputmode="inputmode"
       @update:model-value="emit('update:modelValue', $event)"
     />
   </FormFieldWrapper>

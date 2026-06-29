@@ -2,12 +2,27 @@ import { ref } from 'vue'
 
 // ---- 通用预览/导出类型 ----
 
+/** 字段控件类型，用于预览/PDF 渲染时推断默认跨度 */
+export type PreviewFieldType = 'text' | 'date' | 'select' | 'radio'
+
+/** 各控件类型的默认 span（与字段组件的 withDefaults 保持一致） */
+export const DEFAULT_FIELD_SPAN: Record<PreviewFieldType, 'full' | 'half' | 'third'> = {
+  date: 'third',   // 日期格式固定且短
+  text: 'half',    // 文本长度不确定，取中位
+  select: 'half',  // 下拉选项文本较长
+  radio: 'full',   // 单选项需要横向空间
+}
+
 /** 预览中单个字段的展示数据 */
 export interface PreviewField {
   /** 字段标签（已翻译的文本） */
   label: string
   /** 字段值（已解析的展示文本） */
   value: string
+  /** 字段控件类型（用于推断默认 span，不写 span 时按 type 取默认值） */
+  type?: PreviewFieldType
+  /** 字段在 Grid 中的列跨度（不指定时按 type 取默认值） */
+  span?: 'full' | 'half' | 'third'
   /** 是否为必填字段（用于导出前校验） */
   required?: boolean
   /** 对应 DOM 元素的 name 属性（用于聚焦到缺失字段） */

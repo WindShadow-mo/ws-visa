@@ -9,12 +9,14 @@
     "buttons": {
       "submit": "Submit",
       "reset": "Reset",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "backToSelect": "Back to select"
     },
     "placeholders": {
       "selectDate": "Select a date",
       "selectOption": "Select an option",
-      "enterText": "Enter text"
+      "enterText": "Enter text",
+      "searchOption": "Search..."
     },
     "labels": {
       "required": "Required"
@@ -51,7 +53,7 @@
     "subtitle": "Visa Information Collection",
     "sections": {
       "personalInfo": "Personal Information",
-      "passportInfo": "Passport & ID",
+      "passportInfo": "ID & Passport",
       "addressInfo": "Current Address",
       "travelPlan": "Travel Plan",
       "companions": "Companion Information",
@@ -90,6 +92,10 @@
         "label": "Phone Number",
         "placeholder": "Enter your phone number"
       },
+      "phoneCountryCode": {
+        "label": "Country Code",
+        "placeholder": "Select country code"
+      },
       "email": {
         "label": "Email Address",
         "placeholder": "Enter your email address"
@@ -105,11 +111,10 @@
         "label": "Passport Expiry Date"
       },
       "issuingAuthority": {
-        "label": "Issuing Authority",
-        "placeholder": "Enter the issuing authority"
+        "label": "Issuing Country / Region"
       },
       "nationality": {
-        "label": "Nationality"
+        "label": "Country / Region"
       },
       "gender": {
         "label": "Gender"
@@ -121,15 +126,21 @@
         "label": "Do you hold a passport/travel document from another country?"
       },
       "otherPassportDetail": {
-        "label": "Passport/travel document number and issuing country",
-        "placeholder": "Enter document number and issuing country"
+        "label": "Other Passport/Travel Document Number",
+        "placeholder": "Enter document number"
+      },
+      "otherPassportCountry": {
+        "label": "Issuing Country/Region"
       },
       "isFirstPassport": {
         "label": "Is this your first passport?"
       },
       "currentAddress": {
         "label": "Current Address",
-        "placeholder": "Enter country/province/city/county/street/number"
+        "placeholder": "Enter province/city/county/street/number"
+      },
+      "currentCountry": {
+        "label": "Country/Region of Residence"
       },
       "postalCode": {
         "label": "Postal Code",
@@ -146,7 +157,7 @@
         "placeholder": "Enter the property owner's name"
       },
       "purposeOfVisit": {
-        "label": "Purpose of Visit"
+        "label": "Purpose of Visiting UK"
       },
       "intendedArrivalDate": {
         "label": "Intended Arrival Date"
@@ -155,18 +166,30 @@
         "label": "Intended Departure Date"
       },
       "travelPlanDesc": {
-        "label": "Travel Plan Description",
-        "placeholder": "Briefly describe your travel itinerary (optional)"
+        "label": "Cities to Visit & Daily Itinerary",
+        "placeholder": "Briefly list the cities you will visit and your daily itinerary (optional)"
       },
       "hasCompanion": {
         "label": "Are you traveling with anyone?"
       },
       "companion": {
-        "name": { "label": "Name", "placeholder": "Enter companion's name" },
-        "dob": { "label": "Date of Birth" },
-        "nationality": { "label": "Nationality" },
-        "passport": { "label": "Passport Number", "placeholder": "Enter companion's passport number" },
-        "relation": { "label": "Relationship with applicant" }
+        "name": {
+          "label": "Name",
+          "placeholder": "Enter companion's name"
+        },
+        "dob": {
+          "label": "Date of Birth"
+        },
+        "nationality": {
+          "label": "Nationality"
+        },
+        "passport": {
+          "label": "Passport Number",
+          "placeholder": "Enter companion's passport number"
+        },
+        "relation": {
+          "label": "Relationship with applicant"
+        }
       },
       "idCardNumber": {
         "label": "ID Card Number",
@@ -190,15 +213,10 @@
         "label": "Spouse Date of Birth"
       },
       "spouseNationality": {
-        "label": "Spouse Nationality",
-        "placeholder": "Enter spouse's nationality"
+        "label": "Spouse Nationality"
       },
       "spouseChangedNationality": {
         "label": "Has your spouse ever changed nationality?"
-      },
-      "spouseOtherNationality": {
-        "label": "Spouse Other Nationality",
-        "placeholder": "Enter other nationality"
       },
       "spouseBirthCity": {
         "label": "Spouse Birth City",
@@ -208,20 +226,18 @@
         "label": "Spouse Address",
         "placeholder": "Enter spouse's current address"
       },
+      "spouseCountry": {
+        "label": "Spouse's Country/Region of Residence"
+      },
       "father_name": {
         "label": "Father's Name",
         "placeholder": "Enter father's full name"
       },
       "father_nationality": {
-        "label": "Father's Nationality",
-        "placeholder": "Enter father's nationality"
+        "label": "Father's Nationality"
       },
       "father_changed_nationality": {
         "label": "Has your father ever changed nationality?"
-      },
-      "father_other_nationality": {
-        "label": "Father's Other Nationality",
-        "placeholder": "Enter other nationality"
       },
       "father_dob": {
         "label": "Father's Date of Birth"
@@ -230,23 +246,21 @@
         "label": "Is your father traveling to the UK with you?"
       },
       "father_address": {
-        "label": "Father's Current Address",
-        "placeholder": "Enter father's current address"
+        "label": "Father's Detailed Address",
+        "placeholder": "Enter province/city/county/street/number"
+      },
+      "father_country": {
+        "label": "Father's Country/Region of Residence"
       },
       "mother_name": {
         "label": "Mother's Name",
         "placeholder": "Enter mother's full name"
       },
       "mother_nationality": {
-        "label": "Mother's Nationality",
-        "placeholder": "Enter mother's nationality"
+        "label": "Mother's Nationality"
       },
       "mother_changed_nationality": {
         "label": "Has your mother ever changed nationality?"
-      },
-      "mother_other_nationality": {
-        "label": "Mother's Other Nationality",
-        "placeholder": "Enter other nationality"
       },
       "mother_dob": {
         "label": "Mother's Date of Birth"
@@ -255,21 +269,39 @@
         "label": "Is your mother traveling to the UK with you?"
       },
       "mother_address": {
-        "label": "Mother's Current Address",
-        "placeholder": "Enter mother's current address"
+        "label": "Mother's Detailed Address",
+        "placeholder": "Enter province/city/county/street/number"
+      },
+      "mother_country": {
+        "label": "Mother's Country/Region of Residence"
       },
       "hasChildren": {
         "label": "Do you have any children?"
       },
       "child": {
-        "name": { "label": "Name", "placeholder": "Enter child's full name" },
-        "nationality": { "label": "Nationality" },
-        "changedNationality": { "label": "Has the child ever changed nationality?" },
-        "otherNationality": { "label": "Other Nationality", "placeholder": "Enter other nationality" },
-        "relation": { "label": "Relationship with applicant" },
-        "dob": { "label": "Date of Birth" },
-        "goingToUK": { "label": "Is the child traveling to the UK with you?" },
-        "address": { "label": "Current Address", "placeholder": "Enter child's current address" }
+        "name": {
+          "label": "Name",
+          "placeholder": "Enter child's full name"
+        },
+        "nationality": {
+          "label": "Nationality"
+        },
+        "changedNationality": {
+          "label": "Has the child ever changed nationality?"
+        },
+        "relation": {
+          "label": "Relationship with applicant"
+        },
+        "dob": {
+          "label": "Date of Birth"
+        },
+        "goingToUK": {
+          "label": "Is the child traveling to the UK with you?"
+        },
+        "address": {
+          "label": "Current Address",
+          "placeholder": "Enter child's current address"
+        }
       },
       "employmentStatus": {
         "label": "Current employment status"
@@ -374,6 +406,9 @@
         "label": "Accommodation Address",
         "placeholder": "Enter full accommodation address"
       },
+      "ukAccommodationCountry": {
+        "label": "Accommodation Country/Region"
+      },
       "ukAccommodationPostal": {
         "label": "Accommodation Postal Code",
         "placeholder": "Enter accommodation postal code"
@@ -394,18 +429,37 @@
         "label": "Have you visited the UK in the past 10 years?"
       },
       "ukVisit": {
-        "date": { "label": "Visit Date" },
-        "duration": { "label": "Duration of Stay", "placeholder": "Enter duration of stay" },
-        "purpose": { "label": "Purpose of Visit", "placeholder": "Enter purpose of visit" }
+        "date": {
+          "label": "Visit Date"
+        },
+        "duration": {
+          "label": "Duration of Stay",
+          "placeholder": "Enter duration of stay"
+        },
+        "purpose": {
+          "label": "Purpose of Visit",
+          "placeholder": "Enter purpose of visit"
+        }
       },
       "beenRefused": {
         "label": "Have you ever been refused a visa?"
       },
       "refusal": {
-        "date": { "label": "Refusal Date" },
-        "country": { "label": "Refusing Country", "placeholder": "Enter the refusing country" },
-        "reason": { "label": "Reason for Refusal", "placeholder": "Enter reason for refusal" },
-        "refNumber": { "label": "Application Reference Number", "placeholder": "Enter visa application reference number" }
+        "date": {
+          "label": "Refusal Date"
+        },
+        "country": {
+          "label": "Refusing Country",
+          "placeholder": "Enter the refusing country"
+        },
+        "reason": {
+          "label": "Reason for Refusal",
+          "placeholder": "Enter reason for refusal"
+        },
+        "refNumber": {
+          "label": "Application Reference Number",
+          "placeholder": "Enter visa application reference number"
+        }
       },
       "appliedUKStay": {
         "label": "Have you applied to the UK Home Office to stay in the UK in the past 10 years?"
@@ -424,10 +478,20 @@
         "label": "Have you visited Australia/Canada/New Zealand/USA/Schengen area in the past 10 years?"
       },
       "otherCountry": {
-        "name": { "label": "Country" },
-        "date": { "label": "Travel Date" },
-        "duration": { "label": "Duration of Stay", "placeholder": "Enter duration of stay" },
-        "purpose": { "label": "Purpose of Visit", "placeholder": "Enter purpose of visit" }
+        "name": {
+          "label": "Country"
+        },
+        "date": {
+          "label": "Travel Date"
+        },
+        "duration": {
+          "label": "Duration of Stay",
+          "placeholder": "Enter duration of stay"
+        },
+        "purpose": {
+          "label": "Purpose of Visit",
+          "placeholder": "Enter purpose of visit"
+        }
       },
       "hasUKInsurance": {
         "label": "Do you have a UK National Insurance number?"
@@ -467,12 +531,6 @@
       }
     },
     "options": {
-      "nationality": {
-        "CN": "China",
-        "US": "United States",
-        "GB": "United Kingdom",
-        "OTHER": "Other"
-      },
       "gender": {
         "male": "Male",
         "female": "Female",
@@ -533,9 +591,359 @@
         "NZ": "New Zealand",
         "US": "United States",
         "SCHENGEN": "Schengen Area"
+      },
+      "countries": {
+        "AD": "Andorra",
+        "AE": "United Arab Emirates",
+        "AF": "Afghanistan",
+        "AL": "Albania",
+        "AM": "Armenia",
+        "AO": "Angola",
+        "AR": "Argentina",
+        "AT": "Austria",
+        "AU": "Australia",
+        "AZ": "Azerbaijan",
+        "BA": "Bosnia and Herzegovina",
+        "BB": "Barbados",
+        "BD": "Bangladesh",
+        "BE": "Belgium",
+        "BF": "Burkina Faso",
+        "BG": "Bulgaria",
+        "BH": "Bahrain",
+        "BI": "Burundi",
+        "BJ": "Benin",
+        "BN": "Brunei",
+        "BO": "Bolivia",
+        "BR": "Brazil",
+        "BS": "Bahamas",
+        "BT": "Bhutan",
+        "BW": "Botswana",
+        "BY": "Belarus",
+        "BZ": "Belize",
+        "CA": "Canada",
+        "CD": "Congo (Kinshasa)",
+        "CF": "Central African Republic",
+        "CG": "Congo (Brazzaville)",
+        "CH": "Switzerland",
+        "CL": "Chile",
+        "CM": "Cameroon",
+        "CN": "China",
+        "CO": "Colombia",
+        "CR": "Costa Rica",
+        "CU": "Cuba",
+        "CV": "Cape Verde",
+        "CY": "Cyprus",
+        "CZ": "Czech Republic",
+        "DE": "Germany",
+        "DJ": "Djibouti",
+        "DK": "Denmark",
+        "DO": "Dominican Republic",
+        "DZ": "Algeria",
+        "EC": "Ecuador",
+        "EE": "Estonia",
+        "EG": "Egypt",
+        "ER": "Eritrea",
+        "ES": "Spain",
+        "ET": "Ethiopia",
+        "FI": "Finland",
+        "FJ": "Fiji",
+        "FR": "France",
+        "GA": "Gabon",
+        "GB": "United Kingdom",
+        "GE": "Georgia",
+        "GH": "Ghana",
+        "GM": "Gambia",
+        "GN": "Guinea",
+        "GQ": "Equatorial Guinea",
+        "GR": "Greece",
+        "GT": "Guatemala",
+        "HK": "Hong Kong",
+        "HN": "Honduras",
+        "HR": "Croatia",
+        "HT": "Haiti",
+        "HU": "Hungary",
+        "ID": "Indonesia",
+        "IE": "Ireland",
+        "IL": "Israel",
+        "IN": "India",
+        "IQ": "Iraq",
+        "IR": "Iran",
+        "IS": "Iceland",
+        "IT": "Italy",
+        "JM": "Jamaica",
+        "JO": "Jordan",
+        "JP": "Japan",
+        "KE": "Kenya",
+        "KG": "Kyrgyzstan",
+        "KH": "Cambodia",
+        "KM": "Comoros",
+        "KP": "North Korea",
+        "KR": "South Korea",
+        "KW": "Kuwait",
+        "KZ": "Kazakhstan",
+        "LA": "Laos",
+        "LB": "Lebanon",
+        "LI": "Liechtenstein",
+        "LK": "Sri Lanka",
+        "LR": "Liberia",
+        "LS": "Lesotho",
+        "LT": "Lithuania",
+        "LU": "Luxembourg",
+        "LV": "Latvia",
+        "LY": "Libya",
+        "MA": "Morocco",
+        "MC": "Monaco",
+        "MD": "Moldova",
+        "ME": "Montenegro",
+        "MG": "Madagascar",
+        "MK": "North Macedonia",
+        "ML": "Mali",
+        "MM": "Myanmar",
+        "MN": "Mongolia",
+        "MO": "Macau",
+        "MR": "Mauritania",
+        "MT": "Malta",
+        "MU": "Mauritius",
+        "MV": "Maldives",
+        "MW": "Malawi",
+        "MX": "Mexico",
+        "MY": "Malaysia",
+        "MZ": "Mozambique",
+        "NA": "Namibia",
+        "NE": "Niger",
+        "NG": "Nigeria",
+        "NI": "Nicaragua",
+        "NL": "Netherlands",
+        "NO": "Norway",
+        "NP": "Nepal",
+        "NZ": "New Zealand",
+        "OM": "Oman",
+        "PA": "Panama",
+        "PE": "Peru",
+        "PG": "Papua New Guinea",
+        "PH": "Philippines",
+        "PK": "Pakistan",
+        "PL": "Poland",
+        "PS": "Palestine",
+        "PT": "Portugal",
+        "PY": "Paraguay",
+        "QA": "Qatar",
+        "RO": "Romania",
+        "RS": "Serbia",
+        "RU": "Russia",
+        "RW": "Rwanda",
+        "SA": "Saudi Arabia",
+        "SC": "Seychelles",
+        "SD": "Sudan",
+        "SE": "Sweden",
+        "SG": "Singapore",
+        "SI": "Slovenia",
+        "SK": "Slovakia",
+        "SN": "Senegal",
+        "SR": "Suriname",
+        "SS": "South Sudan",
+        "SV": "El Salvador",
+        "SY": "Syria",
+        "TD": "Chad",
+        "TG": "Togo",
+        "TH": "Thailand",
+        "TJ": "Tajikistan",
+        "TM": "Turkmenistan",
+        "TN": "Tunisia",
+        "TR": "Turkey",
+        "TT": "Trinidad and Tobago",
+        "TW": "Taiwan",
+        "TZ": "Tanzania",
+        "UA": "Ukraine",
+        "UG": "Uganda",
+        "US": "United States",
+        "UY": "Uruguay",
+        "UZ": "Uzbekistan",
+        "VN": "Vietnam",
+        "YE": "Yemen",
+        "ZA": "South Africa",
+        "ZM": "Zambia",
+        "ZW": "Zimbabwe",
+        "OTHER": "Other Country / Region"
+      },
+      "phoneCodes": {
+        "AD": "+376 Andorra",
+        "AE": "+971 United Arab Emirates",
+        "AF": "+93 Afghanistan",
+        "AL": "+355 Albania",
+        "AM": "+374 Armenia",
+        "AO": "+244 Angola",
+        "AR": "+54 Argentina",
+        "AT": "+43 Austria",
+        "AU": "+61 Australia",
+        "AZ": "+994 Azerbaijan",
+        "BA": "+387 Bosnia and Herzegovina",
+        "BB": "+1-246 Barbados",
+        "BD": "+880 Bangladesh",
+        "BE": "+32 Belgium",
+        "BF": "+226 Burkina Faso",
+        "BG": "+359 Bulgaria",
+        "BH": "+973 Bahrain",
+        "BI": "+257 Burundi",
+        "BJ": "+229 Benin",
+        "BN": "+673 Brunei",
+        "BO": "+591 Bolivia",
+        "BR": "+55 Brazil",
+        "BS": "+1-242 Bahamas",
+        "BT": "+975 Bhutan",
+        "BW": "+267 Botswana",
+        "BY": "+375 Belarus",
+        "BZ": "+501 Belize",
+        "CA": "+1 Canada",
+        "CD": "+243 Congo (Kinshasa)",
+        "CF": "+236 Central African Republic",
+        "CG": "+242 Congo (Brazzaville)",
+        "CH": "+41 Switzerland",
+        "CL": "+56 Chile",
+        "CM": "+237 Cameroon",
+        "CN": "+86 China",
+        "CO": "+57 Colombia",
+        "CR": "+506 Costa Rica",
+        "CU": "+53 Cuba",
+        "CV": "+238 Cape Verde",
+        "CY": "+357 Cyprus",
+        "CZ": "+420 Czech Republic",
+        "DE": "+49 Germany",
+        "DJ": "+253 Djibouti",
+        "DK": "+45 Denmark",
+        "DO": "+1-809 Dominican Republic",
+        "DZ": "+213 Algeria",
+        "EC": "+593 Ecuador",
+        "EE": "+372 Estonia",
+        "EG": "+20 Egypt",
+        "ER": "+291 Eritrea",
+        "ES": "+34 Spain",
+        "ET": "+251 Ethiopia",
+        "FI": "+358 Finland",
+        "FJ": "+679 Fiji",
+        "FR": "+33 France",
+        "GA": "+241 Gabon",
+        "GB": "+44 United Kingdom",
+        "GE": "+995 Georgia",
+        "GH": "+233 Ghana",
+        "GM": "+220 Gambia",
+        "GN": "+224 Guinea",
+        "GQ": "+240 Equatorial Guinea",
+        "GR": "+30 Greece",
+        "GT": "+502 Guatemala",
+        "HK": "+852 Hong Kong",
+        "HN": "+504 Honduras",
+        "HR": "+385 Croatia",
+        "HT": "+509 Haiti",
+        "HU": "+36 Hungary",
+        "ID": "+62 Indonesia",
+        "IE": "+353 Ireland",
+        "IL": "+972 Israel",
+        "IN": "+91 India",
+        "IQ": "+964 Iraq",
+        "IR": "+98 Iran",
+        "IS": "+354 Iceland",
+        "IT": "+39 Italy",
+        "JM": "+1-876 Jamaica",
+        "JO": "+962 Jordan",
+        "JP": "+81 Japan",
+        "KE": "+254 Kenya",
+        "KG": "+996 Kyrgyzstan",
+        "KH": "+855 Cambodia",
+        "KM": "+269 Comoros",
+        "KP": "+850 North Korea",
+        "KR": "+82 South Korea",
+        "KW": "+965 Kuwait",
+        "KZ": "+7 Kazakhstan",
+        "LA": "+856 Laos",
+        "LB": "+961 Lebanon",
+        "LI": "+423 Liechtenstein",
+        "LK": "+94 Sri Lanka",
+        "LR": "+231 Liberia",
+        "LS": "+266 Lesotho",
+        "LT": "+370 Lithuania",
+        "LU": "+352 Luxembourg",
+        "LV": "+371 Latvia",
+        "LY": "+218 Libya",
+        "MA": "+212 Morocco",
+        "MC": "+377 Monaco",
+        "MD": "+373 Moldova",
+        "ME": "+382 Montenegro",
+        "MG": "+261 Madagascar",
+        "MK": "+389 North Macedonia",
+        "ML": "+223 Mali",
+        "MM": "+95 Myanmar",
+        "MN": "+976 Mongolia",
+        "MO": "+853 Macau",
+        "MR": "+222 Mauritania",
+        "MT": "+356 Malta",
+        "MU": "+230 Mauritius",
+        "MV": "+960 Maldives",
+        "MW": "+265 Malawi",
+        "MX": "+52 Mexico",
+        "MY": "+60 Malaysia",
+        "MZ": "+258 Mozambique",
+        "NA": "+264 Namibia",
+        "NE": "+227 Niger",
+        "NG": "+234 Nigeria",
+        "NI": "+505 Nicaragua",
+        "NL": "+31 Netherlands",
+        "NO": "+47 Norway",
+        "NP": "+977 Nepal",
+        "NZ": "+64 New Zealand",
+        "OM": "+968 Oman",
+        "PA": "+507 Panama",
+        "PE": "+51 Peru",
+        "PG": "+675 Papua New Guinea",
+        "PH": "+63 Philippines",
+        "PK": "+92 Pakistan",
+        "PL": "+48 Poland",
+        "PS": "+970 Palestine",
+        "PT": "+351 Portugal",
+        "PY": "+595 Paraguay",
+        "QA": "+974 Qatar",
+        "RO": "+40 Romania",
+        "RS": "+381 Serbia",
+        "RU": "+7 Russia",
+        "RW": "+250 Rwanda",
+        "SA": "+966 Saudi Arabia",
+        "SC": "+248 Seychelles",
+        "SD": "+249 Sudan",
+        "SE": "+46 Sweden",
+        "SG": "+65 Singapore",
+        "SI": "+386 Slovenia",
+        "SK": "+421 Slovakia",
+        "SN": "+221 Senegal",
+        "SR": "+597 Suriname",
+        "SS": "+211 South Sudan",
+        "SV": "+503 El Salvador",
+        "SY": "+963 Syria",
+        "TD": "+235 Chad",
+        "TG": "+228 Togo",
+        "TH": "+66 Thailand",
+        "TJ": "+992 Tajikistan",
+        "TM": "+993 Turkmenistan",
+        "TN": "+216 Tunisia",
+        "TR": "+90 Turkey",
+        "TT": "+1-868 Trinidad and Tobago",
+        "TW": "+886 Taiwan",
+        "TZ": "+255 Tanzania",
+        "UA": "+380 Ukraine",
+        "UG": "+256 Uganda",
+        "US": "+1 United States",
+        "UY": "+598 Uruguay",
+        "UZ": "+998 Uzbekistan",
+        "VN": "+84 Vietnam",
+        "YE": "+967 Yemen",
+        "ZA": "+27 South Africa",
+        "ZM": "+260 Zambia",
+        "ZW": "+263 Zimbabwe",
+        "OTHER": "Other Country Code"
       }
     },
     "subLabels": {
+      "idCard": "Identity Document",
+      "passport": "Passport",
       "father": "Father",
       "mother": "Mother",
       "companion": "Companion",

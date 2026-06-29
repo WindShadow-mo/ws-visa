@@ -13,7 +13,7 @@ export interface RadioOption {
   labelKey: string
 }
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   name: string
   labelKey: string
   descriptionKey?: string
@@ -21,8 +21,11 @@ const props = defineProps<{
   options: RadioOption[]
   modelValue: string
   error?: string
+  /** 网格跨度，默认 full（单选按钮需要横向空间，占整行） */
   span?: 'full' | 'half' | 'third'
-}>()
+}>(), {
+  span: 'full',
+})
 
 const emit = defineEmits<{
   'update:modelValue': [value: string]
@@ -47,6 +50,7 @@ const description = computed(() =>
   >
     <RadioGroup
       :model-value="modelValue"
+      class="flex flex-wrap gap-x-4 gap-y-2"
       @update:model-value="emit('update:modelValue', $event)"
     >
       <!-- 隐藏 input 用于校验聚焦定位 -->
