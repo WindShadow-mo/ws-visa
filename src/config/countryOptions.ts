@@ -177,7 +177,6 @@ export const nationalityOptions: SelectOption[] = [
   { value: 'ZA', labelKey: 'ukVisa.options.countries.ZA' },
   { value: 'ZM', labelKey: 'ukVisa.options.countries.ZM' },
   { value: 'ZW', labelKey: 'ukVisa.options.countries.ZW' },
-  { value: 'OTHER', labelKey: 'ukVisa.options.countries.OTHER' },
 ]
 
 // ---- 电话区号（与国籍选项对应，每个国家一条）----
@@ -354,5 +353,4 @@ export const phoneCountryCodeOptions: SelectOption[] = [
   { value: 'ZA', labelKey: 'ukVisa.options.phoneCodes.ZA' },
   { value: 'ZM', labelKey: 'ukVisa.options.phoneCodes.ZM' },
   { value: 'ZW', labelKey: 'ukVisa.options.phoneCodes.ZW' },
-  { value: 'OTHER', labelKey: 'ukVisa.options.phoneCodes.OTHER' },
 ]

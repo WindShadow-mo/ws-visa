@@ -114,7 +114,7 @@
         "label": "签发国家/地区"
       },
       "nationality": {
-        "label": "国家或地区"
+        "label": "国家/地区"
       },
       "gender": {
         "label": "性别"
@@ -137,7 +137,7 @@
       },
       "currentAddress": {
         "label": "当前住址",
-        "placeholder": "请输入省/市/县/街道/门牌"
+        "placeholder": "请输入详细地址"
       },
       "currentCountry": {
         "label": "居住国家/地区"
@@ -247,7 +247,7 @@
       },
       "father_address": {
         "label": "父亲居住详细地址",
-        "placeholder": "请输入省/市/县/街道/门牌"
+        "placeholder": "请输入详细地址"
       },
       "father_country": {
         "label": "父亲居住国家/地区"
@@ -270,7 +270,7 @@
       },
       "mother_address": {
         "label": "母亲居住详细地址",
-        "placeholder": "请输入省/市/县/街道/门牌"
+        "placeholder": "请输入详细地址"
       },
       "mother_country": {
         "label": "母亲居住国家/地区"
@@ -298,6 +298,9 @@
         "goingToUK": {
           "label": "是否一起前往英国"
         },
+        "country": {
+          "label": "居住国家/地区"
+        },
         "address": {
           "label": "目前居住地址",
           "placeholder": "请输入子女居住地址"
@@ -310,20 +313,36 @@
         "label": "开始时间"
       },
       "companyName": {
-        "label": "公司/学校名称",
-        "placeholder": "请输入公司或学校名称"
+        "label": "公司名称",
+        "placeholder": "请输入公司名称"
+      },
+      "schoolName": {
+        "label": "学校名称",
+        "placeholder": "请输入学校名称"
       },
       "companyAddress": {
-        "label": "公司/学校地址",
-        "placeholder": "请输入公司或学校地址"
+        "label": "公司地址",
+        "placeholder": "请输入公司地址"
+      },
+      "schoolAddress": {
+        "label": "学校地址",
+        "placeholder": "请输入学校地址"
       },
       "companyPostalCode": {
-        "label": "邮编",
-        "placeholder": "请输入邮政编码"
+        "label": "公司邮编",
+        "placeholder": "请输入公司邮政编码"
+      },
+      "schoolPostalCode": {
+        "label": "学校邮编",
+        "placeholder": "请输入学校邮政编码"
       },
       "companyPhone": {
-        "label": "联系电话",
-        "placeholder": "请输入联系电话"
+        "label": "公司联系电话",
+        "placeholder": "请输入公司联系电话"
+      },
+      "schoolPhone": {
+        "label": "学校联系电话",
+        "placeholder": "请输入学校联系电话"
       },
       "jobTitle": {
         "label": "工作职位",
@@ -388,11 +407,11 @@
         "placeholder": "请输入与申请人的关系"
       },
       "ukContactPhone": {
-        "label": "英国电话",
+        "label": "在英国的电话",
         "placeholder": "请输入英国电话号码"
       },
       "ukContactPostal": {
-        "label": "邮政编码",
+        "label": "在英国的邮政编码",
         "placeholder": "请输入邮政编码"
       },
       "hasUKAccommodation": {
@@ -442,7 +461,7 @@
         }
       },
       "beenRefused": {
-        "label": "是否曾被拒签"
+        "label": "是否曾被英国或其他国家拒签过"
       },
       "refusal": {
         "date": {

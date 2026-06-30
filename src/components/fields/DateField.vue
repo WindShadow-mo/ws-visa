@@ -5,6 +5,7 @@
 
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import * as icons from '@lucide/vue'
 import { parseDate, type CalendarDate } from '@internationalized/date'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -23,6 +24,8 @@ const props = withDefaults(defineProps<{
   error?: string
   /** 网格跨度，默认 third（日期是短字段，占1/4行） */
   span?: 'full' | 'half' | 'third'
+  /** Lucide 图标名称，显示在日期文本左侧（如 'Calendar'） */
+  prefixIcon?: string
 }>(), {
   span: 'third',
 })
@@ -37,6 +40,11 @@ const label = computed(() => t(props.labelKey))
 const description = computed(() =>
   props.descriptionKey ? t(props.descriptionKey) : undefined,
 )
+
+const IconComponent = computed(() => {
+  if (!props.prefixIcon) return null
+  return (icons as Record<string, unknown>)[props.prefixIcon] as typeof icons.Calendar | undefined
+})
 
 // 将 ISO string 转为 CalendarDate（shadcn-vue Calendar 需要）
 const calendarValue = computed(() => {
@@ -73,6 +81,7 @@ function onDateSelect(date: CalendarDate) {
     <Popover>
       <PopoverTrigger as-child>
         <Button variant="outline" :id="name" :name="name" class="w-full justify-start text-left font-normal">
+          <component :is="IconComponent" v-if="IconComponent" :size="16" class="mr-2 shrink-0 text-muted-foreground" />
           {{ displayText }}
         </Button>
       </PopoverTrigger>

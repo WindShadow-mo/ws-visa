@@ -97,7 +97,7 @@ watch(popoverOpen, (open) => {
       :multiple="multiple"
       @update:model-value="emit('update:modelValue', $event)"
     >
-      <SelectTrigger :id="name" :name="name">
+      <SelectTrigger :id="name" :name="name" class="bg-muted/30">
         <SelectValue :placeholder="selectedLabel">{{ selectedLabel }}</SelectValue>
       </SelectTrigger>
       <SelectContent>

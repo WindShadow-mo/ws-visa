@@ -1,21 +1,21 @@
 <script setup lang="ts">
-// CountrySelectField — 国家/地区选择字段（分块字母索引模式）
+// NationalityField — 国籍/国家选择字段（分块字母索引模式）
 // 按拼音（中文）或字母（英文）排序，分块展示
 // 每个块左侧显示大写字母，右侧 4 列网格展示国家 + 国旗
 
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { Globe } from '@lucide/vue'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import FormFieldWrapper from '@/components/fields/FormFieldWrapper.vue'
 import type { SelectOption } from '@/components/fields/SelectField.vue'
-import { nationalityOptions, phoneCountryCodeOptions } from '@/config/countryOptions'
+import { nationalityOptions } from '@/config/countryOptions'
 
 const props = withDefaults(defineProps<{
   name: string
   labelKey: string
-  kind: 'nationality' | 'phone-code'
   modelValue: string
   required?: boolean
   span?: 'full' | 'half' | 'third'
@@ -29,14 +29,10 @@ const emit = defineEmits<{
 
 const { t, locale } = useI18n()
 
-const options = computed<SelectOption[]>(() =>
-  props.kind === 'nationality' ? nationalityOptions : phoneCountryCodeOptions,
-)
-
 // 按当前 locale 排序：中文按拼音，英文按字母序
 const sortedOptions = computed(() => {
   const collator = new Intl.Collator(locale.value === 'zh' ? 'zh-CN' : 'en', { sensitivity: 'base' })
-  return [...options.value].sort((a, b) => collator.compare(t(a.labelKey), t(b.labelKey)))
+  return [...nationalityOptions].sort((a, b) => collator.compare(t(a.labelKey), t(b.labelKey)))
 })
 
 const label = computed(() => t(props.labelKey))
@@ -44,7 +40,7 @@ const label = computed(() => t(props.labelKey))
 // 未知值回退到原始值显示
 const selectedLabel = computed(() => {
   if (!props.modelValue) return ''
-  const opt = options.value.find(o => o.value === props.modelValue)
+  const opt = nationalityOptions.find(o => o.value === props.modelValue)
   return opt ? t(opt.labelKey) : props.modelValue
 })
 
@@ -84,11 +80,9 @@ const zhCharMap: Record<string, string> = {
 }
 
 // 根据翻译文本提取分组字母（locale-aware）
-// 电话区号标签 "+86 中国" → 去掉 "+数字 " 前缀再取
 function getGroupLetter(opt: SelectOption): string {
   const text = t(opt.labelKey)
-  const name = text.replace(/^\+\d+\s*/, '')
-  const firstChar = name.charAt(0)
+  const firstChar = text.charAt(0)
   // ASCII 字母直接大写
   if (/^[A-Za-z]/.test(firstChar)) return firstChar.toUpperCase()
   // 中文：查映射表
@@ -120,7 +114,7 @@ function onSelect(value: string) {
 }
 
 function jumpToLetter(letter: string) {
-  const el = document.getElementById(`country-letter-${letter}-${props.name}`)
+  const el = document.getElementById(`nationality-letter-${letter}-${props.name}`)
   el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
@@ -141,6 +135,7 @@ watch(popoverOpen, (open) => {
           class="w-full justify-start text-left font-normal"
           :class="{ 'text-muted-foreground': !selectedLabel }"
         >
+          <Globe :size="16" class="shrink-0 text-muted-foreground mr-1" />
           <template v-if="modelValue">
             <span class="fi shrink-0" :class="`fi-${modelValue.toLowerCase()}`" style="width:32px;height:24px" />
             {{ selectedLabel }}
@@ -170,7 +165,7 @@ watch(popoverOpen, (open) => {
                 >
                   <!-- 左侧字母列（撑满整组高度） -->
                   <div
-                    :id="`country-letter-${letter}-${name}`"
+                    :id="`nationality-letter-${letter}-${name}`"
                     class="flex w-6 shrink-0 items-center justify-center rounded-sm bg-primary/10 text-xs font-bold text-primary"
                   >
                     {{ letter }}

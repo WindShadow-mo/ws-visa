@@ -114,7 +114,7 @@
         "label": "Issuing Country / Region"
       },
       "nationality": {
-        "label": "Country / Region"
+        "label": "Country/Region"
       },
       "gender": {
         "label": "Gender"
@@ -137,7 +137,7 @@
       },
       "currentAddress": {
         "label": "Current Address",
-        "placeholder": "Enter province/city/county/street/number"
+        "placeholder": "Enter full address"
       },
       "currentCountry": {
         "label": "Country/Region of Residence"
@@ -247,7 +247,7 @@
       },
       "father_address": {
         "label": "Father's Detailed Address",
-        "placeholder": "Enter province/city/county/street/number"
+        "placeholder": "Enter full address"
       },
       "father_country": {
         "label": "Father's Country/Region of Residence"
@@ -270,7 +270,7 @@
       },
       "mother_address": {
         "label": "Mother's Detailed Address",
-        "placeholder": "Enter province/city/county/street/number"
+        "placeholder": "Enter full address"
       },
       "mother_country": {
         "label": "Mother's Country/Region of Residence"
@@ -298,6 +298,9 @@
         "goingToUK": {
           "label": "Is the child traveling to the UK with you?"
         },
+        "country": {
+          "label": "Country/Region of Residence"
+        },
         "address": {
           "label": "Current Address",
           "placeholder": "Enter child's current address"
@@ -310,20 +313,36 @@
         "label": "Start Date"
       },
       "companyName": {
-        "label": "Company/School Name",
-        "placeholder": "Enter company or school name"
+        "label": "Company Name",
+        "placeholder": "Enter company name"
+      },
+      "schoolName": {
+        "label": "School Name",
+        "placeholder": "Enter school name"
       },
       "companyAddress": {
-        "label": "Company/School Address",
-        "placeholder": "Enter company or school address"
+        "label": "Company Address",
+        "placeholder": "Enter company address"
+      },
+      "schoolAddress": {
+        "label": "School Address",
+        "placeholder": "Enter school address"
       },
       "companyPostalCode": {
-        "label": "Postal Code",
-        "placeholder": "Enter postal code"
+        "label": "Company Postal Code",
+        "placeholder": "Enter company postal code"
+      },
+      "schoolPostalCode": {
+        "label": "School Postal Code",
+        "placeholder": "Enter school postal code"
       },
       "companyPhone": {
-        "label": "Phone Number",
-        "placeholder": "Enter phone number"
+        "label": "Company Phone",
+        "placeholder": "Enter company phone"
+      },
+      "schoolPhone": {
+        "label": "School Phone",
+        "placeholder": "Enter school phone"
       },
       "jobTitle": {
         "label": "Job Title",
@@ -388,11 +407,11 @@
         "placeholder": "Enter relationship with the applicant"
       },
       "ukContactPhone": {
-        "label": "UK Phone Number",
+        "label": "Phone Number in the UK",
         "placeholder": "Enter UK phone number"
       },
       "ukContactPostal": {
-        "label": "Postal Code",
+        "label": "Postal Code in the UK",
         "placeholder": "Enter postal code"
       },
       "hasUKAccommodation": {
@@ -442,7 +461,7 @@
         }
       },
       "beenRefused": {
-        "label": "Have you ever been refused a visa?"
+        "label": "Have you ever been refused a visa by the UK or any other country?"
       },
       "refusal": {
         "date": {

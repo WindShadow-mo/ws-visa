@@ -17,7 +17,8 @@ import TextField from '@/components/fields/TextField.vue'
 import DateField from '@/components/fields/DateField.vue'
 import SelectField from '@/components/fields/SelectField.vue'
 import type { SelectOption } from '@/components/fields/SelectField.vue'
-import CountrySelectField from '@/components/fields/CountrySelectField.vue'
+import NationalityField from '@/components/fields/NationalityField.vue'
+import PhoneField from '@/components/fields/PhoneField.vue'
 import RadioField from '@/components/fields/RadioField.vue'
 import type { RadioOption } from '@/components/fields/RadioField.vue'
 import { nationalityOptions, phoneCountryCodeOptions } from '@/config/countryOptions'
@@ -55,7 +56,7 @@ function createCompanion() {
   return { name: '', dob: '', nationality: '', otherNationality: '', passport: '', relation: '' }
 }
 function createChild() {
-  return { name: '', nationality: '', changedNationality: '', otherNationality: '', relation: '', dob: '', goingToUK: '', address: '' }
+  return { name: '', nationality: '', changedNationality: '', otherNationality: '', relation: '', dob: '', goingToUK: '', country: '', address: '' }
 }
 function createUkVisit() {
   return { date: '', duration: '', purpose: '' }
@@ -124,7 +125,7 @@ const previewSections = computed(() => [
       { label: t('ukVisa.fields.housingStatus.label'), value: resolveOption(housingStatusOptions, formData.housingStatus), required: true, type: 'select', name: 'housingStatus', span: 'third' },
       { label: t('ukVisa.fields.residenceStartDate.label'), value: formatDate(formData.residenceStartDate), required: true, type: 'date', name: 'residenceStartDate' },
       ...(formData.housingStatus === 'tenant'
-        ? [{ label: t('ukVisa.fields.houseOwner.label'), value: formData.houseOwner, required: true, type: 'text', name: 'houseOwner' }]
+        ? [{ label: t('ukVisa.fields.houseOwner.label'), value: formData.houseOwner, required: true, type: 'text', name: 'houseOwner' as const, span: 'third' as const }]
         : []),
     ],
   },
@@ -138,7 +139,7 @@ const previewSections = computed(() => [
             { label: t('ukVisa.fields.spouseName.label'), value: formData.spouseName, required: true, type: 'text', name: 'spouseName', span: 'third' as const },
             { label: t('ukVisa.fields.spouseNationality.label'), value: resolveOption(nationalityOptions, formData.spouseNationality) || formData.spouseNationality, required: true, type: 'select', name: 'spouseNationality', span: 'third' as const },
             { label: t('ukVisa.fields.spouseDob.label'), value: formatDate(formData.spouseDob), required: true, name: 'spouseDob', type: 'date' },
-            { label: t('ukVisa.fields.spouseChangedNationality.label'), value: resolveOption(yesNoOptions, formData.spouseChangedNationality), required: true, type: 'radio', name: 'spouseChangedNationality', span: 'half' as const },
+            { label: t('ukVisa.fields.spouseChangedNationality.label'), value: resolveOption(yesNoOptions, formData.spouseChangedNationality), required: true, type: 'radio', name: 'spouseChangedNationality' },
             { label: t('ukVisa.fields.spouseBirthCity.label'), value: formData.spouseBirthCity, required: true, type: 'text', name: 'spouseBirthCity' as const, span: 'third' as const },
             { label: t('ukVisa.fields.spouseCountry.label'), value: resolveOption(nationalityOptions, formData.spouseCountry), required: true, type: 'select', name: 'spouseCountry' as const, span: 'third' as const },
             { label: t('ukVisa.fields.spouseAddress.label'), value: formData.spouseAddress, required: true, type: 'text', name: 'spouseAddress' as const },
@@ -153,15 +154,15 @@ const previewSections = computed(() => [
       { label: t('ukVisa.subLabels.father') + ' - ' + t('ukVisa.fields.father_name.label'), value: formData.father_name, required: true, type: 'text', name: 'father_name', span: 'third' },
       { label: t('ukVisa.fields.father_nationality.label'), value: resolveOption(nationalityOptions, formData.father_nationality) || formData.father_nationality, required: true, type: 'select', name: 'father_nationality', span: 'third' },
       { label: t('ukVisa.fields.father_dob.label'), value: formatDate(formData.father_dob), required: true, type: 'date', name: 'father_dob' },
-      { label: t('ukVisa.fields.father_changed_nationality.label'), value: resolveOption(yesNoOptions, formData.father_changed_nationality), type: 'radio', name: 'father_changed_nationality' , span: 'half' },
-      { label: t('ukVisa.fields.father_going_to_uk.label'), value: resolveOption(yesNoOptions, formData.father_going_to_uk), required: true, type: 'radio', name: 'father_going_to_uk' , span: 'half' },
+      { label: t('ukVisa.fields.father_changed_nationality.label'), value: resolveOption(yesNoOptions, formData.father_changed_nationality), type: 'radio', name: 'father_changed_nationality' },
+      { label: t('ukVisa.fields.father_going_to_uk.label'), value: resolveOption(yesNoOptions, formData.father_going_to_uk), required: true, type: 'radio', name: 'father_going_to_uk' },
       { label: t('ukVisa.fields.father_country.label'), value: resolveOption(nationalityOptions, formData.father_country), required: true, type: 'select', name: 'father_country', span: 'third' },
       { label: t('ukVisa.fields.father_address.label'), value: formData.father_address, required: true, type: 'text', name: 'father_address' },
       { label: t('ukVisa.subLabels.mother') + ' - ' + t('ukVisa.fields.mother_name.label'), value: formData.mother_name, required: true, type: 'text', name: 'mother_name', span: 'third' },
       { label: t('ukVisa.fields.mother_nationality.label'), value: resolveOption(nationalityOptions, formData.mother_nationality) || formData.mother_nationality, required: true, type: 'select', name: 'mother_nationality', span: 'third' },
       { label: t('ukVisa.fields.mother_dob.label'), value: formatDate(formData.mother_dob), required: true, type: 'date', name: 'mother_dob' },
-      { label: t('ukVisa.fields.mother_changed_nationality.label'), value: resolveOption(yesNoOptions, formData.mother_changed_nationality), type: 'radio', name: 'mother_changed_nationality' , span: 'half' },
-      { label: t('ukVisa.fields.mother_going_to_uk.label'), value: resolveOption(yesNoOptions, formData.mother_going_to_uk), required: true, type: 'radio', name: 'mother_going_to_uk' , span: 'half' },
+      { label: t('ukVisa.fields.mother_changed_nationality.label'), value: resolveOption(yesNoOptions, formData.mother_changed_nationality), type: 'radio', name: 'mother_changed_nationality' },
+      { label: t('ukVisa.fields.mother_going_to_uk.label'), value: resolveOption(yesNoOptions, formData.mother_going_to_uk), required: true, type: 'radio', name: 'mother_going_to_uk' },
       { label: t('ukVisa.fields.mother_country.label'), value: resolveOption(nationalityOptions, formData.mother_country), required: true, type: 'select', name: 'mother_country', span: 'third' },
       { label: t('ukVisa.fields.mother_address.label'), value: formData.mother_address, required: true, type: 'text', name: 'mother_address' },
     ],
@@ -175,9 +176,10 @@ const previewSections = computed(() => [
         { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.name.label')}`, value: c.name, required: true, type: 'text', name: `child_${i}_name`, span: 'third' as const },
         { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.nationality.label')}`, value: resolveOption(nationalityOptions, c.nationality) || c.nationality, required: true, type: 'select', name: `child_${i}_nationality`, span: 'third' as const },
         { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.dob.label')}`, value: formatDate(c.dob), required: true, type: 'date', name: `child_${i}_dob` as const },
-        { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.changedNationality.label')}`, value: resolveOption(yesNoOptions, c.changedNationality), required: true, type: 'radio', name: `child_${i}_changed`, span: 'half' as const },
+        { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.changedNationality.label')}`, value: resolveOption(yesNoOptions, c.changedNationality), required: true, type: 'radio', name: `child_${i}_changed` },
         { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.relation.label')}`, value: resolveOption(childRelationOptions, c.relation), required: true, type: 'select', name: `child_${i}_relation` as const, span: 'third' as const },
-        { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.goingToUK.label')}`, value: resolveOption(yesNoOptions, c.goingToUK), required: true, type: 'radio', name: `child_${i}_going`, span: 'half' },
+        { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.goingToUK.label')}`, value: resolveOption(yesNoOptions, c.goingToUK), required: true, type: 'radio', name: `child_${i}_going` },
+        { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.country.label')}`, value: resolveOption(nationalityOptions, c.country) || c.country, required: true, type: 'select', name: `child_${i}_country` as const, span: 'third' as const },
         { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.address.label')}`, value: c.address, type: 'text', name: `child_${i}_addr` as const, span: 'half' as const },
       ]).flat(),
     ],
@@ -201,8 +203,8 @@ const previewSections = computed(() => [
         { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.name.label')}`, value: c.name, required: true, type: 'text', name: `comp_${i}_name`, span: 'third' as const },
         { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.nationality.label')}`, value: resolveOption(nationalityOptions, c.nationality) || c.nationality, required: true, type: 'select', name: `comp_${i}_nationality`, span: 'third' as const },
         { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.dob.label')}`, value: formatDate(c.dob), required: true, type: 'date', name: `comp_${i}_dob` as const },
-        { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.passport.label')}`, value: c.passport, required: true, type: 'text', name: `comp_${i}_passport` as const },
         { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.relation.label')}`, value: resolveOption(companionRelationOptions, c.relation), required: true, type: 'select', name: `comp_${i}_relation` as const, span: 'third' as const },
+        { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.passport.label')}`, value: c.passport, required: true, type: 'text', name: `comp_${i}_passport` as const },
       ]).flat(),
     ],
   },
@@ -214,19 +216,23 @@ const previewSections = computed(() => [
       ...(formData.employmentStatus === 'working' || formData.employmentStatus === 'studying'
         ? [
             { label: t('ukVisa.fields.jobStartDate.label'), value: formatDate(formData.jobStartDate), required: true, name: 'jobStartDate', type: 'date' },
-            { label: t('ukVisa.fields.jobTitle.label'), value: formData.jobTitle, required: true, type: 'text', name: 'jobTitle' as const, span: 'third' as const },
-            { label: t('ukVisa.fields.monthlySalary.label'), value: formData.monthlySalary, required: true, type: 'text', name: 'monthlySalary' as const, span: 'third' as const },
-            { label: t('ukVisa.fields.companyName.label'), value: formData.companyName, required: true, type: 'text', name: 'companyName' as const, span: 'third' as const },
-            { label: t('ukVisa.fields.companyPostalCode.label'), value: formData.companyPostalCode, type: 'text', name: 'companyPostalCode', span: 'third' as const },
-            { label: t('ukVisa.fields.companyPhone.label'), value: formData.companyPhone, type: 'text', name: 'companyPhone', span: 'third' as const },
-            { label: t('ukVisa.fields.companyAddress.label'), value: formData.companyAddress, required: true, type: 'text', name: 'companyAddress', span: 'full' },
-            { label: t('ukVisa.fields.jobDuties.label'), value: formData.jobDuties, type: 'text', name: 'jobDuties', span: 'full' },
+            { label: t(companyNameKey.value), value: formData.companyName, required: true, type: 'text', name: 'companyName' as const, span: 'third' as const },
+            { label: t(companyPhoneKey.value), value: formData.companyPhone, type: 'text', name: 'companyPhone', span: 'third' as const },
+            { label: t(companyPostalCodeKey.value), value: formData.companyPostalCode, type: 'text', name: 'companyPostalCode', span: 'third' as const },
+            { label: t(companyAddressKey.value), value: formData.companyAddress, required: true, type: 'text', name: 'companyAddress', span: 'full' },
+            ...(formData.employmentStatus === 'working'
+              ? [
+                  { label: t('ukVisa.fields.jobTitle.label'), value: formData.jobTitle, required: true, type: 'text', name: 'jobTitle' as const, span: 'third' as const },
+                  { label: t('ukVisa.fields.monthlySalary.label'), value: formData.monthlySalary, required: true, type: 'text', name: 'monthlySalary' as const, span: 'third' as const },
+                  { label: t('ukVisa.fields.jobDuties.label'), value: formData.jobDuties, type: 'text', name: 'jobDuties' as const, span: 'full' as const },
+                  { label: t('ukVisa.fields.otherIncome.label'), value: formData.otherIncome, required: true, type: 'text', name: 'otherIncome' as const, span: 'third' as const },
+                ]
+              : []),
           ]
         : []),
       ...(formData.employmentStatus === 'unemployed'
         ? [{ label: t('ukVisa.fields.unemployedReason.label'), value: formData.unemployedReason, required: true, type: 'text', name: 'unemployedReason', span: 'full' }]
         : []),
-      { label: t('ukVisa.fields.otherIncome.label'), value: formData.otherIncome, required: true, type: 'text', name: 'otherIncome', span: 'third' },
     ],
   },
   // 10. 财务信息
@@ -238,8 +244,8 @@ const previewSections = computed(() => [
       { label: t('ukVisa.fields.hasSponsor.label'), value: resolveOption(yesNoOptions, formData.hasSponsor), type: 'radio', name: 'hasSponsor' },
       ...(formData.hasSponsor === 'yes'
         ? [
-            { label: t('ukVisa.fields.sponsorName.label'), value: formData.sponsorName, required: true, type: 'text', name: 'sponsorName' as const },
-            { label: t('ukVisa.fields.sponsorRelation.label'), value: formData.sponsorRelation, required: true, type: 'text', name: 'sponsorRelation' as const },
+            { label: t('ukVisa.fields.sponsorName.label'), value: formData.sponsorName, required: true, type: 'text', name: 'sponsorName' as const, span: 'third' as const },
+            { label: t('ukVisa.fields.sponsorRelation.label'), value: formData.sponsorRelation, required: true, type: 'text', name: 'sponsorRelation' as const, span: 'third' as const },
             { label: t('ukVisa.fields.sponsorAmount.label'), value: formData.sponsorAmount, required: true, type: 'text', name: 'sponsorAmount', span: 'third' },
           ]
         : []),
@@ -253,19 +259,18 @@ const previewSections = computed(() => [
       ...(formData.hasUKContact === 'yes'
         ? [
             { label: t('ukVisa.fields.ukContactName.label'), value: formData.ukContactName, required: true, type: 'text', name: 'ukContactName' as const, span: 'third' as const },
-            { label: t('ukVisa.fields.ukContactStatus.label'), value: formData.ukContactStatus, required: true, type: 'text', name: 'ukContactStatus' as const, span: 'third' as const },
-            { label: t('ukVisa.fields.ukContactDocNumber.label'), value: formData.ukContactDocNumber, required: true, type: 'text', name: 'ukContactDocNumber' as const, span: 'third' as const },
             { label: t('ukVisa.fields.ukContactRelation.label'), value: formData.ukContactRelation, required: true, type: 'text', name: 'ukContactRelation' as const, span: 'third' as const },
+            { label: t('ukVisa.fields.ukContactStatus.label'), value: formData.ukContactStatus, required: true, type: 'text', name: 'ukContactStatus' as const, span: 'third' as const },
             { label: t('ukVisa.fields.ukContactPhone.label'), value: formData.ukContactPhone, required: true, type: 'text', name: 'ukContactPhone' as const, span: 'third' as const },
             { label: t('ukVisa.fields.ukContactPostal.label'), value: formData.ukContactPostal, type: 'text', name: 'ukContactPostal', span: 'third' as const },
+            { label: t('ukVisa.fields.ukContactDocNumber.label'), value: formData.ukContactDocNumber, required: true, type: 'text', name: 'ukContactDocNumber' as const, span: 'half' as const },
           ]
         : []),
       { label: t('ukVisa.fields.hasUKAccommodation.label'), value: resolveOption(yesNoOptions, formData.hasUKAccommodation), required: true, type: 'radio', name: 'hasUKAccommodation' },
       ...(formData.hasUKAccommodation === 'yes'
         ? [
-            { label: t('ukVisa.fields.ukAccommodationDetail.label'), value: formData.ukAccommodationDetail, required: true, type: 'text', name: 'ukAccommodationDetail', span: 'full' },
-            { label: t('ukVisa.fields.ukAccommodationCountry.label'), value: resolveOption(nationalityOptions, formData.ukAccommodationCountry), required: true, type: 'select', name: 'ukAccommodationCountry' as const, span: 'third' as const },
-            { label: t('ukVisa.fields.ukAccommodationAddress.label'), value: formData.ukAccommodationAddress, required: true, type: 'text', name: 'ukAccommodationAddress' as const },
+            { label: t('ukVisa.fields.ukAccommodationDetail.label'), value: formData.ukAccommodationDetail, required: true, type: 'text', name: 'ukAccommodationDetail', span: 'half' },
+            { label: t('ukVisa.fields.ukAccommodationAddress.label'), value: formData.ukAccommodationAddress, required: true, type: 'text', name: 'ukAccommodationAddress', span: 'half' as const },
             { label: t('ukVisa.fields.ukCheckinDate.label'), value: formatDate(formData.ukCheckinDate), required: true, name: 'ukCheckinDate', type: 'date' },
             { label: t('ukVisa.fields.ukCheckoutDate.label'), value: formatDate(formData.ukCheckoutDate), required: true, name: 'ukCheckoutDate', type: 'date' },
             { label: t('ukVisa.fields.ukAccommodationPostal.label'), value: formData.ukAccommodationPostal, type: 'text', name: 'ukAccommodationPostal', span: 'third' as const },
@@ -283,31 +288,31 @@ const previewSections = computed(() => [
         : []),
       { label: t('ukVisa.fields.visitedUK.label'), value: resolveOption(yesNoOptions, formData.visitedUK), required: true, type: 'radio', name: 'visitedUK' },
       ...ukVisits.map((v, i) => [
-        { label: `${t('ukVisa.subLabels.ukVisit', { index: i + 1 })} - ${t('ukVisa.fields.ukVisit.date.label')}`, value: v.date, required: true, type: 'date', name: `visit_${i}_date` as const, span: 'half' as const },
-        { label: `${t('ukVisa.subLabels.ukVisit', { index: i + 1 })} - ${t('ukVisa.fields.ukVisit.duration.label')}`, value: v.duration, required: true, type: 'text', name: `visit_${i}_duration` as const },
-        { label: `${t('ukVisa.subLabels.ukVisit', { index: i + 1 })} - ${t('ukVisa.fields.ukVisit.purpose.label')}`, value: v.purpose, required: true, type: 'text', name: `visit_${i}_purpose` as const, span: 'half' as const },
+        { label: `${t('ukVisa.subLabels.ukVisit', { index: i + 1 })} - ${t('ukVisa.fields.ukVisit.date.label')}`, value: v.date, required: true, type: 'date', name: `visit_${i}_date` as const },
+        { label: `${t('ukVisa.subLabels.ukVisit', { index: i + 1 })} - ${t('ukVisa.fields.ukVisit.duration.label')}`, value: v.duration, required: true, type: 'text', name: `visit_${i}_duration` as const, span: 'third' as const },
+        { label: `${t('ukVisa.subLabels.ukVisit', { index: i + 1 })} - ${t('ukVisa.fields.ukVisit.purpose.label')}`, value: v.purpose, required: true, type: 'text', name: `visit_${i}_purpose` as const, span: 'full' as const },
       ]).flat(),
       { label: t('ukVisa.fields.beenRefused.label'), value: resolveOption(yesNoOptions, formData.beenRefused), required: true, type: 'radio', name: 'beenRefused' },
       ...refusals.map((r, i) => [
-        { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.date.label')}`, value: r.date, required: true, type: 'date', name: `refusal_${i}_date` as const, span: 'half' as const },
-        { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.country.label')}`, value: r.country, required: true, type: 'text', name: `refusal_${i}_country` as const },
-        { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.reason.label')}`, value: r.reason, required: true, type: 'text', name: `refusal_${i}_reason` as const, span: 'half' as const },
-        { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.refNumber.label')}`, value: r.refNumber, type: 'text', name: `refusal_${i}_ref` },
+        { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.country.label')}`, value: resolveOption(nationalityOptions, r.country) || r.country, required: true, type: 'select', name: `refusal_${i}_country` as const, span: 'third' as const },
+        { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.date.label')}`, value: r.date, required: true, type: 'date', name: `refusal_${i}_date` as const },
+        { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.refNumber.label')}`, value: r.refNumber, type: 'text', name: `refusal_${i}_ref` as const, span: 'third' as const },
+        { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.reason.label')}`, value: r.reason, required: true, type: 'text', name: `refusal_${i}_reason` as const, span: 'full' as const },
       ]).flat(),
       { label: t('ukVisa.fields.appliedUKStay.label'), value: resolveOption(yesNoOptions, formData.appliedUKStay), required: true, type: 'radio', name: 'appliedUKStay' },
       ...(formData.appliedUKStay === 'yes'
         ? [
-            { label: t('ukVisa.fields.applyDetail_date.label'), value: formData.applyDetail_date, required: true, type: 'date', name: 'applyDetail_date', span: 'half' as const },
-            { label: t('ukVisa.fields.applyDetail_reason.label'), value: formData.applyDetail_reason, required: true, type: 'text', name: 'applyDetail_reason' as const },
+            { label: t('ukVisa.fields.applyDetail_date.label'), value: formData.applyDetail_date, required: true, type: 'date', name: 'applyDetail_date' },
             { label: t('ukVisa.fields.applyDetail_approved.label'), value: resolveOption(yesNoOptions, formData.applyDetail_approved), required: true, type: 'radio', name: 'applyDetail_approved' },
+            { label: t('ukVisa.fields.applyDetail_reason.label'), value: formData.applyDetail_reason, required: true, type: 'text', name: 'applyDetail_reason' as const },
           ]
         : []),
       { label: t('ukVisa.fields.visitedOtherCountries.label'), value: resolveOption(yesNoOptions, formData.visitedOtherCountries), required: true, type: 'radio', name: 'visitedOtherCountries' },
       ...otherCountries.map((c, i) => [
         { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.name.label')}`, value: resolveOption(otherCountryOptions, c.name), required: true, type: 'select', name: `oc_${i}_name` as const, span: 'third' as const },
-        { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.date.label')}`, value: c.date, required: true, type: 'date', name: `oc_${i}_date` as const, span: 'half' as const },
-        { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.duration.label')}`, value: c.duration, required: true, type: 'text', name: `oc_${i}_duration` as const },
-        { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.purpose.label')}`, value: c.purpose, required: true, type: 'text', name: `oc_${i}_purpose`, span: 'half' as const },
+        { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.date.label')}`, value: c.date, required: true, type: 'date', name: `oc_${i}_date` as const },
+        { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.duration.label')}`, value: c.duration, required: true, type: 'text', name: `oc_${i}_duration` as const, span: 'third' as const },
+        { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.purpose.label')}`, value: c.purpose, required: true, type: 'text', name: `oc_${i}_purpose`, span: 'full' as const },
       ]).flat(),
     ],
   },
@@ -330,8 +335,8 @@ const previewSections = computed(() => [
       { label: t('ukVisa.fields.hasSpecialIndustry.label'), value: resolveOption(yesNoOptions, formData.hasSpecialIndustry), required: true, type: 'radio', name: 'hasSpecialIndustry' },
       ...(formData.hasSpecialIndustry === 'yes'
         ? [
-            { label: t('ukVisa.fields.specialIndustries.label'), value: resolveOption(specialIndustriesOptions, formData.specialIndustries), required: true, type: 'select', name: 'specialIndustries' as const },
-            { label: t('ukVisa.fields.specialIndustryDetail.label'), value: formData.specialIndustryDetail, required: true, type: 'text', name: 'specialIndustryDetail', span: 'full' as const },
+            { label: t('ukVisa.fields.specialIndustries.label'), value: resolveOption(specialIndustriesOptions, formData.specialIndustries), required: true, type: 'select', name: 'specialIndustries' as const, span: 'third' as const },
+            { label: t('ukVisa.fields.specialIndustryDetail.label'), value: formData.specialIndustryDetail, required: true, type: 'text', name: 'specialIndustryDetail', span: 'half' as const },
           ]
         : []),
     ],
@@ -652,6 +657,34 @@ const otherCountryOptions: SelectOption[] = [
   { value: 'SCHENGEN', labelKey: 'ukVisa.options.otherCountry.SCHENGEN' },
 ]
 
+// ---- 动态 i18n keys（工作/学生切换） ----
+// 在职时显示"公司/..."，学生时显示"学校/..."
+
+const companyNameKey = computed(() =>
+  formData.employmentStatus === 'studying' ? 'ukVisa.fields.schoolName.label' : 'ukVisa.fields.companyName.label',
+)
+const companyNamePlaceholder = computed(() =>
+  formData.employmentStatus === 'studying' ? 'ukVisa.fields.schoolName.placeholder' : 'ukVisa.fields.companyName.placeholder',
+)
+const companyPhoneKey = computed(() =>
+  formData.employmentStatus === 'studying' ? 'ukVisa.fields.schoolPhone.label' : 'ukVisa.fields.companyPhone.label',
+)
+const companyPhonePlaceholder = computed(() =>
+  formData.employmentStatus === 'studying' ? 'ukVisa.fields.schoolPhone.placeholder' : 'ukVisa.fields.companyPhone.placeholder',
+)
+const companyAddressKey = computed(() =>
+  formData.employmentStatus === 'studying' ? 'ukVisa.fields.schoolAddress.label' : 'ukVisa.fields.companyAddress.label',
+)
+const companyAddressPlaceholder = computed(() =>
+  formData.employmentStatus === 'studying' ? 'ukVisa.fields.schoolAddress.placeholder' : 'ukVisa.fields.companyAddress.placeholder',
+)
+const companyPostalCodeKey = computed(() =>
+  formData.employmentStatus === 'studying' ? 'ukVisa.fields.schoolPostalCode.label' : 'ukVisa.fields.companyPostalCode.label',
+)
+const companyPostalCodePlaceholder = computed(() =>
+  formData.employmentStatus === 'studying' ? 'ukVisa.fields.schoolPostalCode.placeholder' : 'ukVisa.fields.companyPostalCode.placeholder',
+)
+
 // ---- 校验 & 聚焦第一个缺失字段 ----
 
 const formActionsRef = ref<InstanceType<typeof FormActions> | null>(null)
@@ -788,15 +821,19 @@ if (typeof window !== 'undefined') {
             <AccordionContent>
               <div class="fields-grid">
                 <!-- Row 1: 姓名组 (3短字段 → 占ABC列，D列留空) -->
-                <TextField name="lastName" label-key="ukVisa.fields.lastName.label" placeholder-key="ukVisa.fields.lastName.placeholder" v-model="formData.lastName" span="third" required />
-                <TextField name="firstName" label-key="ukVisa.fields.firstName.label" placeholder-key="ukVisa.fields.firstName.placeholder" v-model="formData.firstName" span="third" required />
-                <TextField name="formerName" label-key="ukVisa.fields.formerName.label" placeholder-key="ukVisa.fields.formerName.placeholder" v-model="formData.formerName" span="third" />
-                <!-- Row 2: 出生日期 + 电话区号 + 电话号码 (3短字段 → 占ABC列) -->
-                <DateField name="dateOfBirth" label-key="ukVisa.fields.dateOfBirth.label" v-model="formData.dateOfBirth" required />
-                <CountrySelectField name="phoneCountryCode" label-key="ukVisa.fields.phoneCountryCode.label" kind="phone-code" v-model="formData.phoneCountryCode" required />
-                <TextField name="phone" label-key="ukVisa.fields.phone.label" placeholder-key="ukVisa.fields.phone.placeholder" v-model="formData.phone" span="third" inputmode="tel" required />
+                <TextField name="lastName" label-key="ukVisa.fields.lastName.label" placeholder-key="ukVisa.fields.lastName.placeholder" v-model="formData.lastName" span="third" required prefix-icon="User" />
+                <TextField name="firstName" label-key="ukVisa.fields.firstName.label" placeholder-key="ukVisa.fields.firstName.placeholder" v-model="formData.firstName" span="third" required prefix-icon="User" />
+                <TextField name="formerName" label-key="ukVisa.fields.formerName.label" placeholder-key="ukVisa.fields.formerName.placeholder" v-model="formData.formerName" span="third" prefix-icon="User" />
+                <!-- Row 2: 出生日期 + 电话 -->
+                <DateField name="dateOfBirth" label-key="ukVisa.fields.dateOfBirth.label" v-model="formData.dateOfBirth" required prefix-icon="Calendar" />
+                <PhoneField name="phone" label-key="ukVisa.fields.phone.label"
+                  placeholder-key="ukVisa.fields.phone.placeholder"
+                  v-model="formData.phone"
+                  :country-code="formData.phoneCountryCode"
+                  @update:country-code="formData.phoneCountryCode = $event"
+                  required />
                 <!-- 邮箱 (当"其他区号"未显示时紧接电话号码；显示时自然换行) -->
-                <TextField name="email" label-key="ukVisa.fields.email.label" placeholder-key="ukVisa.fields.email.placeholder" v-model="formData.email" span="third" inputmode="email" required />
+                <TextField name="email" label-key="ukVisa.fields.email.label" placeholder-key="ukVisa.fields.email.placeholder" v-model="formData.email" span="third" inputmode="email" required prefix-icon="Mail" />
                 <!-- Row 3: 性别 (radio → 全宽) -->
                 <RadioField name="gender" label-key="ukVisa.fields.gender.label" :options="genderOptions" v-model="formData.gender" required />
               </div>
@@ -807,31 +844,36 @@ if (typeof window !== 'undefined') {
           <AccordionItem value="passport-info" data-accordion-value="passport-info">
             <AccordionTrigger>{{ t('ukVisa.sections.passportInfo') }}</AccordionTrigger>
             <AccordionContent>
-              <div class="fields-grid">
-                <!-- 国籍 -->
-                <CountrySelectField name="nationality" label-key="ukVisa.fields.nationality.label" kind="nationality" v-model="formData.nationality" required />
-              </div>
               <h4 class="sub-label">{{ t('ukVisa.subLabels.idCard') }}</h4>
               <div class="fields-grid">
-                <!-- 身份证 3短字段 → 占ABC列 -->
-                <TextField name="idCardNumber" label-key="ukVisa.fields.idCardNumber.label" placeholder-key="ukVisa.fields.idCardNumber.placeholder" v-model="formData.idCardNumber" span="third" required />
-                <TextField name="idCardAuthority" label-key="ukVisa.fields.idCardAuthority.label" placeholder-key="ukVisa.fields.idCardAuthority.placeholder" v-model="formData.idCardAuthority" span="third" required />
-                <DateField name="idCardExpiry" label-key="ukVisa.fields.idCardExpiry.label" v-model="formData.idCardExpiry" required />
+                <!-- Row 1: 国籍 + 身份证号 + 签发机关 -->
+                <NationalityField name="nationality" label-key="ukVisa.fields.nationality.label" v-model="formData.nationality" required span="third" />
+                <TextField name="idCardNumber" label-key="ukVisa.fields.idCardNumber.label" placeholder-key="ukVisa.fields.idCardNumber.placeholder" v-model="formData.idCardNumber" span="third" required prefix-icon="CreditCard" />
+                <TextField name="idCardAuthority" label-key="ukVisa.fields.idCardAuthority.label" placeholder-key="ukVisa.fields.idCardAuthority.placeholder" v-model="formData.idCardAuthority" span="third" required prefix-icon="Building" />
+                <!-- Row 2: 身份证到期日 -->
+                <DateField name="idCardExpiry" label-key="ukVisa.fields.idCardExpiry.label" v-model="formData.idCardExpiry" required prefix-icon="Calendar" />
               </div>
               <h4 class="sub-label">{{ t('ukVisa.subLabels.passport') }}</h4>
               <div class="fields-grid">
-                  <!-- 护照 3短字段 → 占ABC列 -->
-                  <TextField name="passportNumber" label-key="ukVisa.fields.passportNumber.label" placeholder-key="ukVisa.fields.passportNumber.placeholder" v-model="formData.passportNumber" span="third" required />
-                  <DateField name="passportIssueDate" label-key="ukVisa.fields.passportIssueDate.label" v-model="formData.passportIssueDate" required />
-                  <DateField name="passportExpiryDate" label-key="ukVisa.fields.passportExpiryDate.label" v-model="formData.passportExpiryDate" :min-value="formData.passportIssueDate" required />
-                  <!-- 签发机构 (长字段 → 半宽) -->
-                  <CountrySelectField name="issuingAuthority" label-key="ukVisa.fields.issuingAuthority.label" kind="nationality" v-model="formData.issuingAuthority" required span="third" />
-                <!-- 是否首本护照 (全宽 radio) -->
+                <!-- Row 1: 国籍(签发国) + 护照号 + 签发日期 -->
+                <NationalityField name="issuingAuthority" label-key="ukVisa.fields.issuingAuthority.label" v-model="formData.issuingAuthority" required span="third" />
+                <TextField name="passportNumber" label-key="ukVisa.fields.passportNumber.label" placeholder-key="ukVisa.fields.passportNumber.placeholder" v-model="formData.passportNumber" span="third" required prefix-icon="BookOpen" />
+                <DateField name="passportIssueDate" label-key="ukVisa.fields.passportIssueDate.label" v-model="formData.passportIssueDate" required prefix-icon="Calendar" />
+                <!-- Row 2: 到期日 -->
+                <DateField name="passportExpiryDate" label-key="ukVisa.fields.passportExpiryDate.label" v-model="formData.passportExpiryDate" :min-value="formData.passportIssueDate" required prefix-icon="Calendar" />
+                <!-- Row 3: 是否首本护照 -->
                 <RadioField name="isFirstPassport" label-key="ukVisa.fields.isFirstPassport.label" :options="yesNoOptions" v-model="formData.isFirstPassport" required />
-                <!-- 是否有其他护照 (全宽 radio) -->
+              </div>
+              <!-- Row 4: 是否有其他护照 -->
+              <div class="fields-grid">
                 <RadioField name="hasOtherPassport" label-key="ukVisa.fields.hasOtherPassport.label" :options="yesNoOptions" v-model="formData.hasOtherPassport" required />
-                <CountrySelectField v-if="formData.hasOtherPassport === 'yes'" name="otherPassportCountry" label-key="ukVisa.fields.otherPassportCountry.label" kind="nationality" v-model="formData.otherPassportCountry" required span="third" />
-                <TextField v-if="formData.hasOtherPassport === 'yes'" name="otherPassportDetail" label-key="ukVisa.fields.otherPassportDetail.label" placeholder-key="ukVisa.fields.otherPassportDetail.placeholder" v-model="formData.otherPassportDetail" required />
+              </div>
+              <!-- 其他护照条件字段 -->
+              <div v-if="formData.hasOtherPassport === 'yes'" class="conditional-group">
+                <div class="fields-grid">
+                  <NationalityField name="otherPassportCountry" label-key="ukVisa.fields.otherPassportCountry.label" v-model="formData.otherPassportCountry" required span="third" />
+                  <TextField name="otherPassportDetail" label-key="ukVisa.fields.otherPassportDetail.label" placeholder-key="ukVisa.fields.otherPassportDetail.placeholder" v-model="formData.otherPassportDetail" required prefix-icon="BookOpen" />
+                </div>
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -841,20 +883,14 @@ if (typeof window !== 'undefined') {
             <AccordionTrigger>{{ t('ukVisa.sections.addressInfo') }}</AccordionTrigger>
             <AccordionContent>
               <div class="fields-grid">
-                <!-- Row 1: 国家(短) + 地址(长) → 短左长右 -->
-                <div class="field-row">
-                  <CountrySelectField name="currentCountry" label-key="ukVisa.fields.currentCountry.label" kind="nationality" v-model="formData.currentCountry" required span="third" />
-                  <TextField name="currentAddress" label-key="ukVisa.fields.currentAddress.label" placeholder-key="ukVisa.fields.currentAddress.placeholder" v-model="formData.currentAddress" required />
-                </div>
-                <!-- 邮编(短) + 住房状态(短) → 占AC列 -->
-                <div class="field-pair">
-                  <TextField name="postalCode" label-key="ukVisa.fields.postalCode.label" placeholder-key="ukVisa.fields.postalCode.placeholder" v-model="formData.postalCode" inputmode="numeric" span="third" />
-                  <SelectField name="housingStatus" label-key="ukVisa.fields.housingStatus.label" :options="housingStatusOptions" v-model="formData.housingStatus" span="third" required />
-                </div>
-                <!-- 居住开始日期 (短) -->
-                <DateField name="residenceStartDate" label-key="ukVisa.fields.residenceStartDate.label" v-model="formData.residenceStartDate" required />
-                <!-- 租房条件字段 -->
-                <TextField v-if="formData.housingStatus === 'tenant'" name="houseOwner" label-key="ukVisa.fields.houseOwner.label" placeholder-key="ukVisa.fields.houseOwner.placeholder" v-model="formData.houseOwner" required />
+                <!-- Row 1: 国家 + 地址 + 邮编 -->
+                <NationalityField name="currentCountry" label-key="ukVisa.fields.currentCountry.label" v-model="formData.currentCountry" required span="third" />
+                <TextField name="currentAddress" label-key="ukVisa.fields.currentAddress.label" placeholder-key="ukVisa.fields.currentAddress.placeholder" v-model="formData.currentAddress" required prefix-icon="MapPin" />
+                <TextField name="postalCode" label-key="ukVisa.fields.postalCode.label" placeholder-key="ukVisa.fields.postalCode.placeholder" v-model="formData.postalCode" inputmode="numeric" span="third" prefix-icon="Mailbox" />
+                <!-- Row 2: 住房状况 + 居住开始日期 + 房东(条件) -->
+                <SelectField name="housingStatus" label-key="ukVisa.fields.housingStatus.label" :options="housingStatusOptions" v-model="formData.housingStatus" span="third" required />
+                <DateField name="residenceStartDate" label-key="ukVisa.fields.residenceStartDate.label" v-model="formData.residenceStartDate" required prefix-icon="Calendar" />
+                <TextField v-if="formData.housingStatus === 'tenant'" name="houseOwner" label-key="ukVisa.fields.houseOwner.label" placeholder-key="ukVisa.fields.houseOwner.placeholder" v-model="formData.houseOwner" required span="third" prefix-icon="Home" />
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -866,20 +902,18 @@ if (typeof window !== 'undefined') {
               <div class="fields-grid">
                 <RadioField name="maritalStatus" label-key="ukVisa.fields.maritalStatus.label" :options="maritalStatusOptions" v-model="formData.maritalStatus" required />
               </div>
-              <div v-if="formData.maritalStatus === 'married'">
+              <div v-if="formData.maritalStatus === 'married'" class="conditional-group">
                 <div class="fields-grid">
-                  <!-- 配偶姓名+国籍+出生日期 (3短 → 占ABC列) -->
-                  <TextField name="spouseName" label-key="ukVisa.fields.spouseName.label" placeholder-key="ukVisa.fields.spouseName.placeholder" v-model="formData.spouseName" span="third" required />
-                  <CountrySelectField name="spouseNationality" label-key="ukVisa.fields.spouseNationality.label" kind="nationality" v-model="formData.spouseNationality" required />
-                  <DateField name="spouseDob" label-key="ukVisa.fields.spouseDob.label" v-model="formData.spouseDob" required />
-                  <!-- 国籍变更(短) + 出生城市(短) → 占AC列 -->
-                  <div class="field-pair">
-                    <RadioField name="spouseChangedNationality" label-key="ukVisa.fields.spouseChangedNationality.label" :options="yesNoOptions" v-model="formData.spouseChangedNationality" span="half" required />
-                    <TextField name="spouseBirthCity" label-key="ukVisa.fields.spouseBirthCity.label" placeholder-key="ukVisa.fields.spouseBirthCity.placeholder" v-model="formData.spouseBirthCity" span="third" required />
-                  </div>
-                  <!-- 国家(长) + 地址(长) → 两行各半 -->
-                  <CountrySelectField name="spouseCountry" label-key="ukVisa.fields.spouseCountry.label" kind="nationality" v-model="formData.spouseCountry" required span="third" />
-                  <TextField name="spouseAddress" label-key="ukVisa.fields.spouseAddress.label" placeholder-key="ukVisa.fields.spouseAddress.placeholder" v-model="formData.spouseAddress" required />
+                  <!-- Row 1: 姓名 + 国籍 + 出生日期 + 出生城市（四个短字段各 third） -->
+                  <TextField name="spouseName" label-key="ukVisa.fields.spouseName.label" placeholder-key="ukVisa.fields.spouseName.placeholder" v-model="formData.spouseName" span="third" required prefix-icon="User" />
+                  <NationalityField name="spouseNationality" label-key="ukVisa.fields.spouseNationality.label" v-model="formData.spouseNationality" required span="third" />
+                  <DateField name="spouseDob" label-key="ukVisa.fields.spouseDob.label" v-model="formData.spouseDob" required span="third" prefix-icon="Calendar" />
+                  <TextField name="spouseBirthCity" label-key="ukVisa.fields.spouseBirthCity.label" placeholder-key="ukVisa.fields.spouseBirthCity.placeholder" v-model="formData.spouseBirthCity" span="third" required prefix-icon="MapPin" />
+                  <!-- Row 2: 国家 + 地址 -->
+                  <NationalityField name="spouseCountry" label-key="ukVisa.fields.spouseCountry.label" v-model="formData.spouseCountry" required span="third" />
+                  <TextField name="spouseAddress" label-key="ukVisa.fields.spouseAddress.label" placeholder-key="ukVisa.fields.spouseAddress.placeholder" v-model="formData.spouseAddress" required prefix-icon="MapPin" />
+                  <!-- Row 3: 是否更换国籍 -->
+                  <RadioField name="spouseChangedNationality" label-key="ukVisa.fields.spouseChangedNationality.label" :options="yesNoOptions" v-model="formData.spouseChangedNationality" required />
                 </div>
               </div>
             </AccordionContent>
@@ -891,33 +925,39 @@ if (typeof window !== 'undefined') {
             <AccordionContent>
               <h4 class="sub-label">{{ t('ukVisa.subLabels.father') }}</h4>
               <div class="fields-grid">
-                <!-- 姓名(短) + 国籍(短) + 出生日期(短) → 3合1占ABC列 -->
-                <TextField name="father_name" label-key="ukVisa.fields.father_name.label" placeholder-key="ukVisa.fields.father_name.placeholder" v-model="formData.father_name" span="third" required />
-                <CountrySelectField name="father_nationality" label-key="ukVisa.fields.father_nationality.label" kind="nationality" v-model="formData.father_nationality" required />
-                <DateField name="father_dob" label-key="ukVisa.fields.father_dob.label" v-model="formData.father_dob" required />
-                <!-- 国籍变更(短) + 赴英(短) → 占AC列 -->
-                <div class="field-pair">
-                  <RadioField name="father_changed_nationality" label-key="ukVisa.fields.father_changed_nationality.label" :options="yesNoOptions" v-model="formData.father_changed_nationality" span="half" />
-                  <RadioField name="father_going_to_uk" label-key="ukVisa.fields.father_going_to_uk.label" :options="yesNoOptions" v-model="formData.father_going_to_uk" span="half" required />
-                </div>
-                <!-- 国家(长) + 地址(长) → 各占半 -->
-                <CountrySelectField name="father_country" label-key="ukVisa.fields.father_country.label" kind="nationality" v-model="formData.father_country" required span="third" />
-                <TextField name="father_address" label-key="ukVisa.fields.father_address.label" placeholder-key="ukVisa.fields.father_address.placeholder" v-model="formData.father_address" required />
+                <!-- Row 1: 姓名 + 国籍 + 出生日期 -->
+                <TextField name="father_name" label-key="ukVisa.fields.father_name.label" placeholder-key="ukVisa.fields.father_name.placeholder" v-model="formData.father_name" span="third" required prefix-icon="User" />
+                <NationalityField name="father_nationality" label-key="ukVisa.fields.father_nationality.label" v-model="formData.father_nationality" required />
+                <DateField name="father_dob" label-key="ukVisa.fields.father_dob.label" v-model="formData.father_dob" required prefix-icon="Calendar" />
+              </div>
+              <div class="fields-grid">
+                <!-- Row 2: 国家 + 地址 -->
+                <NationalityField name="father_country" label-key="ukVisa.fields.father_country.label" v-model="formData.father_country" required span="third" />
+                <TextField name="father_address" label-key="ukVisa.fields.father_address.label" placeholder-key="ukVisa.fields.father_address.placeholder" v-model="formData.father_address" required prefix-icon="MapPin" />
+              </div>
+              <div class="fields-grid">
+                <RadioField name="father_changed_nationality" label-key="ukVisa.fields.father_changed_nationality.label" :options="yesNoOptions" v-model="formData.father_changed_nationality" />
+              </div>
+              <div class="fields-grid">
+                <RadioField name="father_going_to_uk" label-key="ukVisa.fields.father_going_to_uk.label" :options="yesNoOptions" v-model="formData.father_going_to_uk" required />
               </div>
               <h4 class="sub-label">{{ t('ukVisa.subLabels.mother') }}</h4>
               <div class="fields-grid">
-                <!-- 姓名(短) + 国籍(短) + 出生日期(短) → 3合1占ABC列 -->
-                <TextField name="mother_name" label-key="ukVisa.fields.mother_name.label" placeholder-key="ukVisa.fields.mother_name.placeholder" v-model="formData.mother_name" span="third" required />
-                <CountrySelectField name="mother_nationality" label-key="ukVisa.fields.mother_nationality.label" kind="nationality" v-model="formData.mother_nationality" required />
-                <DateField name="mother_dob" label-key="ukVisa.fields.mother_dob.label" v-model="formData.mother_dob" required />
-                <!-- 国籍变更(短) + 赴英(短) → 占AC列 -->
-                <div class="field-pair">
-                  <RadioField name="mother_changed_nationality" label-key="ukVisa.fields.mother_changed_nationality.label" :options="yesNoOptions" v-model="formData.mother_changed_nationality" span="half" />
-                  <RadioField name="mother_going_to_uk" label-key="ukVisa.fields.mother_going_to_uk.label" :options="yesNoOptions" v-model="formData.mother_going_to_uk" span="half" required />
-                </div>
-                <!-- 国家(长) + 地址(长) → 各占半 -->
-                <CountrySelectField name="mother_country" label-key="ukVisa.fields.mother_country.label" kind="nationality" v-model="formData.mother_country" required span="third" />
-                <TextField name="mother_address" label-key="ukVisa.fields.mother_address.label" placeholder-key="ukVisa.fields.mother_address.placeholder" v-model="formData.mother_address" required />
+                <!-- Row 1: 姓名 + 国籍 + 出生日期 -->
+                <TextField name="mother_name" label-key="ukVisa.fields.mother_name.label" placeholder-key="ukVisa.fields.mother_name.placeholder" v-model="formData.mother_name" span="third" required prefix-icon="User" />
+                <NationalityField name="mother_nationality" label-key="ukVisa.fields.mother_nationality.label" v-model="formData.mother_nationality" required />
+                <DateField name="mother_dob" label-key="ukVisa.fields.mother_dob.label" v-model="formData.mother_dob" required prefix-icon="Calendar" />
+              </div>
+              <div class="fields-grid">
+                <!-- Row 2: 国家 + 地址 -->
+                <NationalityField name="mother_country" label-key="ukVisa.fields.mother_country.label" v-model="formData.mother_country" required span="third" />
+                <TextField name="mother_address" label-key="ukVisa.fields.mother_address.label" placeholder-key="ukVisa.fields.mother_address.placeholder" v-model="formData.mother_address" required prefix-icon="MapPin" />
+              </div>
+              <div class="fields-grid">
+                <RadioField name="mother_changed_nationality" label-key="ukVisa.fields.mother_changed_nationality.label" :options="yesNoOptions" v-model="formData.mother_changed_nationality" />
+              </div>
+              <div class="fields-grid">
+                <RadioField name="mother_going_to_uk" label-key="ukVisa.fields.mother_going_to_uk.label" :options="yesNoOptions" v-model="formData.mother_going_to_uk" required />
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -929,7 +969,7 @@ if (typeof window !== 'undefined') {
               <div class="fields-grid">
                 <RadioField name="hasChildren" label-key="ukVisa.fields.hasChildren.label" :options="yesNoOptions" v-model="formData.hasChildren" required />
               </div>
-              <div v-if="formData.hasChildren === 'yes'">
+              <div v-if="formData.hasChildren === 'yes'" class="conditional-group">
                 <div v-for="(child, index) in children" :key="'child-' + index" class="repeatable-group">
                   <div class="repeatable-header">
                     <h4 class="sub-label">{{ t('ukVisa.subLabels.child') }} {{ index + 1 }}</h4>
@@ -938,17 +978,21 @@ if (typeof window !== 'undefined') {
                     </button>
                   </div>
                   <div class="fields-grid">
-                    <!-- 姓名+国籍+出生日期 (3短 → 占ABC列) -->
-                    <TextField :name="'child_' + index + '_name'" label-key="ukVisa.fields.child.name.label" placeholder-key="ukVisa.fields.child.name.placeholder" v-model="child.name" span="third" required />
-                    <CountrySelectField :name="'child_' + index + '_nationality'" label-key="ukVisa.fields.child.nationality.label" kind="nationality" v-model="child.nationality" required />
-                    <DateField :name="'child_' + index + '_dob'" label-key="ukVisa.fields.child.dob.label" v-model="child.dob" required />
-                    <!-- 国籍变更(短) + 关系(短) → 各占半 -->
-                    <RadioField :name="'child_' + index + '_changed'" label-key="ukVisa.fields.child.changedNationality.label" :options="yesNoOptions" v-model="child.changedNationality" span="half" required />
+                    <!-- Row 1: 姓名 + 关系 + 国籍 + 出生日期 -->
+                    <TextField :name="'child_' + index + '_name'" label-key="ukVisa.fields.child.name.label" placeholder-key="ukVisa.fields.child.name.placeholder" v-model="child.name" span="third" required prefix-icon="User" />
                     <SelectField :name="'child_' + index + '_relation'" label-key="ukVisa.fields.child.relation.label" :options="childRelationOptions" v-model="child.relation" span="third" required />
-                    <!-- 赴英(短 radio) -->
-                    <RadioField :name="'child_' + index + '_going'" label-key="ukVisa.fields.child.goingToUK.label" :options="yesNoOptions" v-model="child.goingToUK" span="half" required />
-                    <!-- 地址 (中等 → 半宽) -->
-                    <TextField :name="'child_' + index + '_addr'" label-key="ukVisa.fields.child.address.label" placeholder-key="ukVisa.fields.child.address.placeholder" v-model="child.address" span="half" />
+                    <NationalityField :name="'child_' + index + '_nationality'" label-key="ukVisa.fields.child.nationality.label" v-model="child.nationality" required />
+                    <DateField :name="'child_' + index + '_dob'" label-key="ukVisa.fields.child.dob.label" v-model="child.dob" required prefix-icon="Calendar" />
+                    <!-- Row 2: 国家 + 地址 -->
+                    <NationalityField :name="'child_' + index + '_country'" label-key="ukVisa.fields.child.country.label" v-model="child.country" required span="third" />
+                    <TextField :name="'child_' + index + '_addr'" label-key="ukVisa.fields.child.address.label" placeholder-key="ukVisa.fields.child.address.placeholder" v-model="child.address" prefix-icon="MapPin" />
+                    <!-- 决策字段 -->
+                  </div>
+                  <div class="fields-grid">
+                    <RadioField :name="'child_' + index + '_changed'" label-key="ukVisa.fields.child.changedNationality.label" :options="yesNoOptions" v-model="child.changedNationality" required />
+                  </div>
+                  <div class="fields-grid">
+                    <RadioField :name="'child_' + index + '_going'" label-key="ukVisa.fields.child.goingToUK.label" :options="yesNoOptions" v-model="child.goingToUK" required />
                   </div>
                 </div>
                 <button type="button" class="add-btn" @click="addChild">
@@ -963,13 +1007,15 @@ if (typeof window !== 'undefined') {
             <AccordionTrigger>{{ t('ukVisa.sections.travelPlan') }}</AccordionTrigger>
             <AccordionContent>
               <div class="fields-grid">
-                <!-- 目的 (全宽) -->
+                <!-- Row 1: 出行目的 -->
                 <SelectField name="purposeOfVisit" label-key="ukVisa.fields.purposeOfVisit.label" :options="purposeOptions" v-model="formData.purposeOfVisit" required span="third" />
-                <!-- 到达日期(短) + 离开日期(短) → 各占半 -->
-                <DateField name="intendedArrivalDate" label-key="ukVisa.fields.intendedArrivalDate.label" v-model="formData.intendedArrivalDate" span="half" required />
-                <DateField name="intendedDepartureDate" label-key="ukVisa.fields.intendedDepartureDate.label" v-model="formData.intendedDepartureDate" span="half" :min-value="formData.intendedArrivalDate" required />
-                <!-- 描述 (超长 → 全宽) -->
-                <TextField name="travelPlanDesc" label-key="ukVisa.fields.travelPlanDesc.label" placeholder-key="ukVisa.fields.travelPlanDesc.placeholder" v-model="formData.travelPlanDesc" span="full" />
+              </div>
+              <div class="fields-grid">
+                <!-- Row 2: 到达日期 + 离开日期 -->
+                <DateField name="intendedArrivalDate" label-key="ukVisa.fields.intendedArrivalDate.label" v-model="formData.intendedArrivalDate" required span="half" prefix-icon="Calendar" />
+                <DateField name="intendedDepartureDate" label-key="ukVisa.fields.intendedDepartureDate.label" v-model="formData.intendedDepartureDate" :min-value="formData.intendedArrivalDate" required span="half" prefix-icon="Calendar" />
+                <!-- 行程描述 (多行文本域) -->
+                <TextField name="travelPlanDesc" label-key="ukVisa.fields.travelPlanDesc.label" placeholder-key="ukVisa.fields.travelPlanDesc.placeholder" v-model="formData.travelPlanDesc" span="full" prefix-icon="Plane" multiline />
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -981,7 +1027,7 @@ if (typeof window !== 'undefined') {
               <div class="fields-grid">
                 <RadioField name="hasCompanion" label-key="ukVisa.fields.hasCompanion.label" :options="yesNoOptions" v-model="formData.hasCompanion" required />
               </div>
-              <div v-if="formData.hasCompanion === 'yes'">
+              <div v-if="formData.hasCompanion === 'yes'" class="conditional-group">
                 <div v-for="(comp, index) in companions" :key="'comp-' + index" class="repeatable-group">
                   <div class="repeatable-header">
                     <h4 class="sub-label">{{ t('ukVisa.subLabels.companion') }} {{ index + 1 }}</h4>
@@ -990,13 +1036,13 @@ if (typeof window !== 'undefined') {
                     </button>
                   </div>
                   <div class="fields-grid">
-                    <!-- 姓名+国籍+出生日期 (3短 → 占ABC列) -->
-                    <TextField :name="'comp_' + index + '_name'" label-key="ukVisa.fields.companion.name.label" placeholder-key="ukVisa.fields.companion.name.placeholder" v-model="comp.name" span="third" required />
-                    <CountrySelectField :name="'comp_' + index + '_nationality'" label-key="ukVisa.fields.companion.nationality.label" kind="nationality" v-model="comp.nationality" required />
-                    <DateField :name="'comp_' + index + '_dob'" label-key="ukVisa.fields.companion.dob.label" v-model="comp.dob" required />
-                    <!-- 护照(半宽) + 关系(短，占1列) → 共占3列 -->
-                    <TextField :name="'comp_' + index + '_passport'" label-key="ukVisa.fields.companion.passport.label" placeholder-key="ukVisa.fields.companion.passport.placeholder" v-model="comp.passport" required />
+                    <!-- Row 1: 姓名 + 国籍 + 出生日期 + 与申请人关系 -->
+                    <TextField :name="'comp_' + index + '_name'" label-key="ukVisa.fields.companion.name.label" placeholder-key="ukVisa.fields.companion.name.placeholder" v-model="comp.name" span="third" required prefix-icon="User" />
+                    <NationalityField :name="'comp_' + index + '_nationality'" label-key="ukVisa.fields.companion.nationality.label" v-model="comp.nationality" required />
+                    <DateField :name="'comp_' + index + '_dob'" label-key="ukVisa.fields.companion.dob.label" v-model="comp.dob" required prefix-icon="Calendar" />
                     <SelectField :name="'comp_' + index + '_relation'" label-key="ukVisa.fields.companion.relation.label" :options="companionRelationOptions" v-model="comp.relation" span="third" required />
+                    <!-- Row 2: 护照号 -->
+                    <TextField :name="'comp_' + index + '_passport'" label-key="ukVisa.fields.companion.passport.label" placeholder-key="ukVisa.fields.companion.passport.placeholder" v-model="comp.passport" required prefix-icon="BookOpen" />
                   </div>
                 </div>
                 <button type="button" class="add-btn" @click="addCompanion">
@@ -1013,30 +1059,35 @@ if (typeof window !== 'undefined') {
               <div class="fields-grid">
                 <RadioField name="employmentStatus" label-key="ukVisa.fields.employmentStatus.label" :options="employmentStatusOptions" v-model="formData.employmentStatus" required />
               </div>
-              <div v-if="formData.employmentStatus === 'working' || formData.employmentStatus === 'studying'">
+              <div v-if="formData.employmentStatus === 'working' || formData.employmentStatus === 'studying'" class="conditional-group">
                 <div class="fields-grid">
-                  <!-- 入职日期(短) + 职位(短) + 薪资(短) → 3合1工作相关 -->
-                  <DateField name="jobStartDate" label-key="ukVisa.fields.jobStartDate.label" v-model="formData.jobStartDate" required />
-                  <TextField name="jobTitle" label-key="ukVisa.fields.jobTitle.label" placeholder-key="ukVisa.fields.jobTitle.placeholder" v-model="formData.jobTitle" span="third" required />
-                  <TextField name="monthlySalary" label-key="ukVisa.fields.monthlySalary.label" placeholder-key="ukVisa.fields.monthlySalary.placeholder" v-model="formData.monthlySalary" span="third" inputmode="decimal" required />
-                  <!-- 公司名(短) + 公司邮编(短) + 公司电话(短) → 3合1公司相关 -->
-                  <TextField name="companyName" label-key="ukVisa.fields.companyName.label" placeholder-key="ukVisa.fields.companyName.placeholder" v-model="formData.companyName" span="third" required />
-                  <TextField name="companyPostalCode" label-key="ukVisa.fields.companyPostalCode.label" placeholder-key="ukVisa.fields.companyPostalCode.placeholder" v-model="formData.companyPostalCode" span="third" inputmode="numeric" />
-                  <TextField name="companyPhone" label-key="ukVisa.fields.companyPhone.label" placeholder-key="ukVisa.fields.companyPhone.placeholder" v-model="formData.companyPhone" span="third" inputmode="tel" />
-                  <!-- 公司地址 (超长 → 全宽) -->
-                  <TextField name="companyAddress" label-key="ukVisa.fields.companyAddress.label" placeholder-key="ukVisa.fields.companyAddress.placeholder" v-model="formData.companyAddress" required span="full" />
-                  <!-- 工作职责 (超长 → 全宽) -->
-                  <TextField name="jobDuties" label-key="ukVisa.fields.jobDuties.label" placeholder-key="ukVisa.fields.jobDuties.placeholder" v-model="formData.jobDuties" span="full" />
+                  <!-- Row 1: 入职/入学日期 + 职位 + 薪资 -->
+                  <DateField name="jobStartDate" label-key="ukVisa.fields.jobStartDate.label" v-model="formData.jobStartDate" required prefix-icon="Calendar" />
+                  <!-- 工作职位 + 月薪 (仅在职时显示) -->
+                  <div v-if="formData.employmentStatus === 'working'">
+                    <TextField name="jobTitle" label-key="ukVisa.fields.jobTitle.label" placeholder-key="ukVisa.fields.jobTitle.placeholder" v-model="formData.jobTitle" span="third" required prefix-icon="Briefcase" />
+                    <TextField name="monthlySalary" label-key="ukVisa.fields.monthlySalary.label" placeholder-key="ukVisa.fields.monthlySalary.placeholder" v-model="formData.monthlySalary" span="third" inputmode="decimal" required prefix-icon="Banknote" suffix="¥" />
+                  </div>
+                  <!-- Row 2: 公司/学校名 + 联系电话 (动态 i18n) -->
+                  <TextField name="companyName" :label-key="companyNameKey" :placeholder-key="companyNamePlaceholder" v-model="formData.companyName" span="half" required prefix-icon="Building" />
+                  <TextField name="companyPhone" :label-key="companyPhoneKey" :placeholder-key="companyPhonePlaceholder" v-model="formData.companyPhone" span="half" inputmode="tel" prefix-icon="Phone" />
+                  <!-- Row 3: 邮编 + 地址 (动态 i18n) -->
+                  <TextField name="companyPostalCode" :label-key="companyPostalCodeKey" :placeholder-key="companyPostalCodePlaceholder" v-model="formData.companyPostalCode" span="third" inputmode="numeric" prefix-icon="Mailbox" />
+                  <TextField name="companyAddress" :label-key="companyAddressKey" :placeholder-key="companyAddressPlaceholder" v-model="formData.companyAddress" required prefix-icon="MapPin" />
+                  <!-- 工作职责 (仅在职时显示) -->
+                  <div v-if="formData.employmentStatus === 'working'">
+                    <TextField name="jobDuties" label-key="ukVisa.fields.jobDuties.label" placeholder-key="ukVisa.fields.jobDuties.placeholder" v-model="formData.jobDuties" span="full" prefix-icon="ClipboardList" multiline />
+                  </div>
+                  <!-- 其他收入 (仅在职时显示，放在工作/学习数据子域内) -->
+                  <div v-if="formData.employmentStatus === 'working'">
+                    <TextField name="otherIncome" label-key="ukVisa.fields.otherIncome.label" placeholder-key="ukVisa.fields.otherIncome.placeholder" v-model="formData.otherIncome" span="third" required prefix-icon="Wallet" />
+                  </div>
                 </div>
               </div>
-              <div v-if="formData.employmentStatus === 'unemployed'">
+              <div v-if="formData.employmentStatus === 'unemployed'" class="conditional-group">
                 <div class="fields-grid">
-                  <TextField name="unemployedReason" label-key="ukVisa.fields.unemployedReason.label" placeholder-key="ukVisa.fields.unemployedReason.placeholder" v-model="formData.unemployedReason" required span="full" />
+                  <TextField name="unemployedReason" label-key="ukVisa.fields.unemployedReason.label" placeholder-key="ukVisa.fields.unemployedReason.placeholder" v-model="formData.unemployedReason" required span="full" prefix-icon="FileQuestion" />
                 </div>
-              </div>
-              <div class="fields-grid">
-                <!-- 其他收入 (短) -->
-                <TextField name="otherIncome" label-key="ukVisa.fields.otherIncome.label" placeholder-key="ukVisa.fields.otherIncome.placeholder" v-model="formData.otherIncome" span="third" required />
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -1046,21 +1097,17 @@ if (typeof window !== 'undefined') {
             <AccordionTrigger>{{ t('ukVisa.sections.financialInfo') }}</AccordionTrigger>
             <AccordionContent>
               <div class="fields-grid">
-                <!-- 预计花费(短) + 月支出(短) → 占AC列 -->
-                <div class="field-pair">
-                  <TextField name="estimatedUKSpend" label-key="ukVisa.fields.estimatedUKSpend.label" placeholder-key="ukVisa.fields.estimatedUKSpend.placeholder" v-model="formData.estimatedUKSpend" inputmode="decimal" span="third" required />
-                  <TextField name="monthlyExpense" label-key="ukVisa.fields.monthlyExpense.label" placeholder-key="ukVisa.fields.monthlyExpense.placeholder" v-model="formData.monthlyExpense" inputmode="decimal" span="third" required />
-                </div>
-                <!-- 是否有赞助人 (全宽 radio) -->
+                <!-- 预计花费 + 月支出 -->
+                <TextField name="estimatedUKSpend" label-key="ukVisa.fields.estimatedUKSpend.label" placeholder-key="ukVisa.fields.estimatedUKSpend.placeholder" v-model="formData.estimatedUKSpend" inputmode="decimal" span="third" required prefix-icon="Banknote" suffix="¥" />
+                <TextField name="monthlyExpense" label-key="ukVisa.fields.monthlyExpense.label" placeholder-key="ukVisa.fields.monthlyExpense.placeholder" v-model="formData.monthlyExpense" inputmode="decimal" span="third" required prefix-icon="Banknote" suffix="¥" />
+                <!-- 是否有赞助人 -->
                 <RadioField name="hasSponsor" label-key="ukVisa.fields.hasSponsor.label" :options="yesNoOptions" v-model="formData.hasSponsor" />
               </div>
-              <div v-if="formData.hasSponsor === 'yes'">
+              <div v-if="formData.hasSponsor === 'yes'" class="conditional-group">
                 <div class="fields-grid">
-                  <!-- 赞助人姓名(短) + 关系(短) → 各占半 -->
-                  <TextField name="sponsorName" label-key="ukVisa.fields.sponsorName.label" placeholder-key="ukVisa.fields.sponsorName.placeholder" v-model="formData.sponsorName" required />
-                  <TextField name="sponsorRelation" label-key="ukVisa.fields.sponsorRelation.label" placeholder-key="ukVisa.fields.sponsorRelation.placeholder" v-model="formData.sponsorRelation" required />
-                  <!-- 赞助金额 (短) -->
-                  <TextField name="sponsorAmount" label-key="ukVisa.fields.sponsorAmount.label" placeholder-key="ukVisa.fields.sponsorAmount.placeholder" v-model="formData.sponsorAmount" span="third" inputmode="decimal" required />
+                  <TextField name="sponsorName" label-key="ukVisa.fields.sponsorName.label" placeholder-key="ukVisa.fields.sponsorName.placeholder" v-model="formData.sponsorName" required span="third" prefix-icon="UserCheck" />
+                  <TextField name="sponsorRelation" label-key="ukVisa.fields.sponsorRelation.label" placeholder-key="ukVisa.fields.sponsorRelation.placeholder" v-model="formData.sponsorRelation" required span="third" prefix-icon="Users" />
+                  <TextField name="sponsorAmount" label-key="ukVisa.fields.sponsorAmount.label" placeholder-key="ukVisa.fields.sponsorAmount.placeholder" v-model="formData.sponsorAmount" span="third" inputmode="decimal" required prefix-icon="Banknote" suffix="¥" />
                 </div>
               </div>
             </AccordionContent>
@@ -1073,39 +1120,30 @@ if (typeof window !== 'undefined') {
               <div class="fields-grid">
                 <RadioField name="hasUKContact" label-key="ukVisa.fields.hasUKContact.label" :options="yesNoOptions" v-model="formData.hasUKContact" required />
               </div>
-              <div v-if="formData.hasUKContact === 'yes'">
+              <div v-if="formData.hasUKContact === 'yes'" class="conditional-group">
                 <div class="fields-grid">
-                  <!-- 联系人姓名(短) + 身份(短) → 占AC列 -->
-                  <div class="field-pair">
-                    <TextField name="ukContactName" label-key="ukVisa.fields.ukContactName.label" placeholder-key="ukVisa.fields.ukContactName.placeholder" v-model="formData.ukContactName" span="third" required />
-                    <TextField name="ukContactStatus" label-key="ukVisa.fields.ukContactStatus.label" placeholder-key="ukVisa.fields.ukContactStatus.placeholder" v-model="formData.ukContactStatus" span="third" required />
-                  </div>
-                  <!-- 证件号(短) + 关系(短) → 占AC列 -->
-                  <div class="field-pair">
-                    <TextField name="ukContactDocNumber" label-key="ukVisa.fields.ukContactDocNumber.label" placeholder-key="ukVisa.fields.ukContactDocNumber.placeholder" v-model="formData.ukContactDocNumber" span="third" required />
-                    <TextField name="ukContactRelation" label-key="ukVisa.fields.ukContactRelation.label" placeholder-key="ukVisa.fields.ukContactRelation.placeholder" v-model="formData.ukContactRelation" span="third" required />
-                  </div>
-                  <!-- 电话(短) + 邮编(短) → 占AC列 -->
-                  <div class="field-pair">
-                    <TextField name="ukContactPhone" label-key="ukVisa.fields.ukContactPhone.label" placeholder-key="ukVisa.fields.ukContactPhone.placeholder" v-model="formData.ukContactPhone" inputmode="tel" span="third" required />
-                    <TextField name="ukContactPostal" label-key="ukVisa.fields.ukContactPostal.label" placeholder-key="ukVisa.fields.ukContactPostal.placeholder" v-model="formData.ukContactPostal" span="third" />
-                  </div>
+                  <!-- Row 1: 姓名 + 关系 + 身份 -->
+                  <TextField name="ukContactName" label-key="ukVisa.fields.ukContactName.label" placeholder-key="ukVisa.fields.ukContactName.placeholder" v-model="formData.ukContactName" span="third" required prefix-icon="User" />
+                  <TextField name="ukContactRelation" label-key="ukVisa.fields.ukContactRelation.label" placeholder-key="ukVisa.fields.ukContactRelation.placeholder" v-model="formData.ukContactRelation" span="third" required prefix-icon="Users" />
+                  <TextField name="ukContactStatus" label-key="ukVisa.fields.ukContactStatus.label" placeholder-key="ukVisa.fields.ukContactStatus.placeholder" v-model="formData.ukContactStatus" span="third" required prefix-icon="Shield" />
+                  <!-- Row 2: 电话 + 邮编 + 证件号 (占2列) -->
+                  <TextField name="ukContactPhone" label-key="ukVisa.fields.ukContactPhone.label" placeholder-key="ukVisa.fields.ukContactPhone.placeholder" v-model="formData.ukContactPhone" inputmode="tel" span="third" required prefix-icon="Phone" />
+                  <TextField name="ukContactPostal" label-key="ukVisa.fields.ukContactPostal.label" placeholder-key="ukVisa.fields.ukContactPostal.placeholder" v-model="formData.ukContactPostal" span="third" prefix-icon="Mailbox" />
+                  <TextField name="ukContactDocNumber" label-key="ukVisa.fields.ukContactDocNumber.label" placeholder-key="ukVisa.fields.ukContactDocNumber.placeholder" v-model="formData.ukContactDocNumber" span="half" required prefix-icon="CreditCard" />
                 </div>
               </div>
               <div class="fields-grid">
                 <RadioField name="hasUKAccommodation" label-key="ukVisa.fields.hasUKAccommodation.label" :options="yesNoOptions" v-model="formData.hasUKAccommodation" required />
               </div>
-              <div v-if="formData.hasUKAccommodation === 'yes'">
+              <div v-if="formData.hasUKAccommodation === 'yes'" class="conditional-group">
                 <div class="fields-grid">
-                  <!-- 住宿详情 (超长 → 全宽) -->
-                  <TextField name="ukAccommodationDetail" label-key="ukVisa.fields.ukAccommodationDetail.label" placeholder-key="ukVisa.fields.ukAccommodationDetail.placeholder" v-model="formData.ukAccommodationDetail" required span="full" />
-                  <!-- 国家(长) + 地址(长) → 各占半 -->
-                  <CountrySelectField name="ukAccommodationCountry" label-key="ukVisa.fields.ukAccommodationCountry.label" kind="nationality" v-model="formData.ukAccommodationCountry" required span="third" />
-                  <TextField name="ukAccommodationAddress" label-key="ukVisa.fields.ukAccommodationAddress.label" placeholder-key="ukVisa.fields.ukAccommodationAddress.placeholder" v-model="formData.ukAccommodationAddress" required />
-                  <!-- 入住(短) + 退房(短) + 邮编(短) → 3合1占ABC列 -->
-                  <DateField name="ukCheckinDate" label-key="ukVisa.fields.ukCheckinDate.label" v-model="formData.ukCheckinDate" required />
-                  <DateField name="ukCheckoutDate" label-key="ukVisa.fields.ukCheckoutDate.label" v-model="formData.ukCheckoutDate" :min-value="formData.ukCheckinDate" required />
-                  <TextField name="ukAccommodationPostal" label-key="ukVisa.fields.ukAccommodationPostal.label" placeholder-key="ukVisa.fields.ukAccommodationPostal.placeholder" v-model="formData.ukAccommodationPostal" span="third" inputmode="numeric" />
+                  <!-- Row 1: 住宿详情 + 住宿地址 (各占半) -->
+                  <TextField name="ukAccommodationDetail" label-key="ukVisa.fields.ukAccommodationDetail.label" placeholder-key="ukVisa.fields.ukAccommodationDetail.placeholder" v-model="formData.ukAccommodationDetail" required span="half" prefix-icon="Home" />
+                  <TextField name="ukAccommodationAddress" label-key="ukVisa.fields.ukAccommodationAddress.label" placeholder-key="ukVisa.fields.ukAccommodationAddress.placeholder" v-model="formData.ukAccommodationAddress" required span="half" prefix-icon="MapPin" />
+                  <!-- Row 2: 入住日期 + 离开日期 + 邮编 -->
+                  <DateField name="ukCheckinDate" label-key="ukVisa.fields.ukCheckinDate.label" v-model="formData.ukCheckinDate" required prefix-icon="Calendar" />
+                  <DateField name="ukCheckoutDate" label-key="ukVisa.fields.ukCheckoutDate.label" v-model="formData.ukCheckoutDate" :min-value="formData.ukCheckinDate" required prefix-icon="Calendar" />
+                  <TextField name="ukAccommodationPostal" label-key="ukVisa.fields.ukAccommodationPostal.label" placeholder-key="ukVisa.fields.ukAccommodationPostal.placeholder" v-model="formData.ukAccommodationPostal" span="third" inputmode="numeric" prefix-icon="Mailbox" />
                 </div>
               </div>
             </AccordionContent>
@@ -1119,9 +1157,9 @@ if (typeof window !== 'undefined') {
               <div class="fields-grid">
                 <RadioField name="hadUKVisa" label-key="ukVisa.fields.hadUKVisa.label" :options="yesNoOptions" v-model="formData.hadUKVisa" required />
               </div>
-              <div v-if="formData.hadUKVisa === 'yes'">
+              <div v-if="formData.hadUKVisa === 'yes'" class="conditional-group">
                 <div class="fields-grid">
-                  <DateField name="lastUKVisaDate" label-key="ukVisa.fields.lastUKVisaDate.label" v-model="formData.lastUKVisaDate" required />
+                  <DateField name="lastUKVisaDate" label-key="ukVisa.fields.lastUKVisaDate.label" v-model="formData.lastUKVisaDate" required prefix-icon="Calendar" />
                 </div>
               </div>
 
@@ -1129,7 +1167,7 @@ if (typeof window !== 'undefined') {
               <div class="fields-grid">
                 <RadioField name="visitedUK" label-key="ukVisa.fields.visitedUK.label" :options="yesNoOptions" v-model="formData.visitedUK" required />
               </div>
-              <div v-if="formData.visitedUK === 'yes'">
+              <div v-if="formData.visitedUK === 'yes'" class="conditional-group">
                 <div v-for="(visit, index) in ukVisits" :key="'visit-' + index" class="repeatable-group">
                   <div class="repeatable-header">
                     <h4 class="sub-label">{{ t('ukVisa.subLabels.ukVisit', { index: index + 1 }) }}</h4>
@@ -1138,11 +1176,10 @@ if (typeof window !== 'undefined') {
                     </button>
                   </div>
                   <div class="fields-grid">
-                    <!-- 日期(短) + 停留时长(短) → 各占半 -->
-                    <DateField :name="'visit_' + index + '_date'" label-key="ukVisa.fields.ukVisit.date.label" v-model="visit.date" span="half" required />
-                    <TextField :name="'visit_' + index + '_duration'" label-key="ukVisa.fields.ukVisit.duration.label" placeholder-key="ukVisa.fields.ukVisit.duration.placeholder" v-model="visit.duration" required />
-                    <!-- 目的 (长字段 → 全宽) -->
-                    <TextField :name="'visit_' + index + '_purpose'" label-key="ukVisa.fields.ukVisit.purpose.label" placeholder-key="ukVisa.fields.ukVisit.purpose.placeholder" v-model="visit.purpose" required span="half" />
+                    <!-- 日期 + 停留时长 + 目的(全宽) -->
+                    <DateField :name="'visit_' + index + '_date'" label-key="ukVisa.fields.ukVisit.date.label" v-model="visit.date" required prefix-icon="Calendar" />
+                    <TextField :name="'visit_' + index + '_duration'" label-key="ukVisa.fields.ukVisit.duration.label" placeholder-key="ukVisa.fields.ukVisit.duration.placeholder" v-model="visit.duration" required span="third" prefix-icon="Clock" />
+                    <TextField :name="'visit_' + index + '_purpose'" label-key="ukVisa.fields.ukVisit.purpose.label" placeholder-key="ukVisa.fields.ukVisit.purpose.placeholder" v-model="visit.purpose" required span="full" prefix-icon="ClipboardList" />
                   </div>
                 </div>
                 <button type="button" class="add-btn" @click="addUkVisit">
@@ -1154,7 +1191,7 @@ if (typeof window !== 'undefined') {
               <div class="fields-grid">
                 <RadioField name="beenRefused" label-key="ukVisa.fields.beenRefused.label" :options="yesNoOptions" v-model="formData.beenRefused" required />
               </div>
-              <div v-if="formData.beenRefused === 'yes'">
+              <div v-if="formData.beenRefused === 'yes'" class="conditional-group">
                 <div v-for="(ref, index) in refusals" :key="'refusal-' + index" class="repeatable-group">
                   <div class="repeatable-header">
                     <h4 class="sub-label">{{ t('ukVisa.subLabels.refusal', { index: index + 1 }) }}</h4>
@@ -1163,12 +1200,12 @@ if (typeof window !== 'undefined') {
                     </button>
                   </div>
                   <div class="fields-grid">
-                    <!-- 日期(短) + 国家(短) → 各占半 -->
-                    <DateField :name="'refusal_' + index + '_date'" label-key="ukVisa.fields.refusal.date.label" v-model="ref.date" span="half" required />
-                    <TextField :name="'refusal_' + index + '_country'" label-key="ukVisa.fields.refusal.country.label" placeholder-key="ukVisa.fields.refusal.country.placeholder" v-model="ref.country" required />
-                    <!-- 原因(短) + 档案号(短) → 各占半 -->
-                    <TextField :name="'refusal_' + index + '_reason'" label-key="ukVisa.fields.refusal.reason.label" placeholder-key="ukVisa.fields.refusal.reason.placeholder" v-model="ref.reason" required span="half" />
-                    <TextField :name="'refusal_' + index + '_ref'" label-key="ukVisa.fields.refusal.refNumber.label" placeholder-key="ukVisa.fields.refusal.refNumber.placeholder" v-model="ref.refNumber" />
+                    <!-- Row 1: 国家 + 日期 + 受理号 -->
+                    <NationalityField :name="'refusal_' + index + '_country'" label-key="ukVisa.fields.refusal.country.label" v-model="ref.country" required span="third" />
+                    <DateField :name="'refusal_' + index + '_date'" label-key="ukVisa.fields.refusal.date.label" v-model="ref.date" required prefix-icon="Calendar" />
+                    <TextField :name="'refusal_' + index + '_ref'" label-key="ukVisa.fields.refusal.refNumber.label" placeholder-key="ukVisa.fields.refusal.refNumber.placeholder" v-model="ref.refNumber" span="third" prefix-icon="Hash" />
+                    <!-- Row 2: 原因 (全宽) -->
+                    <TextField :name="'refusal_' + index + '_reason'" label-key="ukVisa.fields.refusal.reason.label" placeholder-key="ukVisa.fields.refusal.reason.placeholder" v-model="ref.reason" required span="full" prefix-icon="FileQuestion" />
                   </div>
                 </div>
                 <button type="button" class="add-btn" @click="addRefusal">
@@ -1180,13 +1217,13 @@ if (typeof window !== 'undefined') {
               <div class="fields-grid">
                 <RadioField name="appliedUKStay" label-key="ukVisa.fields.appliedUKStay.label" :options="yesNoOptions" v-model="formData.appliedUKStay" required />
               </div>
-              <div v-if="formData.appliedUKStay === 'yes'">
+              <div v-if="formData.appliedUKStay === 'yes'" class="conditional-group">
                 <div class="fields-grid">
-                  <!-- 日期(短) + 原因(短) → 各占半 -->
-                  <DateField name="applyDetail_date" label-key="ukVisa.fields.applyDetail_date.label" v-model="formData.applyDetail_date" span="half" required />
-                  <TextField name="applyDetail_reason" label-key="ukVisa.fields.applyDetail_reason.label" placeholder-key="ukVisa.fields.applyDetail_reason.placeholder" v-model="formData.applyDetail_reason" required />
-                  <!-- 是否批准 (全宽 radio) -->
+                  <!-- 申请日期 + 是否批准 -->
+                  <DateField name="applyDetail_date" label-key="ukVisa.fields.applyDetail_date.label" v-model="formData.applyDetail_date" required prefix-icon="Calendar" />
                   <RadioField name="applyDetail_approved" label-key="ukVisa.fields.applyDetail_approved.label" :options="yesNoOptions" v-model="formData.applyDetail_approved" required />
+                  <!-- 申请原因 (全宽) -->
+                  <TextField name="applyDetail_reason" label-key="ukVisa.fields.applyDetail_reason.label" placeholder-key="ukVisa.fields.applyDetail_reason.placeholder" v-model="formData.applyDetail_reason" required span="full" prefix-icon="FileQuestion" />
                 </div>
               </div>
 
@@ -1194,7 +1231,7 @@ if (typeof window !== 'undefined') {
               <div class="fields-grid">
                 <RadioField name="visitedOtherCountries" label-key="ukVisa.fields.visitedOtherCountries.label" :options="yesNoOptions" v-model="formData.visitedOtherCountries" required />
               </div>
-              <div v-if="formData.visitedOtherCountries === 'yes'">
+              <div v-if="formData.visitedOtherCountries === 'yes'" class="conditional-group">
                 <div v-for="(oc, index) in otherCountries" :key="'oc-' + index" class="repeatable-group">
                   <div class="repeatable-header">
                     <h4 class="sub-label">{{ t('ukVisa.subLabels.otherCountry', { index: index + 1 }) }}</h4>
@@ -1203,13 +1240,12 @@ if (typeof window !== 'undefined') {
                     </button>
                   </div>
                   <div class="fields-grid">
-                    <!-- 国家(长) -->
+                    <!-- Row 1: 国家 + 日期 + 停留时长 -->
                     <SelectField :name="'oc_' + index + '_name'" label-key="ukVisa.fields.otherCountry.name.label" :options="otherCountryOptions" v-model="oc.name" required span="third" />
-                    <!-- 日期(短) + 时长(短) → 各占半 -->
-                    <DateField :name="'oc_' + index + '_date'" label-key="ukVisa.fields.otherCountry.date.label" v-model="oc.date" span="half" required />
-                    <TextField :name="'oc_' + index + '_duration'" label-key="ukVisa.fields.otherCountry.duration.label" placeholder-key="ukVisa.fields.otherCountry.duration.placeholder" v-model="oc.duration" required />
-                    <!-- 目的 (长字段 → 全宽) -->
-                    <TextField :name="'oc_' + index + '_purpose'" label-key="ukVisa.fields.otherCountry.purpose.label" placeholder-key="ukVisa.fields.otherCountry.purpose.placeholder" v-model="oc.purpose" required span="half" />
+                    <DateField :name="'oc_' + index + '_date'" label-key="ukVisa.fields.otherCountry.date.label" v-model="oc.date" required prefix-icon="Calendar" />
+                    <TextField :name="'oc_' + index + '_duration'" label-key="ukVisa.fields.otherCountry.duration.label" placeholder-key="ukVisa.fields.otherCountry.duration.placeholder" v-model="oc.duration" required span="third" prefix-icon="Clock" />
+                    <!-- Row 2: 目的 (全宽) -->
+                    <TextField :name="'oc_' + index + '_purpose'" label-key="ukVisa.fields.otherCountry.purpose.label" placeholder-key="ukVisa.fields.otherCountry.purpose.placeholder" v-model="oc.purpose" required span="full" prefix-icon="ClipboardList" />
                   </div>
                 </div>
                 <button type="button" class="add-btn" @click="addOtherCountry">
@@ -1225,21 +1261,27 @@ if (typeof window !== 'undefined') {
             <AccordionContent>
               <div class="fields-grid">
                 <RadioField name="hasUKInsurance" label-key="ukVisa.fields.hasUKInsurance.label" :options="yesNoOptions" v-model="formData.hasUKInsurance" required />
-                <!-- 保险条件字段: 编号(短) + 原因(短) → 并排 -->
-                <div v-if="formData.hasUKInsurance === 'yes'" class="field-row">
-                  <TextField name="insuranceNumber" label-key="ukVisa.fields.insuranceNumber.label" placeholder-key="ukVisa.fields.insuranceNumber.placeholder" v-model="formData.insuranceNumber" required />
-                  <TextField name="insuranceReason" label-key="ukVisa.fields.insuranceReason.label" placeholder-key="ukVisa.fields.insuranceReason.placeholder" v-model="formData.insuranceReason" required />
+              </div>
+              <!-- 保险条件字段 -->
+              <div v-if="formData.hasUKInsurance === 'yes'" class="conditional-group">
+                <div class="fields-grid">
+                  <TextField name="insuranceNumber" label-key="ukVisa.fields.insuranceNumber.label" placeholder-key="ukVisa.fields.insuranceNumber.placeholder" v-model="formData.insuranceNumber" required span="half" prefix-icon="Hash" />
+                  <TextField name="insuranceReason" label-key="ukVisa.fields.insuranceReason.label" placeholder-key="ukVisa.fields.insuranceReason.placeholder" v-model="formData.insuranceReason" required span="half" prefix-icon="FileQuestion" />
                 </div>
+              </div>
+              <div class="fields-grid">
                 <RadioField name="hasCriminalRecord" label-key="ukVisa.fields.hasCriminalRecord.label" :options="yesNoOptions" v-model="formData.hasCriminalRecord" required />
                 <RadioField name="hasTerrorism" label-key="ukVisa.fields.hasTerrorism.label" :options="yesNoOptions" v-model="formData.hasTerrorism" required />
                 <RadioField name="hasBeenProsecuted" label-key="ukVisa.fields.hasBeenProsecuted.label" :options="yesNoOptions" v-model="formData.hasBeenProsecuted" required />
                 <RadioField name="hasGenocide" label-key="ukVisa.fields.hasGenocide.label" :options="yesNoOptions" v-model="formData.hasGenocide" required />
                 <RadioField name="hasArmedConflict" label-key="ukVisa.fields.hasArmedConflict.label" :options="yesNoOptions" v-model="formData.hasArmedConflict" required />
                 <RadioField name="hasSpecialIndustry" label-key="ukVisa.fields.hasSpecialIndustry.label" :options="yesNoOptions" v-model="formData.hasSpecialIndustry" required />
-                <!-- 特殊行业条件字段: 行业(短) + 详情(短) → 并排 -->
-                <div v-if="formData.hasSpecialIndustry === 'yes'" class="field-row">
-                  <SelectField name="specialIndustries" label-key="ukVisa.fields.specialIndustries.label" :options="specialIndustriesOptions" v-model="formData.specialIndustries" required />
-                  <TextField name="specialIndustryDetail" label-key="ukVisa.fields.specialIndustryDetail.label" placeholder-key="ukVisa.fields.specialIndustryDetail.placeholder" v-model="formData.specialIndustryDetail" required span="full" />
+              </div>
+              <!-- 特殊行业条件字段 -->
+              <div v-if="formData.hasSpecialIndustry === 'yes'" class="conditional-group">
+                <div class="fields-grid">
+                  <SelectField name="specialIndustries" label-key="ukVisa.fields.specialIndustries.label" :options="specialIndustriesOptions" v-model="formData.specialIndustries" required span="third" />
+                  <TextField name="specialIndustryDetail" label-key="ukVisa.fields.specialIndustryDetail.label" placeholder-key="ukVisa.fields.specialIndustryDetail.placeholder" v-model="formData.specialIndustryDetail" required span="half" prefix-icon="Factory" />
                 </div>
               </div>
             </AccordionContent>
@@ -1309,10 +1351,20 @@ if (typeof window !== 'undefined') {
 .glass-card {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: 1rem;
   padding: 1.5rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.3);
+  /* ponytail: isolate compositing layer so accordion height animation
+     doesn't trigger backdrop-filter recomputation per frame (= jitter) */
+  transform: translateZ(0);
+}
+
+/* Override accordion's transition-all inside glass-card: only animate height,
+   prevents backdrop-filter recomputation per frame (= jitter) */
+.glass-card :deep([data-state]) {
+  transition: height 0.2s ease !important;
 }
 
 .fields-grid {
@@ -1379,6 +1431,16 @@ if (typeof window !== 'undefined') {
   border-left: 3px solid #3b82f6;
   border-radius: 0 0.25rem 0.25rem 0;
   letter-spacing: 0.025em;
+}
+
+.conditional-group {
+  grid-column: 1 / -1;
+  background: #f0f9ff;
+  border: 1px solid #bfdbfe;
+  border-left: 3px solid #60a5fa;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 0.25rem;
 }
 
 .repeatable-group {
