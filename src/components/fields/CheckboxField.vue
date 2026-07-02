@@ -56,19 +56,26 @@ function toggleOption(value: string) {
     :description="description"
     :span="span"
   >
-    <div class="space-y-2">
-      <div
+    <div class="flex flex-wrap gap-2">
+      <label
         v-for="option in options"
         :key="option.value"
-        class="flex items-center space-x-2"
+        :class="[
+          'flex items-center gap-2 rounded-lg border-2 px-4 py-1.5 cursor-pointer transition-colors backdrop-blur-sm',
+          isChecked(option.value)
+            ? 'border-primary bg-primary/20 shadow-sm'
+            : 'bg-primary/10 border-primary/30 hover:bg-primary/15 hover:border-primary/45 shadow-sm'
+        ]"
       >
         <Checkbox
           :id="`${name}-${option.value}`"
           :checked="isChecked(option.value)"
           @update:checked="toggleOption(option.value)"
         />
-        <Label :for="`${name}-${option.value}`">{{ t(option.labelKey) }}</Label>
-      </div>
+        <Label :for="`${name}-${option.value}`" class="cursor-pointer font-normal">
+          {{ t(option.labelKey) }}
+        </Label>
+      </label>
     </div>
   </FormFieldWrapper>
 </template>

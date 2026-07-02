@@ -24,6 +24,8 @@ const props = defineProps<{
   modelValue: number | undefined
   error?: string
   span?: 'full' | 'half' | 'third'
+  /** 后缀单位文本，显示在输入框右侧（如 '¥', 'kg'） */
+  suffix?: string
 }>()
 
 const emit = defineEmits<{
@@ -57,8 +59,9 @@ const description = computed(() =>
     >
       <NumberFieldContent>
         <NumberFieldDecrement />
-        <NumberFieldInput />
+        <NumberFieldInput :class="suffix ? 'pr-12' : ''" />
         <NumberFieldIncrement />
+        <span v-if="suffix" class="absolute right-8 top-1/2 -translate-y-1/2 text-sm text-muted-foreground pointer-events-none z-10">{{ suffix }}</span>
       </NumberFieldContent>
     </NumberField>
   </FormFieldWrapper>

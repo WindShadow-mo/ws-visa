@@ -68,6 +68,7 @@
     },
     "clearForm": "清除数据",
     "clearConfirm": "确定要清除所有已填写的数据吗？此操作无法撤销。",
+    "fillTestData": "填充测试数据",
     "exportPdf": "导出 PDF",
     "exporting": "正在生成...",
     "previewTitle": "预览表单内容",

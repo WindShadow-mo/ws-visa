@@ -8,6 +8,29 @@ import * as icons from '@lucide/vue'
 import { Input } from '@/components/ui/input'
 import FormFieldWrapper from '@/components/fields/FormFieldWrapper.vue'
 
+export type InputConstraint = 'alpha' | 'alphanumeric' | 'numeric' | 'email'
+
+const CONSTRAINT_PATTERNS: Record<InputConstraint, RegExp> = {
+  alpha: /^[a-zA-Z\s]$/,
+  alphanumeric: /^[a-zA-Z0-9\s]$/,
+  numeric: /^[0-9]$/,
+  email: /^[^\s@]$/,
+}
+
+const CONSTRAINT_HTML_PATTERNS: Record<InputConstraint, string> = {
+  alpha: '[a-zA-Z\\s]+',
+  alphanumeric: '[a-zA-Z0-9\\s]+',
+  numeric: '[0-9]+',
+  email: '[^\\s@]+@[^\\s@]+',
+}
+
+function filterByConstraint(constraint: InputConstraint | undefined, value: string): string {
+  if (!constraint) return value
+  const pattern = CONSTRAINT_PATTERNS[constraint]
+  if (!pattern) return value
+  return value.split('').filter(c => pattern.test(c)).join('')
+}
+
 const props = withDefaults(defineProps<{
   name: string
   labelKey: string
@@ -28,6 +51,8 @@ const props = withDefaults(defineProps<{
   multiline?: boolean
   /** 多行文本域行数，默认 3 */
   rows?: number
+  /** 输入约束规则集，实时过滤非法字符 */
+  constraint?: InputConstraint
 }>(), {
   span: 'half',
 })
@@ -79,11 +104,11 @@ const IconComponent = computed(() => {
         :id="name"
         :name="name"
         :rows="rows || 3"
-        :model-value="modelValue"
+        :value="modelValue"
         :placeholder="placeholder"
         :maxlength="maxLength"
         :class="['flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50', IconComponent ? 'pl-10' : '']"
-        @update:model-value="emit('update:modelValue', $event)"
+        @input="($event: Event) => emit('update:modelValue', filterByConstraint(constraint, ($event.target as HTMLTextAreaElement).value))"
       />
       <Input
         v-else
@@ -94,8 +119,9 @@ const IconComponent = computed(() => {
         :placeholder="placeholder"
         :maxlength="maxLength"
         :inputmode="inputmode"
+        :pattern="constraint ? CONSTRAINT_HTML_PATTERNS[constraint] : undefined"
         :class="[IconComponent ? 'pl-10' : '', suffix ? 'pr-8' : '']"
-        @update:model-value="emit('update:modelValue', $event)"
+        @update:model-value="(v: string) => emit('update:modelValue', filterByConstraint(constraint, v))"
       />
       <span v-if="suffix" class="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground pointer-events-none">{{ suffix }}</span>
     </div>

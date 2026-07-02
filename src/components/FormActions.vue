@@ -13,7 +13,7 @@
 
 import { nextTick, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { FileDown, Loader2 } from 'lucide-vue-next'
+import { FileDown, Loader2, Database } from 'lucide-vue-next'
 import { usePdfExport, type PreviewSection } from '@/composables/usePdfExport'
 import PreviewModal from '@/components/PreviewModal.vue'
 
@@ -36,9 +36,11 @@ const props = defineProps<Props>()
 const emit = defineEmits<{
   (e: 'clear'): void
   (e: 'export'): void
+  (e: 'fill'): void
 }>()
 
 const { t } = useI18n()
+const isDev = import.meta.env.DEV
 
 // ---- PDF 导出 ----
 
@@ -80,6 +82,14 @@ defineExpose({ openPreview })
         <p v-if="formSubtitle" class="form-subtitle">{{ formSubtitle }}</p>
       </div>
       <div class="flex gap-2">
+        <button
+          v-if="isDev"
+          class="fill-btn"
+          @click="emit('fill')"
+        >
+          <Database class="inline h-4 w-4 mr-1" />
+          {{ t(`${i18nPrefix}.fillTestData`) }}
+        </button>
         <button
           class="clear-btn"
           @click="emit('export')"
@@ -161,6 +171,29 @@ defineExpose({ openPreview })
   border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* 填充测试数据按钮 — 绿色/success 风格，仅开发模式显示 */
+.fill-btn {
+  flex-shrink: 0;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(200, 255, 200, 0.9);
+  border: 2px solid rgba(34, 197, 94, 0.45);
+  border-radius: 0.75rem;
+  background: rgba(34, 197, 94, 0.12);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.fill-btn:hover {
+  color: #fff;
+  border-color: rgba(34, 197, 94, 0.85);
+  background: rgba(22, 163, 74, 0.6);
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.35);
+  transform: translateY(-2px);
 }
 
 /* 清除数据按钮 — 明显的危险操作样式 */

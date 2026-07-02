@@ -50,19 +50,35 @@ const description = computed(() =>
   >
     <RadioGroup
       :model-value="modelValue"
-      class="flex flex-wrap gap-x-4 gap-y-2"
+      class="flex flex-wrap gap-2"
       @update:model-value="emit('update:modelValue', $event)"
     >
       <!-- 隐藏 input 用于校验聚焦定位 -->
       <input type="hidden" :name="name" :value="modelValue" />
-      <div
+      <label
         v-for="option in options"
         :key="option.value"
-        class="flex items-center space-x-2"
+        :class="[
+          'flex items-center gap-2 rounded-lg border-2 px-4 py-1.5 cursor-pointer transition-colors backdrop-blur-sm',
+          modelValue === option.value
+            ? 'border-[hsl(188,70%,42%)] bg-[hsl(188,70%,42%/0.20)] shadow-sm'
+            : 'bg-[hsl(188,70%,42%/0.08)] border-[hsl(188,70%,42%/0.30)] hover:bg-[hsl(188,70%,42%/0.14)] hover:border-[hsl(188,70%,42%/0.50)] shadow-sm'
+        ]"
       >
         <RadioGroupItem :id="`${name}-${option.value}`" :value="option.value" />
-        <Label :for="`${name}-${option.value}`">{{ t(option.labelKey) }}</Label>
-      </div>
+        <Label :for="`${name}-${option.value}`" class="cursor-pointer font-normal">
+          {{ t(option.labelKey) }}
+        </Label>
+      </label>
     </RadioGroup>
   </FormFieldWrapper>
 </template>
+
+<style scoped>
+/* 单选指示器覆盖为青色 */
+:deep([data-radix-collection-item]),
+:deep([role='radio']) {
+  border-color: hsl(188 70% 42%) !important;
+  color: hsl(188 70% 42%) !important;
+}
+</style>

@@ -68,6 +68,7 @@
     },
     "clearForm": "Clear Data",
     "clearConfirm": "Are you sure you want to clear all filled data? This action cannot be undone.",
+    "fillTestData": "Fill Test Data",
     "exportPdf": "Export PDF",
     "exporting": "Generating...",
     "previewTitle": "Preview Form Content",

@@ -27,8 +27,6 @@ target/
 /nbdist/
 /.nb-gradle/
 build/
-doc/
-docs/
 tmp/
 
 ### VS Code ###
@@ -41,9 +39,6 @@ work.txt
 .planning/
 ./claude-plans
 CLAUDE.md
-
-### DOC ###
-doc/**
 
 ### gsd ###
 .planning/
