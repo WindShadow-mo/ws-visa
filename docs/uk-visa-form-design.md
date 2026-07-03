@@ -117,7 +117,7 @@ L2 是否有子女（独立 fields-grid）
   └── hasChildren
 L3 子女列表 [conditional-group, 触发: hasChildren = yes, v-for]
   每个子女（repeatable-group）:
-    ├── name / relation / nationality / dob  ← 同行（各 third）
+    ├── name / nationality / dob / relation  ← 同行（各 third）
     ├── country / address                    ← 同行（third + half）
     ├── changedNationality                   ← 独占一行（full，问题类字段）
     └── goingToUK                            ← 独占一行（full，问题类字段）
@@ -138,7 +138,7 @@ L2 是否有同行人（独立 fields-grid）
   └── hasCompanion
 L3 同行人列表 [conditional-group, 触发: hasCompanion = yes, v-for]
   每个同行人（repeatable-group）:
-    └── name / relation / nationality / dob / passport
+    └── name / nationality / dob / relation / passport
 ```
 
 **9. 工作与收入 `employment-info`**
@@ -165,7 +165,7 @@ L2 收支情况（独立 fields-grid）
   ├── estimatedUKSpend / monthlyExpense
   └── hasSponsor
 L3 经济担保人 [conditional-group, 触发: hasSponsor = yes]
-  └── sponsorName / sponsorRelation / sponsorAmount
+  └── sponsorName / sponsorAmount / sponsorRelation
 ```
 
 **11. 英国联系人与住宿 `uk-contacts`**
@@ -174,7 +174,7 @@ L3 经济担保人 [conditional-group, 触发: hasSponsor = yes]
 L2 英国联系人（独立 fields-grid）
   └── hasUKContact
 L3 联系人详情 [conditional-group, 触发: hasUKContact = yes]
-  └── ukContactName / ukContactRelation / ukContactStatus
+  └── ukContactName / ukContactStatus / ukContactRelation
       ukContactPhone / ukContactPostal / ukContactDocNumber
 L2 英国住宿（独立 fields-grid）
   └── hasUKAccommodation
@@ -352,9 +352,9 @@ L3 特殊行业 [conditional-group, 触发: hasSpecialIndustry = yes]
 | 行 | 字段 | 控件 | span | 落位 | R | Icon |
 |----|------|------|------|------|---|------|
 | 1 | name | TextField | third | A | ✅ | User |
-| 1 | relation | SelectField | third | B | ✅ | — | 儿子/女儿 |
-| 1 | nationality | NationalityField | third | C | ✅ | — |
-| 1 | dob | DateField | third | D | ✅ | Calendar |
+| 1 | nationality | NationalityField | third | B | ✅ | — |
+| 1 | dob | DateField | third | C | ✅ | Calendar |
+| 1 | relation | SelectField | third | D | ✅ | — | 儿子/女儿 |
 | 2 | country | NationalityField | third | A | ✅ | — | 居住国家/地区 |
 | 2 | address | TextField | half | B-C | ✅ | MapPin | |
 | 3 | changedNationality | RadioField | full | A-D | ✅ | — | 是否更换过国籍（问题类字段独占一行） |
@@ -455,8 +455,8 @@ L3 特殊行业 [conditional-group, 触发: hasSpecialIndustry = yes]
 | 行 | 字段 | 控件 | span | 落位 | R | Icon |
 |----|------|------|------|------|---|------|
 | 1 | sponsorName | TextField | third | A | ✅ | UserCheck | |
-| 1 | sponsorRelation | TextField | third | B | ✅ | Users | |
-| 1 | sponsorAmount | TextField | third | C | ✅ | Banknote | suffix=¥ |
+| 1 | sponsorAmount | TextField | third | B | ✅ | Banknote | suffix=¥ |
+| 1 | sponsorRelation | TextField | third | C | ✅ | Users | |
 
 ---
 
@@ -473,8 +473,8 @@ L3 特殊行业 [conditional-group, 触发: hasSpecialIndustry = yes]
 | 行 | 字段 | 控件 | span | 落位 | R | Icon |
 |----|------|------|------|------|---|------|
 | 1 | ukContactName | TextField | third | A | ✅ | User |
-| 1 | ukContactRelation | TextField | third | B | ✅ | Users |
-| 1 | ukContactStatus | TextField | third | C | ✅ | Shield | 在英身份 |
+| 1 | ukContactStatus | TextField | third | B | ✅ | Shield | 在英身份 |
+| 1 | ukContactRelation | TextField | third | C | ✅ | Users | 与申请人关系，移至行末 |
 | 2 | ukContactPhone | TextField | third | A | ✅ | Phone | 在英国的电话 |
 | 2 | ukContactPostal | TextField | third | B | | Mailbox | 在英国的邮编 |
 | 2 | ukContactDocNumber | TextField | half | C-D | ✅ | CreditCard | 护照/居留卡号码，占2列 |
@@ -954,9 +954,9 @@ window.scrollY > 300  →  显示按钮（.back-to-top-btn）
 | 字段 | 控件 | span | 说明 |
 |------|------|------|------|
 | name | TextField | `third` | |
-| relation | SelectField | `third` | 仅儿子/女儿 |
 | nationality | NationalityField | `third`（默认） | |
 | dob | DateField | `third`（默认） | |
+| relation | SelectField | `third` | 仅儿子/女儿，移至 D 列 |
 | country | NationalityField | `third` | |
 | address | TextField | `half`（默认） | |
 | changedNationality | RadioField | `full`（默认） | 是/否问题类字段，独占一行 |
@@ -976,9 +976,9 @@ window.scrollY > 300  →  显示按钮（.back-to-top-btn）
 | 字段 | 控件 | span | 说明 |
 |------|------|------|------|
 | name | TextField | `third` | |
-| relation | SelectField | `third` | |
 | nationality | NationalityField | `third`（默认） | |
 | dob | DateField | `third`（默认） | |
+| relation | SelectField | `third` | 移至 D 列 |
 | passport | TextField | `half`（默认） | |
 
 #### 9. 工作与收入
@@ -1005,8 +1005,8 @@ window.scrollY > 300  →  显示按钮（.back-to-top-btn）
 | monthlyExpense | TextField | `third` | |
 | hasSponsor | RadioField | `full`（默认） | |
 | sponsorName（条件：yes） | TextField | `third` | |
-| sponsorRelation | TextField | `third` | |
 | sponsorAmount | TextField | `third` | |
+| sponsorRelation | TextField | `third` | 移至 D 列 |
 
 #### 11. 英国联系人与住宿
 
@@ -1014,8 +1014,8 @@ window.scrollY > 300  →  显示按钮（.back-to-top-btn）
 |------|------|------|------|
 | hasUKContact | RadioField | `full`（默认） | |
 | ukContactName（条件：yes） | TextField | `third` | |
-| ukContactRelation | TextField | `third` | |
 | ukContactStatus | TextField | `third` | |
+| ukContactRelation | TextField | `third` | 移至 D 列 |
 | ukContactPhone | TextField | `third` | |
 | ukContactPostal | TextField | `third` | |
 | ukContactDocNumber | TextField | `third` | |

@@ -659,6 +659,61 @@ const nationalityOptions: SelectOption[] = [
 
 > **PDF 导出**：预览和 PDF 导出必须按 PC 桌面端（≥1024px）排版渲染，不受响应式降级影响。详见第 9 节。
 
+#### 5.2.5 下拉/弹窗组件抖动问题（实战教训）
+
+**症状**：点击下拉选择器（SelectField、NationalityField、PhoneField）时，整个页面左右抖动。
+
+**根因（两类，分别影响不同组件）**：
+
+| 组件 | 根因 | 机制 |
+|------|------|------|
+| **SelectField**（标准 Select 模式） | Reka UI 的 `bodyLock` 默认为 `true` | 打开时设 `body { overflow: hidden }` + `padding-right: 滚动条宽度`，与 `scrollbar-gutter: stable` **双倍补偿** → 居中布局偏移 |
+| **NationalityField / PhoneField**（Popover 模式） | `PopoverContent` 的 `updatePositionStrategy` 默认 `"always"` | 每帧都重算 Popover 位置，与入场 CSS 动画（`animate-in` 的 scale/translate）互相干扰 → 视觉抖动 |
+
+**修复（已应用到项目）**：
+
+```typescript
+// src/components/ui/select/SelectContent.vue — 禁用 Reka UI 的 body scroll lock
+// scrollbar-gutter: stable 已独立处理滚动条预留，不需要 Reka UI 再做 body overflow/padding 补偿
+withDefaults(defineProps<SelectContentProps & { class?: ... }>(), {
+  position: "popper",
+  bodyLock: false,  // ← 新增
+})
+```
+
+```typescript
+// src/components/ui/popover/PopoverContent.vue — 位置更新策略改为 optimized
+withDefaults(defineProps<PopoverContentProps & { class?: ... }>(), {
+  align: "center",
+  sideOffset: 4,
+  updatePositionStrategy: "optimized",  // ← 原为 "always"
+})
+```
+
+**防御性措施**（`src/style.css`）：
+
+```css
+html {
+  overflow-y: auto;
+  overflow-x: clip; /* 阻止 portal 弹出层溢出 viewport 时产生水平滚动条 */
+  scrollbar-gutter: stable;
+}
+```
+
+> **原理**：`overflow-y: auto` 会让 `overflow-x` 的计算值从 `visible` 变成 `auto`（CSS Overflow 规范），导致 portal 内容（NationalityField 640px / PhoneField 600px 宽 Popover，且 `:avoid-collisions="false"`）溢出时产生水平滚动条。显式设 `overflow-x: clip` 可阻止此行为，且 `clip` 不会被 `overflow-y` 的计算规则改写。
+
+**涉及组件速查**：
+
+| 组件 | Portal 方式 | 抖动类型 | 修复位置 |
+|------|------------|---------|---------|
+| SelectField（标准 Select） | `SelectPortal` → body | bodyLock 双倍补偿 | `SelectContent.vue` |
+| SelectField（filterable Popover） | `PopoverPortal` → body | updatePositionStrategy | `PopoverContent.vue`（全局生效） |
+| NationalityField | `PopoverPortal` → body | updatePositionStrategy + 溢出 | `PopoverContent.vue` + `style.css` |
+| PhoneField | `PopoverPortal` → body | updatePositionStrategy + 溢出 | 同上 |
+| DateField | `PopoverPortal` → body | 无问题（不涉及 scroll lock） | — |
+
+> **教训**：`scrollbar-gutter: stable` 和 Reka UI 的 `bodyLock` 都在处理滚动条空间预留，同时启用会双倍补偿。选择一种机制即可——本项目用 `scrollbar-gutter: stable`（纯 CSS、无需 JS 介入）。
+
 ---
 
 ## 6. 选项定义规范

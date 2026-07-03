@@ -3,7 +3,7 @@
 // 基于 shadcn-vue Calendar + Popover，通过 i18n key 引用所有可见文字
 // 使用 @internationalized/date 的 parseDate 实现 CalendarDate 互操作
 
-import { computed } from 'vue'
+import { computed, inject, ref, watch, type Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as icons from '@lucide/vue'
 import { parseDate, type CalendarDate } from '@internationalized/date'
@@ -35,6 +35,16 @@ const emit = defineEmits<{
 }>()
 
 const { t, locale } = useI18n()
+
+// 注入父组件的一键填充状态：填充期间强制关闭日历面板，防止被意外展开
+const isFormFilling = inject<Ref<boolean>>('form-filling', ref(false))
+const popoverOpen = ref(false)
+watch([isFormFilling, popoverOpen], ([filling, open]) => {
+  if (filling && open) popoverOpen.value = false
+})
+function onPopoverUpdateOpen(val: boolean) {
+  popoverOpen.value = val
+}
 
 const label = computed(() => t(props.labelKey))
 const description = computed(() =>
@@ -78,7 +88,7 @@ function onDateSelect(date: CalendarDate) {
     :description="description"
     :span="span"
   >
-    <Popover>
+    <Popover :open="popoverOpen" @update:open="onPopoverUpdateOpen">
       <PopoverTrigger as-child>
         <Button variant="outline" :id="name" :name="name" class="w-full justify-start text-left font-normal">
           <component :is="IconComponent" v-if="IconComponent" :size="16" class="mr-2 shrink-0 text-muted-foreground" />

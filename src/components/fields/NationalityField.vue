@@ -3,7 +3,7 @@
 // 按拼音（中文）或字母（英文）排序，分块展示
 // 每个块左侧显示大写字母，右侧 4 列网格展示国家 + 国旗
 
-import { computed, ref, watch } from 'vue'
+import { computed, inject, ref, watch, type Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Globe } from '@lucide/vue'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -47,6 +47,12 @@ const selectedLabel = computed(() => {
 // ---- Popover 状态 ----
 const popoverOpen = ref(false)
 const searchQuery = ref('')
+
+// 注入父组件的一键填充状态：填充期间强制关闭国家选择面板
+const isFormFilling = inject<Ref<boolean>>('form-filling', ref(false))
+watch([isFormFilling, () => popoverOpen.value], ([filling, open]) => {
+  if (filling && open) popoverOpen.value = false
+})
 
 const filteredOptions = computed(() => {
   const q = searchQuery.value.trim().toLowerCase()
@@ -125,7 +131,7 @@ watch(popoverOpen, (open) => {
 
 <template>
   <FormFieldWrapper :label="label" :html-for="name" :required="required" :span="span">
-    <Popover v-model:open="popoverOpen">
+    <Popover v-model:open="popoverOpen" side="bottom" :avoid-collisions="false">
       <PopoverTrigger as-child>
         <Button
           variant="outline"
@@ -145,7 +151,7 @@ watch(popoverOpen, (open) => {
           </template>
         </Button>
       </PopoverTrigger>
-      <PopoverContent class="w-[800px] p-0" align="start">
+      <PopoverContent class="w-[640px] p-0" align="start" :side-offset="4">
         <div class="flex">
           <!-- 主内容区：搜索 + 分块网格 -->
           <div class="flex-1 min-w-0">
@@ -170,8 +176,8 @@ watch(popoverOpen, (open) => {
                   >
                     {{ letter }}
                   </div>
-                  <!-- 右侧 4 列网格 -->
-                  <div class="grid flex-1 grid-cols-4 gap-x-1 gap-y-0.5">
+                  <!-- 右侧 3 列网格 -->
+                  <div class="grid flex-1 grid-cols-3 gap-x-1 gap-y-0.5">
                     <button
                       v-for="opt in items"
                       :key="opt.value"

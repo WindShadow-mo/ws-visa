@@ -3,7 +3,7 @@
 // 将国家区号选择器（紧凑显示：国旗 + 区号 + 下拉箭头）与电话号码输入合并为一行
 // 区号选择复用 CountrySelectField 的拼音/字母索引 Popover 模式
 
-import { computed, ref, watch } from 'vue'
+import { computed, inject, ref, watch, type Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ChevronDown } from '@lucide/vue'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -108,6 +108,12 @@ const activeLetters = computed(() => new Set(groupedOptions.value.map(([l]) => l
 const codePopoverOpen = ref(false)
 const searchQuery = ref('')
 
+// 注入父组件的一键填充状态：填充期间强制关闭区号选择面板
+const isFormFilling = inject<Ref<boolean>>('form-filling', ref(false))
+watch([isFormFilling, () => codePopoverOpen.value], ([filling, open]) => {
+  if (filling && open) codePopoverOpen.value = false
+})
+
 const filteredOptions = computed(() => {
   const q = searchQuery.value.trim().toLowerCase()
   if (!q) return sortedOptions.value
@@ -156,7 +162,7 @@ watch(codePopoverOpen, (open) => {
             <ChevronDown :size="14" class="opacity-50 shrink-0" />
           </button>
         </PopoverTrigger>
-        <PopoverContent class="w-[600px] p-0" align="start">
+        <PopoverContent class="w-[600px] p-0" side="bottom" align="start" :side-offset="4" :avoid-collisions="false">
           <div class="flex">
             <!-- 主内容区：搜索 + 分块网格 -->
             <div class="flex-1 min-w-0">

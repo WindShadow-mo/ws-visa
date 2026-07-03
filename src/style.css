@@ -52,6 +52,8 @@
 @layer base {
   html {
     overflow-y: auto;
+    overflow-x: clip; /* 阻止 portal 弹出层（国籍640px/区号600px）溢出时产生水平滚动条导致页面抖动 */
+    scrollbar-gutter: stable; /* 始终预留滚动条空间，防止 Reka UI scroll-lock 时布局位移 */
   }
 
   * {

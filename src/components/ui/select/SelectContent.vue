@@ -19,6 +19,7 @@ const props = withDefaults(
   defineProps<SelectContentProps & { class?: HTMLAttributes["class"] }>(),
   {
     position: "popper",
+    bodyLock: false, // scrollbar-gutter: stable 已预留滚动条空间，无需 Reka UI 再做 body overflow/padding 补偿
   },
 )
 const emits = defineEmits<SelectContentEmits>()
