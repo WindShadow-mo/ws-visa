@@ -51,7 +51,7 @@ const description = computed(() =>
     <RadioGroup
       :model-value="modelValue"
       class="flex flex-wrap gap-2"
-      @update:model-value="emit('update:modelValue', $event)"
+      @update:model-value="emit('update:modelValue', $event as string)"
     >
       <!-- 隐藏 input 用于校验聚焦定位 -->
       <input type="hidden" :name="name" :value="modelValue" />

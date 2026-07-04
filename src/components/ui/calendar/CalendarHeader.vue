@@ -4,6 +4,7 @@ import type { HTMLAttributes } from "vue"
 import { computed } from "vue"
 import { reactiveOmit } from "@vueuse/core"
 import { CalendarDate } from "@internationalized/date"
+import type { AcceptableValue } from "reka-ui"
 import { CalendarHeader, useForwardProps } from "reka-ui"
 import {
   Select,
@@ -43,13 +44,13 @@ const yearRange = computed(() => {
   return Array.from({ length: currentYear - 1900 + 21 }, (_, i) => 1900 + i)
 })
 
-function onMonthChange(month: string) {
+function onMonthChange(month: AcceptableValue) {
   const m = Number(month)
   const date = new CalendarDate(props.year ?? new Date().getFullYear(), m, 1)
   emit("update:placeholder", date)
 }
 
-function onYearChange(year: string) {
+function onYearChange(year: AcceptableValue) {
   const y = Number(year)
   const date = new CalendarDate(y, props.month ?? new Date().getMonth() + 1, 1)
   emit("update:placeholder", date)

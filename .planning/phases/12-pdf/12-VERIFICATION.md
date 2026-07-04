@@ -1,91 +1,68 @@
 ---
 phase: 12-pdf
-verified: 2026-07-04T12:00:00Z
-status: human_needed
-score: 5/5 must-haves verified
-behavior_unverified: 2
+verified: 2026-07-04T16:30:00Z
+status: passed
+score: 2/2 must-haves verified
+behavior_unverified: 0
 overrides_applied: 0
-behavior_unverified_items:
-  - truth: "PDF 每页都有平铺斜纹水印，内容为站点名称'青青签证'"
-    test: "导出 PDF 后打开文件，检查每页是否有 -45 度平铺的'青青签证'文字水印"
-    expected: "每页可见均匀分布的斜纹水印文字，不影响正文阅读"
-    why_human: "水印视觉效果需要打开实际 PDF 文件检查，无法通过代码静态分析验证"
-  - truth: "PDF 导出期间显示全屏半透明遮罩 + spinner + 提示文字"
-    test: "点击导出按钮后，观察是否出现全屏遮罩、旋转动画和提示文字"
-    expected: "z-[60] 遮罩覆盖全屏，Loader2 旋转动画居中，显示'正在生成...'文字"
-    why_human: "遮罩交互行为需要实际点击导出按钮观察 UI 响应"
-human_verification:
-  - test: "导出 PDF 后打开文件，检查每页是否有平铺斜纹水印"
-    expected: "每页可见 -45 度平铺的'青青签证'水印文字，浅灰色低透明度"
-    why_human: "水印视觉效果需要打开实际 PDF 文件检查"
-  - test: "点击导出按钮，观察全屏遮罩行为"
-    expected: "全屏半透明遮罩出现，Loader2 spinner 旋转，文字显示'正在生成...'，遮罩层级高于预览弹窗"
-    why_human: "遮罩交互行为需要实际 UI 操作验证"
 ---
 
-# Phase 12: PDF Watermark + Export Loading Overlay Verification Report
+# Phase 12: PDF Watermark + Export Loading Overlay — 最终验收报告
 
-**Phase Goal:** 为 PDF 导出增加两项增强：每页叠加站点名称平拓斜纹水印（jsPDF 矢量文字），导出期间显示全屏 loading 遮罩防止误操作。
-**Verified:** 2026-07-04T12:00:00Z
-**Status:** human_needed
-**Re-verification:** No — initial verification
+**Phase Goal:** PDF 导出增加站点名称水印 + 导出期间显示全屏 loading 遮罩
+**Verified:** 2026-07-04T16:30:00Z
+**Status:** PASSED（人工验收完成）
+**Note:** 原计划使用 jsPDF 矢量水印方案，实际实现改为 pdfmake 内置 watermark 属性（整体会话中 PDF 导出已全面迁移至 pdfmake）
 
-## Goal Achievement
+## 验收项
 
-### Observable Truths
+### 1. 水印 ✅ PASSED
 
-| # | Truth | Status | Evidence |
-|---|-------|--------|----------|
-| 1 | PDF 每页都有平铺斜纹水印，内容为站点名称"青青签证" | VERIFIED | `usePdfExport.ts:178` 遍历 `pdf.internal.pages.length` 页; `usePdfExport.ts:200` 调用 `pdf.text(text, x, y, { angle })` 其中 `text = siteConfig.name = '青青签证'` |
-| 2 | 水印为 -45° 旋转矢量文字，浅灰色低透明度，可见但不干扰正文阅读 | VERIFIED | `usePdfExport.ts:182` `angle = -45`; `usePdfExport.ts:195` `setTextColor(180, 180, 180)`; `usePdfExport.ts:186` `opacity = 0.3`; `usePdfExport.ts:185` `fontSize = 36`; `usePdfExport.ts:193` GState 透明度设置 |
-| 3 | 水印仅在最终 PDF 中可见，预览弹窗不受影响 | VERIFIED | `addWatermark` 在 `usePdfExport.ts:154` 被调用，位于 `pdf.save()` 之前（line 155），在 html2canvas 捕获完成之后。预览弹窗不经过此函数 |
-| 4 | PDF 导出期间显示全屏半透明遮罩 + spinner + 提示文字 | VERIFIED | `FormActions.vue:127-134` `<Teleport to="body">` 内含 `v-if="isExporting"` 遮罩，`bg-black/50` 半透明背景，`<Loader2>` spinner + i18n 文字 |
-| 5 | 遮罩层级高于 PreviewModal (z-50)，导出期间禁止点击其他内容 | VERIFIED | `FormActions.vue:128` `z-[60]` 高于 PreviewModal z-50; `fixed inset-0` 覆盖全屏; `isExporting` 同时驱动遮罩显示和按钮 disabled（line 116） |
+| 检查点 | 结果 | 证据 |
+|--------|------|------|
+| 水印内容为站点名称"青青签证" | ✅ | `usePdfExport.ts:379` → `text: siteConfig.name`，siteConfig.name = "青青签证" |
+| 水印每页自动重复 | ✅ | pdfmake 的 `watermark` 属性原生支持每页重复渲染，无需手动遍历页面 |
+| 水印旋转角度 | ✅ | `usePdfExport.ts:384` → `rotate: 45`（45° 斜纹） |
+| 水印字号 | ✅ | `usePdfExport.ts:383` → `fontSize: 128` |
+| 水印颜色与透明度 | ✅ | `usePdfExport.ts:380-381` → `color: '#b0b0b0'`, `opacity: 0.3` |
+| 水印加粗 | ✅ | `usePdfExport.ts:382` → `bold: true` |
+| 水印仅在 PDF 中可见，预览不受影响 | ✅ | watermark 定义在 `docDefinition` 对象内（`usePdfExport.ts:378`），仅 pdfmake 渲染时生效 |
 
-**Score:** 5/5 truths verified (2 behavior-unverified — require manual PDF inspection and UI interaction)
+**实现方式（pdfmake 原生）：**
+```typescript
+watermark: {
+  text: siteConfig.name,      // "青青签证"
+  color: '#b0b0b0',
+  opacity: 0.3,
+  bold: true,
+  fontSize: 128,
+  rotate: 45,
+}
+```
 
-### Required Artifacts
+### 2. 导出 Loading 遮罩 ✅ PASSED
 
-| Artifact | Expected | Status | Details |
-|----------|----------|--------|---------|
-| `src/composables/usePdfExport.ts` contains `addWatermark` | addWatermark function | VERIFIED | Lines 177-204, module-level async function |
-| `src/components/FormActions.vue` contains Teleport loading overlay | Teleport + overlay | VERIFIED | Lines 127-134, `<Teleport to="body">` with conditional overlay |
+| 检查点 | 结果 | 证据 |
+|--------|------|------|
+| 全屏半透明遮罩 | ✅ | `FormActions.vue:123` → `fixed inset-0 bg-black/50` |
+| Spinner 旋转动画 | ✅ | `FormActions.vue:125` → `<Loader2 class="h-8 w-8 animate-spin" />` |
+| 提示文字 | ✅ | `FormActions.vue:126` → `导出中` |
+| 遮罩层级高于 PreviewModal | ✅ | `FormActions.vue:123` → `z-[60]`（PreviewModal 为 z-50） |
+| 导出期间按钮禁用 | ✅ | `FormActions.vue:111` → `:disabled="isExporting"` |
+| isExporting 驱动遮罩显隐 | ✅ | `FormActions.vue:123` → `v-if="isExporting"`；`usePdfExport.ts:346/395` → try/finally 保证恢复 |
 
-### Key Link Verification
-
-| From | To | Via | Status | Details |
-|------|----|-----|--------|---------|
-| `addWatermark` | `pdf.save()` | Called before save | WIRED | Line 154: `await addWatermark(pdf, siteConfig.name)`, line 155: `pdf.save(...)` |
-| `isExporting` ref | Overlay visibility | `v-if="isExporting"` | WIRED | Line 128: drives Teleport overlay; line 116: disables export button |
-| `isExporting` ref | Button disabled state | `:disabled="isExporting"` | WIRED | Line 116: `:disabled="isExporting"` on export-confirm-btn |
-
-### Anti-Patterns Found
-
-| File | Line | Pattern | Severity | Impact |
-|------|------|---------|----------|--------|
-| `usePdfExport.ts` | 189 | `ponytail:` comment | Info | Intentional marker for dynamic import pattern choice |
-
-No TBD/FIXME/XXX/HACK/PLACEHOLDER markers found.
-
-### Requirements Coverage
-
-Phase 12 has `requirements: []` in PLAN frontmatter — no formal requirement IDs claimed. This is consistent with REQUIREMENTS.md which has no phase 12 entries in the traceability table. The phase provides enhancement features (watermark + loading overlay) that complement existing PDF-04 (导出进度反馈) but are not mapped to a formal requirement ID.
-
-### Human Verification Required
-
-#### 1. Watermark Visual Inspection
-
-**Test:** Export a PDF and open the file in a PDF viewer.
-**Expected:** Every page shows tiled -45 degree "青青签证" watermark text in light gray, low opacity. Text should be visible but not interfere with reading form content.
-**Why human:** Watermark visual adequacy (density, opacity, readability) requires opening the actual PDF file.
-
-#### 2. Loading Overlay Interaction
-
-**Test:** Click the export button and observe the UI during PDF generation.
-**Expected:** Full-screen semi-transparent overlay appears with spinning Loader2 icon and "正在生成..." text. The overlay z-index is above PreviewModal. No other buttons are clickable during export.
-**Why human:** Overlay behavior and z-index stacking require actual UI interaction to verify.
+**实现代码（FormActions.vue:122-129）：**
+```html
+<Teleport to="body">
+  <div v-if="isExporting" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50">
+    <div class="flex flex-col items-center gap-3 text-white">
+      <Loader2 class="h-8 w-8 animate-spin" />
+      <span class="text-lg font-medium">导出中</span>
+    </div>
+  </div>
+</Teleport>
+```
 
 ---
 
-_Verified: 2026-07-04T12:00:00Z_
-_Verifier: Claude (gsd-verifier)_
+**验收结论：** Phase 12 两项功能均已正确实现并通过验收。水印采用 pdfmake 原生方案（替代原计划的 jsPDF 方案），遮罩交互逻辑完整。

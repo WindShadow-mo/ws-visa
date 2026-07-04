@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import {
   DialogContent,
   DialogOverlay,
@@ -47,14 +46,13 @@ interface FieldGroup {
 function groupFields(fields: PreviewField[]): FieldGroup[] {
   if (fields.length === 0) return []
   const groups: FieldGroup[] = []
-  let current: FieldGroup = { cardName: null, fields: [fields[0]] }
+  let current: FieldGroup = { cardName: fields[0].cardName ?? null, fields: [fields[0]] }
 
   for (let i = 1; i < fields.length; i++) {
     const field = fields[i]
     if (field.groupStart) {
       groups.push(current)
-      const name = field.label.includes(' - ') ? field.label.split(' - ')[0] : null
-      current = { cardName: name, fields: [field] }
+      current = { cardName: field.cardName ?? null, fields: [field] }
     } else {
       current.fields.push(field)
     }
@@ -120,16 +118,17 @@ function groupFields(fields: PreviewField[]): FieldGroup[] {
                           </div>
                         </div>
                       </div>
-                      <!-- 普通字段：直接渲染 -->
-                      <div
-                        v-else
-                        v-for="field in group.fields"
-                        :key="field.label"
-                        :class="[fieldSpanClass(field), 'preview-field']"
-                      >
-                        <span class="preview-field-label">{{ field.label }}</span>
-                        <span class="preview-field-value">{{ field.value || '—' }}</span>
-                      </div>
+                      <!-- 独立字段组（触发问题等）：直接渲染，不包卡片 -->
+                      <template v-else>
+                        <div
+                          v-for="field in group.fields"
+                          :key="field.label"
+                          :class="[fieldSpanClass(field), 'preview-field']"
+                        >
+                          <span class="preview-field-label">{{ field.label }}</span>
+                          <span class="preview-field-value">{{ field.value || '—' }}</span>
+                        </div>
+                      </template>
                     </template>
                   </div>
                 </div>

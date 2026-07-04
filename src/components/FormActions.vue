@@ -11,7 +11,7 @@
  * - 若校验失败，父组件自行处理（如聚焦到第一个缺失字段）
  */
 
-import { nextTick, ref } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { FileDown, Loader2, Database } from 'lucide-vue-next'
 import { usePdfExport, type PreviewSection } from '@/composables/usePdfExport'
@@ -42,24 +42,19 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const isDev = import.meta.env.DEV
 
-// ---- PDF 导出 ----
+// ---- PDF 导出（pdfmake 矢量方案） ----
 
 const { exportPdf, isExporting } = usePdfExport()
 const showPreview = ref(false)
-const previewContentRef = ref<HTMLElement | null>(null)
 
 async function openPreview() {
   showPreview.value = true
-  await nextTick()
-  // 等待 Dialog 动画完成后获取预览内容元素
-  await new Promise((r) => setTimeout(r, 300))
-  previewContentRef.value = document.querySelector('.preview-pdf-data')
 }
 
 async function handleExportFromPreview() {
   const docTitle = props.buildPdfTitle(props.formTitle)
   const filename = props.buildPdfFilename(props.formTitle)
-  await exportPdf(previewContentRef.value ?? undefined, filename, docTitle, props.formTitle, props.formSubtitle)
+  await exportPdf(props.sections, filename, docTitle, props.formTitle, props.formSubtitle)
   showPreview.value = false
 }
 

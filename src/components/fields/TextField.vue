@@ -121,7 +121,7 @@ const IconComponent = computed(() => {
         :inputmode="inputmode"
         :pattern="constraint ? CONSTRAINT_HTML_PATTERNS[constraint] : undefined"
         :class="[IconComponent ? 'pl-10' : '', suffix ? 'pr-8' : '']"
-        @update:model-value="(v: string) => emit('update:modelValue', filterByConstraint(constraint, v))"
+        @update:model-value="(v: string | number) => emit('update:modelValue', filterByConstraint(constraint, String(v)))"
       />
       <span v-if="suffix" class="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground pointer-events-none">{{ suffix }}</span>
     </div>

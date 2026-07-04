@@ -2,7 +2,7 @@
 import type { CalendarRootEmits, CalendarRootProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 import { computed, ref } from "vue"
-import { CalendarDate } from "@internationalized/date"
+import { CalendarDate, type DateValue } from "@internationalized/date"
 import { CalendarRoot, useForwardPropsEmits } from "reka-ui"
 import { cn } from "@/lib/utils"
 import { CalendarCell, CalendarCellTrigger, CalendarGrid, CalendarGridBody, CalendarGridHead, CalendarGridRow, CalendarHeadCell, CalendarHeader, CalendarNextButton, CalendarPrevButton } from "."
@@ -12,7 +12,7 @@ const props = defineProps<CalendarRootProps & { class?: HTMLAttributes["class"],
 const emits = defineEmits<CalendarRootEmits>()
 
 const delegatedProps = computed(() => {
-  const { class: _, locale: _l, ...rest } = props
+  const { class: _, locale: _l, placeholder: _ph, ...rest } = props
   return rest
 })
 
@@ -20,14 +20,16 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
 
 // 控制当前显示的年月
 const now = new CalendarDate(new Date().getFullYear(), new Date().getMonth() + 1, 1)
-const placeholder = ref<CalendarDate>(props.placeholder ?? now)
+const placeholder = ref<DateValue>(props.placeholder ?? now)
 
-function handlePlaceholderUpdate(date: CalendarDate) {
+function handlePlaceholderUpdate(date: DateValue) {
   placeholder.value = date
 }
 
 const displayedMonth = computed(() => placeholder.value.month)
 const displayedYear = computed(() => placeholder.value.year)
+// ponytail: bridge type mismatch between @internationalized/date DateValue and reka-ui's DateValue
+const placeholderProxy = computed(() => placeholder.value as any)
 </script>
 
 <template>
@@ -35,7 +37,7 @@ const displayedYear = computed(() => placeholder.value.year)
     v-slot="{ grid, weekDays }"
     :class="cn('p-3', props.class)"
     :locale="locale"
-    :placeholder="placeholder"
+    :placeholder="placeholderProxy"
     @update:placeholder="handlePlaceholderUpdate"
     v-bind="forwarded"
   >

@@ -254,11 +254,12 @@ Plans:
 **Requirements**: —
 **Depends on:** Phase 11
 **Plans:** 1/1 plans complete
+**Verification:** ✅ Passed (2026-07-04)
 
 Plans:
 **Wave 1**
 
-- [x] 12-01-PLAN.md — usePdfExport 水印函数（addWatermark + siteConfig.name）+ FormActions loading 遮罩（Teleport + z-[60]）
+- [x] 12-01-PLAN.md — usePdfExport 水印函数（pdfmake watermark 属性）+ FormActions loading 遮罩（Teleport + z-[60]）
 
 ---
 *Roadmap created: 2026-06-27*

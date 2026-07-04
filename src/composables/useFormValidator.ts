@@ -32,7 +32,7 @@ export function useFormValidator(
     const missing: MissingField[] = []
     for (const section of sectionsRef.value) {
       for (const field of section.fields) {
-        if (field.required && (!field.value || !field.value.trim())) {
+        if (field.required && !String(field.value ?? '').trim()) {
           missing.push({ label: field.label, section: section.title })
         }
       }

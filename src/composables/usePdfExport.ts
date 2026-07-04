@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { siteConfig } from '@/config/site'
+import pdfMake from 'pdfmake/build/pdfmake'
 
 // ---- 通用预览/导出类型 ----
 
@@ -30,6 +31,8 @@ export interface PreviewField {
   name?: string
   /** 可重复组中每组起始标记，预览中在此字段上方加分隔线 */
   groupStart?: boolean
+  /** 可重复组卡片头标题（仅在 groupStart 字段上设置，不再从 label 中拆分） */
+  cardName?: string
 }
 
 /** 预览中一个分组 */
@@ -40,135 +43,352 @@ export interface PreviewSection {
   fields: PreviewField[]
 }
 
+// ---- pdfmake 矢量 PDF 导出 ----
+
+const SPAN_COLS: Record<string, number> = { full: 4, half: 2, third: 1 }
+
+/** 将字段 span 映射为表格列数 */
+function fieldCols(field: PreviewField): number {
+  if (field.span) return SPAN_COLS[field.span]
+  if (field.type) return SPAN_COLS[DEFAULT_FIELD_SPAN[field.type]]
+  return 4
+}
+
+/** 可重复组分组结果 */
+interface FieldGroup {
+  cardName: string | null
+  fields: PreviewField[]
+}
+
+/** 按 groupStart 标记将字段分为卡片组（与 PreviewModal 逻辑一致） */
+function groupFields(fields: PreviewField[]): FieldGroup[] {
+  if (fields.length === 0) return []
+  const groups: FieldGroup[] = []
+  let current: FieldGroup = { cardName: fields[0].cardName ?? null, fields: [fields[0]] }
+
+  for (let i = 1; i < fields.length; i++) {
+    const field = fields[i]
+    if (field.groupStart) {
+      groups.push(current)
+      current = { cardName: field.cardName ?? null, fields: [field] }
+    } else {
+      current.fields.push(field)
+    }
+  }
+  groups.push(current)
+  return groups
+}
+
 /**
- * PDF 导出 composable
+ * 构建字段内层表格（4 列网格，与 PreviewModal 的 fields-grid 对应）
+ */
+function buildFieldsTable(fields: PreviewField[]): any {
+  const body: any[][] = []
+  let i = 0
+
+  while (i < fields.length) {
+    // 统一使用竖向布局（label 在上，value 在下），通过 colSpan 控制宽度
+    const row: any[] = []
+    let rowCols = 0
+    while (i < fields.length) {
+      const c = fieldCols(fields[i])
+      if (rowCols + c > 4) break
+      row.push({
+        stack: [
+          { text: fields[i].label, fontSize: 9, color: '#6b7280', margin: [0, 0, 0, 6] },
+          { text: fields[i].value || '—', fontSize: 11, color: '#111827', bold: true },
+        ],
+        colSpan: c,
+        margin: [4, 6, 4, 6] as [number, number, number, number],
+      })
+      for (let j = 1; j < c; j++) row.push({ text: '' })
+      rowCols += c
+      i++
+    }
+    while (row.length < 4) row.push({ text: '' })
+    body.push(row)
+  }
+
+  return {
+    table: { widths: ['*', '*', '*', '*'], body },
+    layout: {
+      hLineWidth: () => 0.5,
+      vLineWidth: () => 0,
+      hLineColor: () => '#e5e7eb',
+      vLineColor: () => '#ffffff',
+      paddingTop: () => 3,
+      paddingBottom: () => 3,
+    },
+  }
+}
+
+/**
+ * 构建卡片表格（可重复组 → 带标题头的灰色卡片；普通字段 → 无头卡片）
  *
- * 按 [data-pdf-section] 元素逐个捕获，智能分页避免内容割裂。
- * 若单个 section 超过一页高度，才对该 section 做固定裁切。
+ * 外层单列表格提供灰色背景 (#fafbfc)，内层为字段网格。
+ * 有 cardName 时顶部插入标题行 (#f0f2f5 背景)。
+ */
+function buildCardTable(cardName: string | null, fields: PreviewField[]): any {
+  const outerBody: any[] = []
+
+  if (cardName) {
+    outerBody.push([
+      {
+        text: cardName,
+        fontSize: 10,
+        bold: true,
+        color: '#1f2937',
+        fillColor: '#e5e7eb',
+        margin: [10, 8, 10, 6],
+      },
+    ])
+  }
+
+  outerBody.push([
+    {
+      ...buildFieldsTable(fields),
+      margin: cardName ? [4, 2, 4, 4] : [4, 4, 4, 4],
+    },
+  ])
+
+  return {
+    table: {
+      widths: ['*'],
+      body: outerBody.map((row) => [...row.map((cell: any) => ({ ...cell, unbreakable: true }))]),
+    },
+    layout: {
+      hLineWidth: (_i: number, _node: any) => 1,
+      vLineWidth: () => 1,
+      hLineColor: () => '#d1d5db',
+      vLineColor: () => '#d1d5db',
+      paddingLeft: () => 0,
+      paddingRight: () => 0,
+      paddingTop: () => 0,
+      paddingBottom: () => 0,
+    },
+    fillColor: '#fafbfc',
+  }
+}
+
+/**
+ * 估算一个分组渲染后的近似高度（pt），用于分页合并策略
+ * 实测：每字段行约 35-40pt（含 padding + 字号 + 行间距），卡片额外开销约 40pt
+ */
+function groupHeight(group: FieldGroup): number {
+  const base = group.fields.length * 28
+  return group.cardName ? base + 40 : base
+}
+
+/** 将一个分组的内容推入 stack 数组 */
+function pushGroupToStack(stack: any[], group: FieldGroup) {
+  if (group.cardName) {
+    stack.push({ ...buildCardTable(group.cardName, group.fields), margin: [0, 0, 0, 12] })
+  } else {
+    stack.push({ ...buildFieldsTable(group.fields), margin: [0, 0, 0, 6] })
+  }
+}
+
+/**
+ * A4 页面可用高度（含 margin 后）约 756pt。
+ * 为保证块在任何页面位置都能显示（含标题行 overhead），单块内容上限取 520pt。
+ * 超过此阈值的块将不设置 unbreakable，允许 pdfmake 自然跨页。
+ */
+const MAX_UNBREAKABLE_HEIGHT = 520
+
+/**
+ * 将 sections 构建为 pdfmake 文档定义
+ */
+function buildDocDefinition(
+  sections: PreviewSection[],
+  formTitle?: string,
+  formSubtitle?: string,
+): any[] {
+  const content: any[] = []
+
+  // ---- 标题 ----
+  if (formTitle) {
+    content.push({
+      text: formTitle,
+      fontSize: 20,
+      bold: true,
+      color: '#111827',
+      alignment: 'center',
+      margin: [0, 0, 0, 6],
+    })
+    if (formSubtitle) {
+      content.push({
+        text: formSubtitle,
+        fontSize: 13,
+        color: '#6b7280',
+        alignment: 'center',
+        margin: [0, 0, 0, 14],
+      })
+    } else {
+      content.push({ text: '', margin: [0, 0, 0, 10] })
+    }
+  }
+
+  // ---- 各分组 ----
+  for (const section of sections) {
+    const groups = groupFields(section.fields)
+    if (groups.length === 0) continue
+
+    // section 标题 + 分隔线（始终与第一个内容块保持在一起）
+    const headerItems: any[] = [
+      {
+        text: section.title.toUpperCase(),
+        fontSize: 12,
+        bold: true,
+        color: '#374151',
+        margin: [0, 20, 0, 4],
+      },
+      {
+        canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1.5, lineColor: '#9ca3af' }],
+        margin: [0, 0, 0, 10],
+      },
+    ]
+
+    // 第一个组加入 header
+    pushGroupToStack(headerItems, groups[0])
+    let headerHeight = groupHeight(groups[0])
+
+    // 如果第一个组是 standalone（触发问题），按高度上限合并紧跟的卡片组
+    let g = 1
+    if (!groups[0].cardName) {
+      while (g < groups.length) {
+        const addH = groupHeight(groups[g])
+        if (headerHeight + addH > MAX_UNBREAKABLE_HEIGHT) break
+        pushGroupToStack(headerItems, groups[g])
+        headerHeight += addH
+        g++
+        // 遇到下一个 standalone 触发问题时停止合并（它应和后续卡片自成一块）
+        if (g < groups.length && !groups[g].cardName) break
+      }
+    }
+
+    // 超过阈值则不设为 unbreakable，允许 pdfmake 跨页
+    content.push({ stack: headerItems, unbreakable: headerHeight <= MAX_UNBREAKABLE_HEIGHT })
+
+    // 剩余组：按高度上限贪心合并，超过阈值时自动切换为可分页
+    let currentBlock: any[] = []
+    let currentHeight = 0
+    let lastGroup: FieldGroup | null = null
+
+    for (; g < groups.length; g++) {
+      const group = groups[g]
+      const h = groupHeight(group)
+
+      // standalone 触发问题：刷新当前块，开启新块
+      if (!group.cardName) {
+        if (currentBlock.length > 0) {
+          content.push({ stack: currentBlock, unbreakable: currentHeight <= MAX_UNBREAKABLE_HEIGHT })
+          currentBlock = []
+          currentHeight = 0
+          lastGroup = null
+        }
+        pushGroupToStack(currentBlock, group)
+        currentHeight = h
+        lastGroup = group
+        continue
+      }
+
+      // cardName 组：尝试合并到当前块
+      if (currentBlock.length === 0) {
+        pushGroupToStack(currentBlock, group)
+        currentHeight = h
+        lastGroup = group
+      } else if (lastGroup && !lastGroup.cardName && currentHeight + h <= MAX_UNBREAKABLE_HEIGHT) {
+        // 当前块以 standalone 开头，合并此卡片（不超过阈值）
+        pushGroupToStack(currentBlock, group)
+        currentHeight += h
+        lastGroup = group
+      } else {
+        // 超出阈值或当前块已是卡片，先输出旧块再开新块
+        content.push({ stack: currentBlock, unbreakable: currentHeight <= MAX_UNBREAKABLE_HEIGHT })
+        currentBlock = []
+        currentHeight = 0
+        lastGroup = null
+        pushGroupToStack(currentBlock, group)
+        currentHeight = h
+        lastGroup = group
+      }
+    }
+
+    // 输出最后一块
+    if (currentBlock.length > 0) {
+      content.push({ stack: currentBlock, unbreakable: currentHeight <= MAX_UNBREAKABLE_HEIGHT })
+    }
+  }
+
+  return content
+}
+
+/**
+ * PDF 导出 composable — pdfmake 矢量方案
+ *
+ * 直接构建矢量 PDF，文字可选可搜索。
+ * 需要 CJK 字体文件：将 .ttf 放到 public/fonts/NotoSansSC-Regular.ttf
  */
 export function usePdfExport() {
   const isExporting = ref(false)
 
-  async function exportPdf(target?: HTMLElement | null, filename?: string, docTitle?: string, formTitle?: string, formSubtitle?: string): Promise<void> {
+  async function exportPdf(
+    sections: PreviewSection[],
+    filename?: string,
+    docTitle?: string,
+    formTitle?: string,
+    formSubtitle?: string,
+  ): Promise<void> {
     if (isExporting.value) return
-
-    const needsCssOverride = !target
-    const container = target ?? document.querySelector('.glass-card') as HTMLElement | null
-    if (!container) return
-
     isExporting.value = true
-    const scrollFix = expandForCapture(container)
-
-    if (needsCssOverride) {
-      document.body.classList.add('pdf-exporting')
-      await new Promise((r) => setTimeout(r, 400))
-    }
 
     try {
-      await new Promise((r) => setTimeout(r, 50))
+      // 加载 CJK 字体（首次加载后浏览器缓存）
+      const fontResp = await fetch('/fonts/NotoSansSC-Regular.ttf')
+      if (!fontResp.ok) throw new Error('CJK 字体加载失败，请确保 /fonts/NotoSansSC-Regular.ttf 存在')
+      const fontBuffer = await fontResp.arrayBuffer()
 
-      const html2canvas = (await import('html2canvas')).default
-      const { jsPDF } = await import('jspdf')
+      // ArrayBuffer → base64（分块避免大文件栈溢出）
+      const fontBase64 = arrayBufferToBase64(fontBuffer)
 
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
-      if (docTitle) {
-        pdf.setProperties({ title: docTitle })
-      }
-      const marginMm = 10
-      const usableWidthMm = 190  // 210 - 10*2
-      const usableHeightMm = 277 // 297 - 10*2
+      // 写入 pdfmake 虚拟文件系统，再用文件名引用（浏览器版标准做法）
+      const fontFilename = 'NotoSansSC-Regular.ttf'
+      ;(pdfMake as any).virtualfs.writeFileSync(fontFilename, fontBase64, 'base64')
 
-      // 查找分页锚点
-      const sectionEls = container.querySelectorAll<HTMLElement>('[data-pdf-section]')
-      const breakEls = container.querySelectorAll<HTMLElement>('[data-pdf-break]')
+      pdfMake.setFonts({
+        NotoSansSC: {
+          normal: fontFilename,
+          bold: fontFilename,
+          italics: fontFilename,
+          bolditalics: fontFilename,
+        },
+      })
 
-      if (sectionEls.length > 0) {
-        // ---- 按 section 逐个捕获 ----
+      const content = buildDocDefinition(sections, formTitle, formSubtitle)
 
-        // 用 Canvas 2D 渲染表头（避免 DOM 捕获的布局问题）
-        let cursorMm = 0
-        if (formTitle) {
-          const titleCanvas = document.createElement('canvas')
-          const titleWPx = 1840
-          const dpr = 2
-          const hasSub = !!formSubtitle
-          const titleHPx = (hasSub ? 140 : 100) * dpr
-          titleCanvas.width = titleWPx
-          titleCanvas.height = titleHPx
-          const tctx = titleCanvas.getContext('2d')!
-          tctx.fillStyle = '#ffffff'
-          tctx.fillRect(0, 0, titleWPx, titleHPx)
-          tctx.fillStyle = '#111827'
-          tctx.font = `bold ${36 * dpr}px "Microsoft YaHei", "PingFang SC", sans-serif`
-          tctx.textAlign = 'center'
-          tctx.textBaseline = 'middle'
-          tctx.fillText(formTitle, titleWPx / 2, 60 * dpr)
-          if (hasSub) {
-            tctx.fillStyle = '#6b7280'
-            tctx.font = `${24 * dpr}px "Microsoft YaHei", "PingFang SC", sans-serif`
-            tctx.fillText(formSubtitle, titleWPx / 2, 110 * dpr)
-          }
-          const titleHMm = (titleCanvas.height / titleCanvas.width) * usableWidthMm
-          pdf.addImage(titleCanvas.toDataURL('image/png'), 'PNG', marginMm, marginMm, usableWidthMm, titleHMm)
-          cursorMm = titleHMm + 4
-        }
-
-        // 逐个 section 捕获并放置
-
-        for (const section of Array.from(sectionEls)) {
-          const sectionCanvas = await html2canvas(section, {
-            scale: 2,
-            useCORS: true,
-            backgroundColor: '#ffffff',
-            logging: false,
-          })
-
-          const sectionHeightMm = (sectionCanvas.height / sectionCanvas.width) * usableWidthMm
-
-          if (sectionHeightMm <= usableHeightMm) {
-            // 整块放得下
-            if (cursorMm + sectionHeightMm > usableHeightMm) {
-              pdf.addPage()
-              cursorMm = 0
-            }
-            pdf.addImage(sectionCanvas.toDataURL('image/png'), 'PNG', marginMm, marginMm + cursorMm, usableWidthMm, sectionHeightMm)
-            cursorMm += sectionHeightMm + 4 // 4mm section 间距
-          } else {
-            // 单个 section 超过一页，强制裁切
-            if (cursorMm > 0) {
-              pdf.addPage()
-              cursorMm = 0
-            }
-            addSlicedToPdf(pdf, sectionCanvas, usableWidthMm, usableHeightMm, marginMm)
-          }
-        }
-      } else {
-        // ---- 无 section 标记，退回到整体捕获 + 智能裁切 ----
-        // 尝试在 [data-pdf-break] 元素处分页
-        const canvas = await html2canvas(container, {
-          scale: 2,
-          useCORS: true,
-          backgroundColor: '#ffffff',
-          logging: false,
-        })
-
-        if (breakEls.length > 0) {
-          addWithBreakPointsToPdf(pdf, canvas, container, breakEls, usableWidthMm, usableHeightMm, marginMm)
-        } else {
-          addSlicedToPdf(pdf, canvas, usableWidthMm, usableHeightMm, marginMm)
-        }
+      const docDefinition = {
+        defaultStyle: {
+          font: 'NotoSansSC',
+          fontSize: 10,
+        },
+        info: docTitle ? { title: docTitle, author: siteConfig.name } : undefined,
+        watermark: {
+          text: siteConfig.name,
+          color: '#b0b0b0',
+          opacity: 0.3,
+          bold: true,
+          fontSize: 128,
+          rotate: 45,
+        },
+        content,
       }
 
-      addWatermark(pdf, siteConfig.name)
-      pdf.save(filename ?? `UK-Visa-Application-${Date.now()}.pdf`)
+      const pdfDoc = pdfMake.createPdf(docDefinition)
+      await pdfDoc.download(filename ?? `UK-Visa-Application-${Date.now()}.pdf`)
     } catch (err) {
       console.error('PDF export failed:', err)
       alert('PDF 生成失败，请重试。')
     } finally {
-      scrollFix()
-      if (needsCssOverride) {
-        document.body.classList.remove('pdf-exporting')
-      }
       isExporting.value = false
     }
   }
@@ -176,204 +396,15 @@ export function usePdfExport() {
   return { exportPdf, isExporting }
 }
 
-// ---- PDF 水印 ----
+// ---- 工具函数 ----
 
-/**
- * 在 PDF 每一页叠加平铺斜纹水印文字。
- * ponytail: jsPDF 默认字体不含 CJK 字形，pdf.text() 无法渲染中文。
- * 用 Canvas 2D（走系统字体）生成水印瓦片位图，再 addImage 叠加到每页。
- */
-function addWatermark(pdf: import('jspdf').jsPDF, text: string) {
-  const totalPages = pdf.internal.pages.length
-  const pageWidthMm = pdf.internal.pageSize.getWidth()
-  const pageHeightMm = pdf.internal.pageSize.getHeight()
-
-  const spacingXMm = 44
-  const spacingYMm = 46
-  const mmToPx = 3.78
-
-  // ponytail: jsPDF 默认字体不含 CJK 字形，pdf.text() 无法渲染中文。
-  // 用 Canvas 2D（走系统字体）生成水印瓦片位图，再 addImage 叠加到每页。
-  const tileWpx = Math.round(spacingXMm * mmToPx)
-  const tileHpx = Math.round(spacingYMm * mmToPx)
-
-  const canvas = document.createElement('canvas')
-  canvas.width = tileWpx
-  canvas.height = tileHpx
-  const ctx = canvas.getContext('2d')!
-  // 透明背景，不用 fillRect 填白色
-  ctx.fillStyle = '#b0b0b0'
-  ctx.font = '16px "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif'
-  ctx.textAlign = 'center'
-  ctx.textBaseline = 'middle'
-  ctx.translate(tileWpx / 2, tileHpx / 2)
-  ctx.rotate(-45 * Math.PI / 180)
-  ctx.fillText(text, 0, 0)
-
-  const dataUrl = canvas.toDataURL('image/png')
-
-  for (let i = 1; i <= totalPages; i++) {
-    pdf.setPage(i)
-    for (let y = 0; y < pageHeightMm + spacingYMm; y += spacingYMm) {
-      for (let x = -spacingXMm; x < pageWidthMm + spacingXMm; x += spacingXMm) {
-        pdf.addImage(dataUrl, 'PNG', x, y, spacingXMm, spacingYMm)
-      }
-    }
+/** ArrayBuffer → base64 字符串（分块避免大文件栈溢出） */
+function arrayBufferToBase64(buffer: ArrayBuffer): string {
+  const bytes = new Uint8Array(buffer)
+  const chunkSize = 8192
+  let binary = ''
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize))
   }
-}
-
-// ---- PDF 页面填充工具函数 ----
-
-/**
- * 将 canvas 按 A4 高度裁切，逐页放入 PDF。
- */
-function addSlicedToPdf(
-  pdf: import('jspdf').jsPDF,
-  canvas: HTMLCanvasElement,
-  usableWidthMm: number,
-  usableHeightMm: number,
-  marginMm: number,
-) {
-  const imgHeightMm = (canvas.height / canvas.width) * usableWidthMm
-  if (imgHeightMm <= usableHeightMm) {
-    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', marginMm, marginMm, usableWidthMm, imgHeightMm)
-    return
-  }
-
-  const pagePixelH = (usableHeightMm / usableWidthMm) * canvas.width
-  const totalPages = Math.ceil(canvas.height / pagePixelH)
-
-  for (let p = 0; p < totalPages; p++) {
-    if (p > 0) pdf.addPage()
-    const sliceH = Math.min(pagePixelH, canvas.height - p * pagePixelH)
-    const sc = document.createElement('canvas')
-    sc.width = canvas.width
-    sc.height = Math.ceil(sliceH)
-    sc.getContext('2d')!.drawImage(canvas, 0, -(p * pagePixelH))
-    const h = (sc.height / sc.width) * usableWidthMm
-    pdf.addImage(sc.toDataURL('image/png'), 'PNG', marginMm, marginMm, usableWidthMm, h)
-  }
-}
-
-/**
- * 利用 data-pdf-break 元素的位置在 PDF 中智能分页。
- */
-function addWithBreakPointsToPdf(
-  pdf: import('jspdf').jsPDF,
-  canvas: HTMLCanvasElement,
-  container: HTMLElement,
-  breakEls: NodeListOf<HTMLElement>,
-  usableWidthMm: number,
-  usableHeightMm: number,
-  marginMm: number,
-) {
-  const containerRect = container.getBoundingClientRect()
-  const scale = canvas.width / containerRect.width
-  const pagePixelH = usableHeightMm / usableWidthMm * canvas.width
-
-  // 收集每个 break 元素底部的 y 坐标（像素）
-  const breakYs: number[] = []
-  for (const el of Array.from(breakEls)) {
-    const rect = el.getBoundingClientRect()
-    breakYs.push(Math.round((rect.bottom - containerRect.top) * scale))
-  }
-
-  let start = 0
-  for (let i = 0; i < breakYs.length; i++) {
-    const breakY = breakYs[i]
-    const chunkH = breakY - start
-
-    if (chunkH <= pagePixelH) {
-      // 这块能放下
-      if (i === breakYs.length - 1) {
-        // 最后一块：把剩余内容也加上
-        addSliceToPdf(pdf, canvas, start, canvas.height - start, usableWidthMm, marginMm)
-      } else {
-        addSliceToPdf(pdf, canvas, start, chunkH, usableWidthMm, marginMm)
-      }
-      start = breakY
-    } else {
-      // 放不下，在 break 处切页
-      addSliceToPdf(pdf, canvas, start, chunkH > pagePixelH ? pagePixelH : chunkH, usableWidthMm, marginMm)
-      start = breakY
-    }
-  }
-
-  // 处理最后一个 break 之后的剩余内容
-  if (start < canvas.height) {
-    const remaining = canvas.height - start
-    const remainingMm = (remaining / canvas.width) * usableWidthMm
-    if (remainingMm > usableHeightMm) {
-      addSlicedToPdf(pdf, cropCanvas(canvas, start, remaining), usableWidthMm, usableHeightMm, marginMm)
-    } else {
-      pdf.addPage()
-      addSliceToPdf(pdf, canvas, start, remaining, usableWidthMm, marginMm)
-    }
-  }
-}
-
-function addSliceToPdf(
-  pdf: import('jspdf').jsPDF,
-  canvas: HTMLCanvasElement,
-  yPx: number,
-  hPx: number,
-  usableWidthMm: number,
-  marginMm: number,
-) {
-  const sc = cropCanvas(canvas, yPx, hPx)
-  const h = (sc.height / sc.width) * usableWidthMm
-  pdf.addImage(sc.toDataURL('image/png'), 'PNG', marginMm, marginMm, usableWidthMm, h)
-}
-
-function cropCanvas(src: HTMLCanvasElement, y: number, h: number): HTMLCanvasElement {
-  const c = document.createElement('canvas')
-  c.width = src.width
-  c.height = Math.ceil(h)
-  c.getContext('2d')!.drawImage(src, 0, -y)
-  return c
-}
-
-// ---- DOM 展开工具 ----
-
-/**
- * 临时展开可滚动容器及其祖先，使 html2canvas 能捕获完整内容。
- */
-function expandForCapture(el: HTMLElement): () => void {
-  const saved: Array<{ el: HTMLElement; css: Partial<CSSStyleDeclaration> }> = []
-
-  let node: HTMLElement | null = el
-  while (node && node !== document.body) {
-    const cs = getComputedStyle(node)
-    const needsFix =
-      cs.overflowY === 'auto' || cs.overflowY === 'scroll'
-      || cs.overflow === 'auto' || cs.overflow === 'scroll'
-      || (cs.maxHeight !== 'none' && cs.maxHeight !== '')
-      || cs.height !== 'auto'
-
-    if (needsFix) {
-      saved.push({
-        el: node,
-        css: {
-          overflow: node.style.overflow,
-          overflowY: node.style.overflowY,
-          height: node.style.height,
-          maxHeight: node.style.maxHeight,
-        },
-      })
-      node.style.overflow = 'visible'
-      node.style.overflowY = 'visible'
-      node.style.height = 'auto'
-      node.style.maxHeight = 'none'
-    }
-    node = node.parentElement
-  }
-
-  return () => {
-    for (const s of saved) {
-      s.el.style.overflow = s.css.overflow ?? ''
-      s.el.style.overflowY = s.css.overflowY ?? ''
-      s.el.style.height = s.css.height ?? ''
-      s.el.style.maxHeight = s.css.maxHeight ?? ''
-    }
-  }
+  return btoa(binary)
 }

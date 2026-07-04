@@ -6,7 +6,7 @@
 import { computed, inject, ref, watch, type Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as icons from '@lucide/vue'
-import { parseDate, type CalendarDate } from '@internationalized/date'
+import { parseDate, type CalendarDate, type DateValue } from '@internationalized/date'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
@@ -72,9 +72,11 @@ const displayText = computed(() => {
   return formatDisplayDate(props.modelValue, locale.value)
 })
 
-function onDateSelect(date: CalendarDate) {
+function onDateSelect(date: DateValue | undefined) {
+  if (!date || !('year' in date)) return
   // CalendarDate → ISO string: 直接拼接
-  const iso = `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`
+  const d = date as CalendarDate
+  const iso = `${d.year}-${String(d.month).padStart(2, '0')}-${String(d.day).padStart(2, '0')}`
   emit('update:modelValue', iso)
 }
 </script>

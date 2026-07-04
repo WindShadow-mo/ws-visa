@@ -89,10 +89,10 @@ const previewSections = computed(() => [
       { label: t('ukVisa.fields.firstName.label'), value: formData.firstName, required: true, type: 'text', name: 'firstName', span: 'third' },
       { label: t('ukVisa.fields.formerName.label'), value: formData.formerName, type: 'text', name: 'formerName', span: 'third' },
       { label: t('ukVisa.fields.dateOfBirth.label'), value: formatDate(formData.dateOfBirth), required: true, type: 'date', name: 'dateOfBirth' },
-      { label: t('ukVisa.fields.gender.label'), value: resolveOption(genderOptions, formData.gender), required: true, type: 'radio', name: 'gender' },
       { label: t('ukVisa.fields.phoneCountryCode.label'), value: resolveOption(phoneCountryCodeOptions, formData.phoneCountryCode) || formData.phoneCountryCode, required: true, type: 'select', name: 'phoneCountryCode', span: 'third' },
       { label: t('ukVisa.fields.phone.label'), value: formData.phone, required: true, type: 'text', name: 'phone', span: 'third' },
       { label: t('ukVisa.fields.email.label'), value: formData.email, required: true, type: 'text', name: 'email', span: 'third' },
+      { label: t('ukVisa.fields.gender.label'), value: resolveOption(genderOptions, formData.gender), required: true, type: 'radio', name: 'gender' },
     ],
   },
   // 2. 证件与护照
@@ -141,10 +141,10 @@ const previewSections = computed(() => [
             { label: t('ukVisa.fields.spouseName.label'), value: formData.spouseName, required: true, type: 'text', name: 'spouseName', span: 'third' as const },
             { label: t('ukVisa.fields.spouseNationality.label'), value: resolveOption(nationalityOptions, formData.spouseNationality) || formData.spouseNationality, required: true, type: 'select', name: 'spouseNationality', span: 'third' as const },
             { label: t('ukVisa.fields.spouseDob.label'), value: formatDate(formData.spouseDob), required: true, name: 'spouseDob', type: 'date' },
-            { label: t('ukVisa.fields.spouseChangedNationality.label'), value: resolveOption(yesNoOptions, formData.spouseChangedNationality), required: true, type: 'radio', name: 'spouseChangedNationality' },
             { label: t('ukVisa.fields.spouseBirthCity.label'), value: formData.spouseBirthCity, required: true, type: 'text', name: 'spouseBirthCity' as const, span: 'third' as const },
             { label: t('ukVisa.fields.spouseCountry.label'), value: resolveOption(nationalityOptions, formData.spouseCountry), required: true, type: 'select', name: 'spouseCountry' as const, span: 'third' as const },
             { label: t('ukVisa.fields.spouseAddress.label'), value: formData.spouseAddress, required: true, type: 'text', name: 'spouseAddress' as const },
+            { label: t('ukVisa.fields.spouseChangedNationality.label'), value: resolveOption(yesNoOptions, formData.spouseChangedNationality), required: true, type: 'radio', name: 'spouseChangedNationality' },
           ]
         : []),
     ],
@@ -153,20 +153,20 @@ const previewSections = computed(() => [
   {
     title: t('ukVisa.sections.parentInfo'),
     fields: [
-      { label: t('ukVisa.subLabels.father') + ' - ' + t('ukVisa.fields.father_name.label'), value: formData.father_name, required: true, type: 'text', name: 'father_name', span: 'third' },
+      { label: t('ukVisa.fields.father_name.label'), value: formData.father_name, required: true, type: 'text', name: 'father_name', span: 'third', groupStart: true, cardName: t('ukVisa.subLabels.father') },
       { label: t('ukVisa.fields.father_nationality.label'), value: resolveOption(nationalityOptions, formData.father_nationality) || formData.father_nationality, required: true, type: 'select', name: 'father_nationality', span: 'third' },
       { label: t('ukVisa.fields.father_dob.label'), value: formatDate(formData.father_dob), required: true, type: 'date', name: 'father_dob' },
-      { label: t('ukVisa.fields.father_changed_nationality.label'), value: resolveOption(yesNoOptions, formData.father_changed_nationality), type: 'radio', name: 'father_changed_nationality' },
-      { label: t('ukVisa.fields.father_going_to_uk.label'), value: resolveOption(yesNoOptions, formData.father_going_to_uk), required: true, type: 'radio', name: 'father_going_to_uk' },
       { label: t('ukVisa.fields.father_country.label'), value: resolveOption(nationalityOptions, formData.father_country), required: true, type: 'select', name: 'father_country', span: 'third' },
       { label: t('ukVisa.fields.father_address.label'), value: formData.father_address, required: true, type: 'text', name: 'father_address' },
-      { label: t('ukVisa.subLabels.mother') + ' - ' + t('ukVisa.fields.mother_name.label'), value: formData.mother_name, required: true, type: 'text', name: 'mother_name', span: 'third' },
+      { label: t('ukVisa.fields.father_changed_nationality.label'), value: resolveOption(yesNoOptions, formData.father_changed_nationality), type: 'radio', name: 'father_changed_nationality' },
+      { label: t('ukVisa.fields.father_going_to_uk.label'), value: resolveOption(yesNoOptions, formData.father_going_to_uk), required: true, type: 'radio', name: 'father_going_to_uk' },
+      { label: t('ukVisa.fields.mother_name.label'), value: formData.mother_name, required: true, type: 'text', name: 'mother_name', span: 'third', groupStart: true, cardName: t('ukVisa.subLabels.mother') },
       { label: t('ukVisa.fields.mother_nationality.label'), value: resolveOption(nationalityOptions, formData.mother_nationality) || formData.mother_nationality, required: true, type: 'select', name: 'mother_nationality', span: 'third' },
       { label: t('ukVisa.fields.mother_dob.label'), value: formatDate(formData.mother_dob), required: true, type: 'date', name: 'mother_dob' },
-      { label: t('ukVisa.fields.mother_changed_nationality.label'), value: resolveOption(yesNoOptions, formData.mother_changed_nationality), type: 'radio', name: 'mother_changed_nationality' },
-      { label: t('ukVisa.fields.mother_going_to_uk.label'), value: resolveOption(yesNoOptions, formData.mother_going_to_uk), required: true, type: 'radio', name: 'mother_going_to_uk' },
       { label: t('ukVisa.fields.mother_country.label'), value: resolveOption(nationalityOptions, formData.mother_country), required: true, type: 'select', name: 'mother_country', span: 'third' },
       { label: t('ukVisa.fields.mother_address.label'), value: formData.mother_address, required: true, type: 'text', name: 'mother_address' },
+      { label: t('ukVisa.fields.mother_changed_nationality.label'), value: resolveOption(yesNoOptions, formData.mother_changed_nationality), type: 'radio', name: 'mother_changed_nationality' },
+      { label: t('ukVisa.fields.mother_going_to_uk.label'), value: resolveOption(yesNoOptions, formData.mother_going_to_uk), required: true, type: 'radio', name: 'mother_going_to_uk' },
     ],
   },
   // 6. 子女信息
@@ -175,14 +175,14 @@ const previewSections = computed(() => [
     fields: [
       { label: t('ukVisa.fields.hasChildren.label'), value: resolveOption(yesNoOptions, formData.hasChildren), required: true, type: 'radio', name: 'hasChildren' },
       ...children.map((c, i) => [
-        { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.name.label')}`, value: c.name, required: true, type: 'text', name: `child_${i}_name`, span: 'third' as const, groupStart: true },
-        { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.nationality.label')}`, value: resolveOption(nationalityOptions, c.nationality) || c.nationality, required: true, type: 'select', name: `child_${i}_nationality`, span: 'third' as const },
-        { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.dob.label')}`, value: formatDate(c.dob), required: true, type: 'date', name: `child_${i}_dob` as const },
-        { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.relation.label')}`, value: resolveOption(childRelationOptions, c.relation), required: true, type: 'select', name: `child_${i}_relation` as const, span: 'third' as const },
-        { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.changedNationality.label')}`, value: resolveOption(yesNoOptions, c.changedNationality), required: true, type: 'radio', name: `child_${i}_changed` },
-        { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.goingToUK.label')}`, value: resolveOption(yesNoOptions, c.goingToUK), required: true, type: 'radio', name: `child_${i}_going` },
-        { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.country.label')}`, value: resolveOption(nationalityOptions, c.country) || c.country, required: true, type: 'select', name: `child_${i}_country` as const, span: 'third' as const },
-        { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.address.label')}`, value: c.address, type: 'text', name: `child_${i}_addr` as const, span: 'half' as const },
+        { label: t('ukVisa.fields.child.name.label'), value: c.name, required: true, type: 'text', name: `child_${i}_name`, span: 'third' as const, groupStart: true, cardName: `${t('ukVisa.subLabels.child')} ${i + 1}` },
+        { label: t('ukVisa.fields.child.nationality.label'), value: resolveOption(nationalityOptions, c.nationality) || c.nationality, required: true, type: 'select', name: `child_${i}_nationality`, span: 'third' as const },
+        { label: t('ukVisa.fields.child.dob.label'), value: formatDate(c.dob), required: true, type: 'date', name: `child_${i}_dob` as const },
+        { label: t('ukVisa.fields.child.relation.label'), value: resolveOption(childRelationOptions, c.relation), required: true, type: 'select', name: `child_${i}_relation` as const, span: 'third' as const },
+        { label: t('ukVisa.fields.child.changedNationality.label'), value: resolveOption(yesNoOptions, c.changedNationality), required: true, type: 'radio', name: `child_${i}_changed` },
+        { label: t('ukVisa.fields.child.goingToUK.label'), value: resolveOption(yesNoOptions, c.goingToUK), required: true, type: 'radio', name: `child_${i}_going` },
+        { label: t('ukVisa.fields.child.country.label'), value: resolveOption(nationalityOptions, c.country) || c.country, required: true, type: 'select', name: `child_${i}_country` as const, span: 'third' as const },
+        { label: t('ukVisa.fields.child.address.label'), value: c.address, type: 'text', name: `child_${i}_addr` as const, span: 'half' as const },
       ]).flat(),
     ],
   },
@@ -202,11 +202,11 @@ const previewSections = computed(() => [
     fields: [
       { label: t('ukVisa.fields.hasCompanion.label'), value: resolveOption(yesNoOptions, formData.hasCompanion), required: true, type: 'radio', name: 'hasCompanion' },
       ...companions.map((c, i) => [
-        { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.name.label')}`, value: c.name, required: true, type: 'text', name: `comp_${i}_name`, span: 'third' as const, groupStart: true },
-        { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.nationality.label')}`, value: resolveOption(nationalityOptions, c.nationality) || c.nationality, required: true, type: 'select', name: `comp_${i}_nationality`, span: 'third' as const },
-        { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.dob.label')}`, value: formatDate(c.dob), required: true, type: 'date', name: `comp_${i}_dob` as const },
-        { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.relation.label')}`, value: resolveOption(companionRelationOptions, c.relation), required: true, type: 'select', name: `comp_${i}_relation` as const, span: 'third' as const },
-        { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.passport.label')}`, value: c.passport, required: true, type: 'text', name: `comp_${i}_passport` as const },
+        { label: t('ukVisa.fields.companion.name.label'), value: c.name, required: true, type: 'text', name: `comp_${i}_name`, span: 'third' as const, groupStart: true, cardName: `${t('ukVisa.subLabels.companion')} ${i + 1}` },
+        { label: t('ukVisa.fields.companion.nationality.label'), value: resolveOption(nationalityOptions, c.nationality) || c.nationality, required: true, type: 'select', name: `comp_${i}_nationality`, span: 'third' as const },
+        { label: t('ukVisa.fields.companion.dob.label'), value: formatDate(c.dob), required: true, type: 'date', name: `comp_${i}_dob` as const },
+        { label: t('ukVisa.fields.companion.relation.label'), value: resolveOption(companionRelationOptions, c.relation), required: true, type: 'select', name: `comp_${i}_relation` as const, span: 'third' as const },
+        { label: t('ukVisa.fields.companion.passport.label'), value: c.passport, required: true, type: 'text', name: `comp_${i}_passport` as const },
       ]).flat(),
     ],
   },
@@ -218,14 +218,18 @@ const previewSections = computed(() => [
       ...(formData.employmentStatus === 'working' || formData.employmentStatus === 'studying'
         ? [
             { label: t('ukVisa.fields.jobStartDate.label'), value: formatDate(formData.jobStartDate), required: true, name: 'jobStartDate', type: 'date' },
-            { label: t(companyNameKey.value), value: formData.companyName, required: true, type: 'text', name: 'companyName' as const, span: 'third' as const },
-            { label: t(companyPhoneKey.value), value: formData.companyPhone, type: 'text', name: 'companyPhone', span: 'third' as const },
+            ...(formData.employmentStatus === 'working'
+              ? [
+                  { label: t('ukVisa.fields.jobTitle.label'), value: formData.jobTitle, required: true, type: 'text', name: 'jobTitle' as const, span: 'third' as const },
+                  { label: t('ukVisa.fields.monthlySalary.label'), value: formData.monthlySalary, required: true, type: 'text', name: 'monthlySalary' as const, span: 'third' as const },
+                ]
+              : []),
+            { label: t(companyNameKey.value), value: formData.companyName, required: true, type: 'text', name: 'companyName' as const, span: 'half' as const },
+            { label: t(companyPhoneKey.value), value: formData.companyPhone, type: 'text', name: 'companyPhone', span: 'half' as const },
             { label: t(companyPostalCodeKey.value), value: formData.companyPostalCode, type: 'text', name: 'companyPostalCode', span: 'third' as const },
             { label: t(companyAddressKey.value), value: formData.companyAddress, required: true, type: 'text', name: 'companyAddress', span: 'full' },
             ...(formData.employmentStatus === 'working'
               ? [
-                  { label: t('ukVisa.fields.jobTitle.label'), value: formData.jobTitle, required: true, type: 'text', name: 'jobTitle' as const, span: 'third' as const },
-                  { label: t('ukVisa.fields.monthlySalary.label'), value: formData.monthlySalary != null ? String(formData.monthlySalary) : '', required: true, type: 'text', name: 'monthlySalary' as const, span: 'third' as const },
                   { label: t('ukVisa.fields.jobDuties.label'), value: formData.jobDuties, type: 'text', name: 'jobDuties' as const, span: 'full' as const },
                   { label: t('ukVisa.fields.otherIncome.label'), value: formData.otherIncome, required: true, type: 'text', name: 'otherIncome' as const, span: 'third' as const },
                 ]
@@ -241,13 +245,13 @@ const previewSections = computed(() => [
   {
     title: t('ukVisa.sections.financialInfo'),
     fields: [
-      { label: t('ukVisa.fields.estimatedUKSpend.label'), value: formData.estimatedUKSpend != null ? String(formData.estimatedUKSpend) : '', required: true, type: 'text', name: 'estimatedUKSpend', span: 'third' },
-      { label: t('ukVisa.fields.monthlyExpense.label'), value: formData.monthlyExpense != null ? String(formData.monthlyExpense) : '', required: true, type: 'text', name: 'monthlyExpense', span: 'third' },
+      { label: t('ukVisa.fields.estimatedUKSpend.label'), value: formData.estimatedUKSpend, required: true, type: 'text', name: 'estimatedUKSpend', span: 'third' },
+      { label: t('ukVisa.fields.monthlyExpense.label'), value: formData.monthlyExpense, required: true, type: 'text', name: 'monthlyExpense', span: 'third' },
       { label: t('ukVisa.fields.hasSponsor.label'), value: resolveOption(yesNoOptions, formData.hasSponsor), type: 'radio', name: 'hasSponsor' },
       ...(formData.hasSponsor === 'yes'
         ? [
             { label: t('ukVisa.fields.sponsorName.label'), value: formData.sponsorName, required: true, type: 'text', name: 'sponsorName' as const, span: 'third' as const },
-            { label: t('ukVisa.fields.sponsorAmount.label'), value: formData.sponsorAmount != null ? String(formData.sponsorAmount) : '', required: true, type: 'text', name: 'sponsorAmount', span: 'third' },
+            { label: t('ukVisa.fields.sponsorAmount.label'), value: formData.sponsorAmount, required: true, type: 'text', name: 'sponsorAmount', span: 'third' },
             { label: t('ukVisa.fields.sponsorRelation.label'), value: formData.sponsorRelation, required: true, type: 'text', name: 'sponsorRelation' as const, span: 'third' as const },
           ]
         : []),
@@ -290,31 +294,31 @@ const previewSections = computed(() => [
         : []),
       { label: t('ukVisa.fields.visitedUK.label'), value: resolveOption(yesNoOptions, formData.visitedUK), required: true, type: 'radio', name: 'visitedUK' },
       ...ukVisits.map((v, i) => [
-        { label: `${t('ukVisa.subLabels.ukVisit', { index: i + 1 })} - ${t('ukVisa.fields.ukVisit.date.label')}`, value: v.date, required: true, type: 'date', name: `visit_${i}_date` as const, groupStart: true },
-        { label: `${t('ukVisa.subLabels.ukVisit', { index: i + 1 })} - ${t('ukVisa.fields.ukVisit.duration.label')}`, value: v.duration, required: true, type: 'text', name: `visit_${i}_duration` as const, span: 'third' as const },
-        { label: `${t('ukVisa.subLabels.ukVisit', { index: i + 1 })} - ${t('ukVisa.fields.ukVisit.purpose.label')}`, value: v.purpose, required: true, type: 'text', name: `visit_${i}_purpose` as const, span: 'full' as const },
+        { label: t('ukVisa.fields.ukVisit.date.label'), value: v.date, required: true, type: 'date', name: `visit_${i}_date` as const, groupStart: true, cardName: t('ukVisa.subLabels.ukVisit', { index: i + 1 }) },
+        { label: t('ukVisa.fields.ukVisit.duration.label'), value: v.duration, required: true, type: 'text', name: `visit_${i}_duration` as const, span: 'third' as const },
+        { label: t('ukVisa.fields.ukVisit.purpose.label'), value: v.purpose, required: true, type: 'text', name: `visit_${i}_purpose` as const, span: 'full' as const },
       ]).flat(),
-      { label: t('ukVisa.fields.beenRefused.label'), value: resolveOption(yesNoOptions, formData.beenRefused), required: true, type: 'radio', name: 'beenRefused' },
+      { label: t('ukVisa.fields.beenRefused.label'), value: resolveOption(yesNoOptions, formData.beenRefused), required: true, type: 'radio', name: 'beenRefused', groupStart: true },
       ...refusals.map((r, i) => [
-        { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.country.label')}`, value: resolveOption(nationalityOptions, r.country) || r.country, required: true, type: 'select', name: `refusal_${i}_country` as const, span: 'third' as const, groupStart: true },
-        { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.date.label')}`, value: r.date, required: true, type: 'date', name: `refusal_${i}_date` as const },
-        { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.refNumber.label')}`, value: r.refNumber, type: 'text', name: `refusal_${i}_ref` as const, span: 'third' as const },
-        { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.reason.label')}`, value: r.reason, required: true, type: 'text', name: `refusal_${i}_reason` as const, span: 'full' as const },
+        { label: t('ukVisa.fields.refusal.country.label'), value: resolveOption(nationalityOptions, r.country) || r.country, required: true, type: 'select', name: `refusal_${i}_country` as const, span: 'third' as const, groupStart: true, cardName: t('ukVisa.subLabels.refusal', { index: i + 1 }) },
+        { label: t('ukVisa.fields.refusal.date.label'), value: r.date, required: true, type: 'date', name: `refusal_${i}_date` as const },
+        { label: t('ukVisa.fields.refusal.refNumber.label'), value: r.refNumber, type: 'text', name: `refusal_${i}_ref` as const, span: 'third' as const },
+        { label: t('ukVisa.fields.refusal.reason.label'), value: r.reason, required: true, type: 'text', name: `refusal_${i}_reason` as const, span: 'full' as const },
       ]).flat(),
-      { label: t('ukVisa.fields.appliedUKStay.label'), value: resolveOption(yesNoOptions, formData.appliedUKStay), required: true, type: 'radio', name: 'appliedUKStay' },
+      { label: t('ukVisa.fields.appliedUKStay.label'), value: resolveOption(yesNoOptions, formData.appliedUKStay), required: true, type: 'radio', name: 'appliedUKStay', groupStart: true },
       ...(formData.appliedUKStay === 'yes'
         ? [
-            { label: t('ukVisa.fields.applyDetail_date.label'), value: formData.applyDetail_date, required: true, type: 'date', name: 'applyDetail_date' },
+            { label: t('ukVisa.fields.applyDetail_date.label'), value: formatDate(formData.applyDetail_date), required: true, type: 'date', name: 'applyDetail_date' },
             { label: t('ukVisa.fields.applyDetail_approved.label'), value: resolveOption(yesNoOptions, formData.applyDetail_approved), required: true, type: 'radio', name: 'applyDetail_approved' },
             { label: t('ukVisa.fields.applyDetail_reason.label'), value: formData.applyDetail_reason, required: true, type: 'text', name: 'applyDetail_reason' as const },
           ]
         : []),
-      { label: t('ukVisa.fields.visitedOtherCountries.label'), value: resolveOption(yesNoOptions, formData.visitedOtherCountries), required: true, type: 'radio', name: 'visitedOtherCountries' },
+      { label: t('ukVisa.fields.visitedOtherCountries.label'), value: resolveOption(yesNoOptions, formData.visitedOtherCountries), required: true, type: 'radio', name: 'visitedOtherCountries', groupStart: true },
       ...otherCountries.map((c, i) => [
-        { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.name.label')}`, value: resolveOption(otherCountryOptions, c.name), required: true, type: 'select', name: `oc_${i}_name` as const, span: 'third' as const, groupStart: true },
-        { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.date.label')}`, value: c.date, required: true, type: 'date', name: `oc_${i}_date` as const },
-        { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.duration.label')}`, value: c.duration, required: true, type: 'text', name: `oc_${i}_duration` as const, span: 'third' as const },
-        { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.purpose.label')}`, value: c.purpose, required: true, type: 'text', name: `oc_${i}_purpose`, span: 'full' as const },
+        { label: t('ukVisa.fields.otherCountry.name.label'), value: resolveOption(otherCountryOptions, c.name), required: true, type: 'select', name: `oc_${i}_name` as const, span: 'third' as const, groupStart: true, cardName: t('ukVisa.subLabels.otherCountry', { index: i + 1 }) },
+        { label: t('ukVisa.fields.otherCountry.date.label'), value: c.date, required: true, type: 'date', name: `oc_${i}_date` as const },
+        { label: t('ukVisa.fields.otherCountry.duration.label'), value: c.duration, required: true, type: 'text', name: `oc_${i}_duration` as const, span: 'third' as const },
+        { label: t('ukVisa.fields.otherCountry.purpose.label'), value: c.purpose, required: true, type: 'text', name: `oc_${i}_purpose`, span: 'full' as const },
       ]).flat(),
     ],
   },
@@ -351,6 +355,60 @@ useHead({
 
 // localStorage key
 const STORAGE_KEY = 'ws-visa-uk-form-data'
+
+// 表单数据结构
+interface UkVisaFormData {
+  // 第1组：基本信息
+  lastName: string; firstName: string; formerName: string; gender: string
+  dateOfBirth: string; phoneCountryCode: string; phoneCountryCodeOther: string
+  phone: string; email: string
+  // 第2组：护照与证件
+  passportNumber: string; passportIssueDate: string; passportExpiryDate: string
+  issuingAuthority: string; nationality: string; nationalityOther: string
+  isFirstPassport: string; hasOtherPassport: string; otherPassportCountry: string
+  otherPassportDetail: string; idCardNumber: string; idCardAuthority: string; idCardExpiry: string
+  // 第3组：居住地址
+  currentCountry: string; currentAddress: string; postalCode: string
+  housingStatus: string; residenceStartDate: string; houseOwner: string
+  // 第4组：婚姻与配偶
+  maritalStatus: string; spouseName: string; spouseDob: string; spouseNationality: string
+  spouseChangedNationality: string; spouseOtherNationality: string
+  spouseBirthCity: string; spouseCountry: string; spouseAddress: string
+  // 第5组：父母信息
+  father_name: string; father_nationality: string; father_changed_nationality: string
+  father_other_nationality: string; father_dob: string; father_going_to_uk: string
+  father_country: string; father_address: string
+  mother_name: string; mother_nationality: string; mother_changed_nationality: string
+  mother_other_nationality: string; mother_dob: string; mother_going_to_uk: string
+  mother_country: string; mother_address: string
+  // 第6组：子女
+  hasChildren: string
+  // 第7组：旅行计划
+  purposeOfVisit: string; intendedArrivalDate: string; intendedDepartureDate: string; travelPlanDesc: string
+  // 第8组：同行人
+  hasCompanion: string
+  // 第9组：工作与收入
+  employmentStatus: string; jobStartDate: string; companyName: string; companyAddress: string
+  companyPostalCode: string; companyPhone: string; jobTitle: string; jobDuties: string
+  monthlySalary: string; otherIncome: string; unemployedReason: string
+  // 第10组：财务
+  estimatedUKSpend: string; monthlyExpense: string
+  hasSponsor: string; sponsorName: string; sponsorRelation: string; sponsorAmount: string
+  // 第11组：英国联系人与住宿
+  hasUKContact: string; ukContactName: string; ukContactStatus: string; ukContactDocNumber: string
+  ukContactRelation: string; ukContactPhone: string; ukContactPostal: string
+  hasUKAccommodation: string; ukAccommodationDetail: string; ukAccommodationCountry: string
+  ukAccommodationAddress: string; ukAccommodationPostal: string; ukCheckinDate: string; ukCheckoutDate: string
+  // 第12组：签证与旅行历史
+  hadUKVisa: string; lastUKVisaDate: string; visitedUK: string; beenRefused: string
+  appliedUKStay: string; applyDetail_date: string; applyDetail_reason: string; applyDetail_approved: string
+  visitedOtherCountries: string
+  // 第13组：安全与背景
+  hasUKInsurance: string; insuranceNumber: string; insuranceReason: string
+  hasCriminalRecord: string; hasTerrorism: string; hasBeenProsecuted: string
+  hasGenocide: string; hasArmedConflict: string; hasSpecialIndustry: string
+  specialIndustries: string; specialIndustryDetail: string
+}
 
 // 表单默认结构（key 的集合决定 schema 版本）
 const defaultData = {
@@ -438,17 +496,17 @@ const defaultData = {
   companyPhone: '',
   jobTitle: '',
   jobDuties: '',
-  monthlySalary: undefined,
+  monthlySalary: '',
   otherIncome: '',
   unemployedReason: '',
 
   // 第10组：财务信息
-  estimatedUKSpend: undefined,
-  monthlyExpense: undefined,
+  estimatedUKSpend: '',
+  monthlyExpense: '',
   hasSponsor: '',
   sponsorName: '',
   sponsorRelation: '',
-  sponsorAmount: undefined,
+  sponsorAmount: '',
 
   // 第11组：英国联系人与住宿
   hasUKContact: '',
@@ -521,7 +579,7 @@ const formData = reactive(
       key,
       (savedData as Record<string, unknown>)?.[key] ?? defaultVal,
     ]),
-  ) as Record<string, string | number | undefined>,
+  ) as unknown as UkVisaFormData,
 )
 
 // 一键填充状态：供 DateField 等子组件在填充期间禁用 Popover，防止日期面板被意外展开
@@ -583,8 +641,9 @@ watch(
 
 // 清除数据（二次确认）
 function clearForm() {
+  const fd = formData as unknown as Record<string, any>
   for (const key of Object.keys(formData)) {
-    formData[key] = (defaultData as Record<string, unknown>)[key] ?? ''
+    fd[key] = (defaultData as Record<string, unknown>)[key] ?? ''
   }
   companions.splice(0)
   children.splice(0)
@@ -600,8 +659,9 @@ function fillTestData() {
   if (!import.meta.env.DEV) return
   isFormFilling.value = true
   // 先清空所有字段，避免残留旧数据与测试数据合并
+  const fd = formData as unknown as Record<string, any>
   for (const key of Object.keys(formData)) {
-    formData[key] = (defaultData as Record<string, unknown>)[key] ?? ''
+    fd[key] = (defaultData as Record<string, unknown>)[key] ?? ''
   }
   companions.splice(0)
   children.splice(0)
@@ -610,7 +670,7 @@ function fillTestData() {
   otherCountries.splice(0)
   // 填入样本数据
   for (const key of Object.keys(mockFormData.formData)) {
-    formData[key] = mockFormData.formData[key]
+    fd[key] = (mockFormData.formData as Record<string, unknown>)[key]
   }
   // 填充可重复组
   companions.push(...mockFormData.companions)
@@ -743,7 +803,7 @@ function handleExportClick() {
   // 1. 校验普通必填字段
   for (const section of previewSections.value) {
     for (const field of section.fields) {
-      if (field.required && (!field.value || !field.value.trim())) {
+      if (field.required && !String(field.value ?? '').trim()) {
         missingFields.push({ name: (field as any).name ?? '', label: field.label, section: section.title })
       }
     }
@@ -1111,7 +1171,7 @@ if (typeof window !== 'undefined') {
                   <!-- 工作职位 + 月薪 (仅在职时显示) -->
                   <div v-if="formData.employmentStatus === 'working'" style="display: contents">
                     <TextField name="jobTitle" label-key="ukVisa.fields.jobTitle.label" placeholder-key="ukVisa.fields.jobTitle.placeholder" v-model="formData.jobTitle" span="third" required prefix-icon="Briefcase" />
-                    <NumberField name="monthlySalary" label-key="ukVisa.fields.monthlySalary.label" :model-value="formData.monthlySalary as number | undefined" @update:model-value="v => formData.monthlySalary = v" span="third" required :min="0" suffix="¥" />
+                    <NumberField name="monthlySalary" label-key="ukVisa.fields.monthlySalary.label" :model-value="Number(formData.monthlySalary) || undefined" @update:model-value="v => formData.monthlySalary = v != null ? String(v) : ''" span="third" required :min="0" suffix="¥" />
                   </div>
                   <!-- Row 2: 公司/学校名 + 联系电话 (动态 i18n) -->
                   <TextField name="companyName" :label-key="companyNameKey" :placeholder-key="companyNamePlaceholder" v-model="formData.companyName" span="half" required prefix-icon="Building" />
@@ -1143,15 +1203,15 @@ if (typeof window !== 'undefined') {
             <AccordionContent>
               <div class="fields-grid">
                 <!-- 预计花费 + 月支出 -->
-                <NumberField name="estimatedUKSpend" label-key="ukVisa.fields.estimatedUKSpend.label" :model-value="formData.estimatedUKSpend as number | undefined" @update:model-value="v => formData.estimatedUKSpend = v" :min="0" required span="third" suffix="¥" />
-                <NumberField name="monthlyExpense" label-key="ukVisa.fields.monthlyExpense.label" :model-value="formData.monthlyExpense as number | undefined" @update:model-value="v => formData.monthlyExpense = v" :min="0" required span="third" suffix="¥" />
+                <NumberField name="estimatedUKSpend" label-key="ukVisa.fields.estimatedUKSpend.label" :model-value="Number(formData.estimatedUKSpend) || undefined" @update:model-value="v => formData.estimatedUKSpend = v != null ? String(v) : ''" :min="0" required span="third" suffix="¥" />
+                <NumberField name="monthlyExpense" label-key="ukVisa.fields.monthlyExpense.label" :model-value="Number(formData.monthlyExpense) || undefined" @update:model-value="v => formData.monthlyExpense = v != null ? String(v) : ''" :min="0" required span="third" suffix="¥" />
                 <!-- 是否有赞助人 -->
                 <RadioField name="hasSponsor" label-key="ukVisa.fields.hasSponsor.label" :options="yesNoOptions" v-model="formData.hasSponsor" />
               </div>
               <div v-if="formData.hasSponsor === 'yes'" class="conditional-group">
                 <div class="fields-grid">
                   <TextField name="sponsorName" label-key="ukVisa.fields.sponsorName.label" placeholder-key="ukVisa.fields.sponsorName.placeholder" v-model="formData.sponsorName" required span="third" prefix-icon="UserCheck" />
-                  <NumberField name="sponsorAmount" label-key="ukVisa.fields.sponsorAmount.label" :model-value="formData.sponsorAmount as number | undefined" @update:model-value="v => formData.sponsorAmount = v" :min="0" required span="third" suffix="¥" />
+                  <NumberField name="sponsorAmount" label-key="ukVisa.fields.sponsorAmount.label" :model-value="Number(formData.sponsorAmount) || undefined" @update:model-value="v => formData.sponsorAmount = v != null ? String(v) : ''" :min="0" required span="third" suffix="¥" />
                   <TextField name="sponsorRelation" label-key="ukVisa.fields.sponsorRelation.label" placeholder-key="ukVisa.fields.sponsorRelation.placeholder" v-model="formData.sponsorRelation" required span="third" prefix-icon="Users" />
                 </div>
               </div>

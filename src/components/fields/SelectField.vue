@@ -95,7 +95,7 @@ watch(popoverOpen, (open) => {
       v-if="!filterable"
       :model-value="modelValue"
       :multiple="multiple"
-      @update:model-value="emit('update:modelValue', $event)"
+      @update:model-value="emit('update:modelValue', $event as string | string[])"
     >
       <SelectTrigger :id="name" :name="name" class="bg-muted/30">
         <SelectValue :placeholder="selectedLabel">{{ selectedLabel }}</SelectValue>
