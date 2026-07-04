@@ -59,7 +59,7 @@ async function openPreview() {
 async function handleExportFromPreview() {
   const docTitle = props.buildPdfTitle(props.formTitle)
   const filename = props.buildPdfFilename(props.formTitle)
-  await exportPdf(previewContentRef.value ?? undefined, filename, docTitle)
+  await exportPdf(previewContentRef.value ?? undefined, filename, docTitle, props.formTitle, props.formSubtitle)
   showPreview.value = false
 }
 
@@ -123,6 +123,15 @@ defineExpose({ openPreview })
       </template>
     </PreviewModal>
   </div>
+
+  <Teleport to="body">
+    <div v-if="isExporting" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50">
+      <div class="flex flex-col items-center gap-3 text-white">
+        <Loader2 class="h-8 w-8 animate-spin" />
+        <span class="text-lg font-medium">导出中</span>
+      </div>
+    </div>
+  </Teleport>
 </template>
 
 <style scoped>

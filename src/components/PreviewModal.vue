@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import {
   DialogContent,
   DialogOverlay,
@@ -35,6 +36,31 @@ function fieldSpanClass(field: PreviewField): string {
   if (span === 'half') return 'field-span-half'
   if (span === 'third') return 'field-span-third'
   return 'field-span-full'
+}
+
+interface FieldGroup {
+  cardName: string | null
+  fields: PreviewField[]
+}
+
+/** 将 section.fields 按 groupStart 分成卡片组 */
+function groupFields(fields: PreviewField[]): FieldGroup[] {
+  if (fields.length === 0) return []
+  const groups: FieldGroup[] = []
+  let current: FieldGroup = { cardName: null, fields: [fields[0]] }
+
+  for (let i = 1; i < fields.length; i++) {
+    const field = fields[i]
+    if (field.groupStart) {
+      groups.push(current)
+      const name = field.label.includes(' - ') ? field.label.split(' - ')[0] : null
+      current = { cardName: name, fields: [field] }
+    } else {
+      current.fields.push(field)
+    }
+  }
+  groups.push(current)
+  return groups
 }
 </script>
 
@@ -76,14 +102,35 @@ function fieldSpanClass(field: PreviewField): string {
                     {{ section.title }}
                   </h4>
                   <div class="fields-grid">
-                    <div
-                      v-for="field in section.fields"
-                      :key="field.label"
-                      :class="[fieldSpanClass(field), 'preview-field']"
+                    <template
+                      v-for="group in groupFields(section.fields)"
+                      :key="group.fields[0].label"
                     >
-                      <span class="preview-field-label">{{ field.label }}</span>
-                      <span class="preview-field-value">{{ field.value || '—' }}</span>
-                    </div>
+                      <!-- 可重复组：卡片包裹 -->
+                      <div v-if="group.cardName" class="preview-card">
+                        <div class="preview-card-header">{{ group.cardName }}</div>
+                        <div class="field-group-grid">
+                          <div
+                            v-for="field in group.fields"
+                            :key="field.label"
+                            :class="[fieldSpanClass(field), 'preview-field']"
+                          >
+                            <span class="preview-field-label">{{ field.label }}</span>
+                            <span class="preview-field-value">{{ field.value || '—' }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- 普通字段：直接渲染 -->
+                      <div
+                        v-else
+                        v-for="field in group.fields"
+                        :key="field.label"
+                        :class="[fieldSpanClass(field), 'preview-field']"
+                      >
+                        <span class="preview-field-label">{{ field.label }}</span>
+                        <span class="preview-field-value">{{ field.value || '—' }}</span>
+                      </div>
+                    </template>
                   </div>
                 </div>
               </div>
@@ -145,6 +192,32 @@ function fieldSpanClass(field: PreviewField): string {
   gap: 0.25rem;
   padding: 0.5rem 0;
   border-bottom: 1px dashed #e5e7eb;
+}
+
+/* 可重复组卡片 */
+.preview-card {
+  grid-column: span 4;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background: #fafbfc;
+  overflow: hidden;
+}
+
+.preview-card-header {
+  padding: 0.375rem 0.75rem;
+  background: #f0f2f5;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #374151;
+  letter-spacing: 0.025em;
+}
+
+.field-group-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  padding: 0.75rem;
 }
 
 .preview-field-label {

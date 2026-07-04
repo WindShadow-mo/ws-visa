@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { siteConfig } from '@/config/site'
 
 // ---- 通用预览/导出类型 ----
 
@@ -27,6 +28,8 @@ export interface PreviewField {
   required?: boolean
   /** 对应 DOM 元素的 name 属性（用于聚焦到缺失字段） */
   name?: string
+  /** 可重复组中每组起始标记，预览中在此字段上方加分隔线 */
+  groupStart?: boolean
 }
 
 /** 预览中一个分组 */
@@ -46,7 +49,7 @@ export interface PreviewSection {
 export function usePdfExport() {
   const isExporting = ref(false)
 
-  async function exportPdf(target?: HTMLElement | null, filename?: string, docTitle?: string): Promise<void> {
+  async function exportPdf(target?: HTMLElement | null, filename?: string, docTitle?: string, formTitle?: string, formSubtitle?: string): Promise<void> {
     if (isExporting.value) return
 
     const needsCssOverride = !target
@@ -81,30 +84,36 @@ export function usePdfExport() {
 
       if (sectionEls.length > 0) {
         // ---- 按 section 逐个捕获 ----
-        const containerRect = container.getBoundingClientRect()
 
-        // 收集标题区域（第一个 section 之前的内容）
-        const firstSectionTop = sectionEls[0].getBoundingClientRect().top
-        const headerHeight = firstSectionTop - containerRect.top
-        if (headerHeight > 2) {
-          const headerCanvas = await html2canvas(container, {
-            scale: 2,
-            useCORS: true,
-            backgroundColor: '#ffffff',
-            logging: false,
-            y: containerRect.top,
-            height: headerHeight,
-            scrollY: 0,
-            scrollX: 0,
-          })
-          const h = (headerCanvas.height / headerCanvas.width) * usableWidthMm
-          pdf.addImage(headerCanvas.toDataURL('image/png'), 'PNG', marginMm, marginMm, usableWidthMm, h)
+        // 用 Canvas 2D 渲染表头（避免 DOM 捕获的布局问题）
+        let cursorMm = 0
+        if (formTitle) {
+          const titleCanvas = document.createElement('canvas')
+          const titleWPx = 1840
+          const dpr = 2
+          const hasSub = !!formSubtitle
+          const titleHPx = (hasSub ? 140 : 100) * dpr
+          titleCanvas.width = titleWPx
+          titleCanvas.height = titleHPx
+          const tctx = titleCanvas.getContext('2d')!
+          tctx.fillStyle = '#ffffff'
+          tctx.fillRect(0, 0, titleWPx, titleHPx)
+          tctx.fillStyle = '#111827'
+          tctx.font = `bold ${36 * dpr}px "Microsoft YaHei", "PingFang SC", sans-serif`
+          tctx.textAlign = 'center'
+          tctx.textBaseline = 'middle'
+          tctx.fillText(formTitle, titleWPx / 2, 60 * dpr)
+          if (hasSub) {
+            tctx.fillStyle = '#6b7280'
+            tctx.font = `${24 * dpr}px "Microsoft YaHei", "PingFang SC", sans-serif`
+            tctx.fillText(formSubtitle, titleWPx / 2, 110 * dpr)
+          }
+          const titleHMm = (titleCanvas.height / titleCanvas.width) * usableWidthMm
+          pdf.addImage(titleCanvas.toDataURL('image/png'), 'PNG', marginMm, marginMm, usableWidthMm, titleHMm)
+          cursorMm = titleHMm + 4
         }
 
         // 逐个 section 捕获并放置
-        let cursorMm = headerHeight > 2
-          ? (headerHeight / containerRect.width) * usableWidthMm + 4 // 4mm 间距
-          : 0
 
         for (const section of Array.from(sectionEls)) {
           const sectionCanvas = await html2canvas(section, {
@@ -150,6 +159,7 @@ export function usePdfExport() {
         }
       }
 
+      addWatermark(pdf, siteConfig.name)
       pdf.save(filename ?? `UK-Visa-Application-${Date.now()}.pdf`)
     } catch (err) {
       console.error('PDF export failed:', err)
@@ -164,6 +174,52 @@ export function usePdfExport() {
   }
 
   return { exportPdf, isExporting }
+}
+
+// ---- PDF 水印 ----
+
+/**
+ * 在 PDF 每一页叠加平铺斜纹水印文字。
+ * ponytail: jsPDF 默认字体不含 CJK 字形，pdf.text() 无法渲染中文。
+ * 用 Canvas 2D（走系统字体）生成水印瓦片位图，再 addImage 叠加到每页。
+ */
+function addWatermark(pdf: import('jspdf').jsPDF, text: string) {
+  const totalPages = pdf.internal.pages.length
+  const pageWidthMm = pdf.internal.pageSize.getWidth()
+  const pageHeightMm = pdf.internal.pageSize.getHeight()
+
+  const spacingXMm = 44
+  const spacingYMm = 46
+  const mmToPx = 3.78
+
+  // ponytail: jsPDF 默认字体不含 CJK 字形，pdf.text() 无法渲染中文。
+  // 用 Canvas 2D（走系统字体）生成水印瓦片位图，再 addImage 叠加到每页。
+  const tileWpx = Math.round(spacingXMm * mmToPx)
+  const tileHpx = Math.round(spacingYMm * mmToPx)
+
+  const canvas = document.createElement('canvas')
+  canvas.width = tileWpx
+  canvas.height = tileHpx
+  const ctx = canvas.getContext('2d')!
+  // 透明背景，不用 fillRect 填白色
+  ctx.fillStyle = '#b0b0b0'
+  ctx.font = '16px "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif'
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.translate(tileWpx / 2, tileHpx / 2)
+  ctx.rotate(-45 * Math.PI / 180)
+  ctx.fillText(text, 0, 0)
+
+  const dataUrl = canvas.toDataURL('image/png')
+
+  for (let i = 1; i <= totalPages; i++) {
+    pdf.setPage(i)
+    for (let y = 0; y < pageHeightMm + spacingYMm; y += spacingYMm) {
+      for (let x = -spacingXMm; x < pageWidthMm + spacingXMm; x += spacingXMm) {
+        pdf.addImage(dataUrl, 'PNG', x, y, spacingXMm, spacingYMm)
+      }
+    }
+  }
 }
 
 // ---- PDF 页面填充工具函数 ----

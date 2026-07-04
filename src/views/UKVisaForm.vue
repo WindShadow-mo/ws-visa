@@ -175,7 +175,7 @@ const previewSections = computed(() => [
     fields: [
       { label: t('ukVisa.fields.hasChildren.label'), value: resolveOption(yesNoOptions, formData.hasChildren), required: true, type: 'radio', name: 'hasChildren' },
       ...children.map((c, i) => [
-        { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.name.label')}`, value: c.name, required: true, type: 'text', name: `child_${i}_name`, span: 'third' as const },
+        { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.name.label')}`, value: c.name, required: true, type: 'text', name: `child_${i}_name`, span: 'third' as const, groupStart: true },
         { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.nationality.label')}`, value: resolveOption(nationalityOptions, c.nationality) || c.nationality, required: true, type: 'select', name: `child_${i}_nationality`, span: 'third' as const },
         { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.dob.label')}`, value: formatDate(c.dob), required: true, type: 'date', name: `child_${i}_dob` as const },
         { label: `${t('ukVisa.subLabels.child')} ${i + 1} - ${t('ukVisa.fields.child.relation.label')}`, value: resolveOption(childRelationOptions, c.relation), required: true, type: 'select', name: `child_${i}_relation` as const, span: 'third' as const },
@@ -202,7 +202,7 @@ const previewSections = computed(() => [
     fields: [
       { label: t('ukVisa.fields.hasCompanion.label'), value: resolveOption(yesNoOptions, formData.hasCompanion), required: true, type: 'radio', name: 'hasCompanion' },
       ...companions.map((c, i) => [
-        { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.name.label')}`, value: c.name, required: true, type: 'text', name: `comp_${i}_name`, span: 'third' as const },
+        { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.name.label')}`, value: c.name, required: true, type: 'text', name: `comp_${i}_name`, span: 'third' as const, groupStart: true },
         { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.nationality.label')}`, value: resolveOption(nationalityOptions, c.nationality) || c.nationality, required: true, type: 'select', name: `comp_${i}_nationality`, span: 'third' as const },
         { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.dob.label')}`, value: formatDate(c.dob), required: true, type: 'date', name: `comp_${i}_dob` as const },
         { label: `${t('ukVisa.subLabels.companion')} ${i + 1} - ${t('ukVisa.fields.companion.relation.label')}`, value: resolveOption(companionRelationOptions, c.relation), required: true, type: 'select', name: `comp_${i}_relation` as const, span: 'third' as const },
@@ -290,13 +290,13 @@ const previewSections = computed(() => [
         : []),
       { label: t('ukVisa.fields.visitedUK.label'), value: resolveOption(yesNoOptions, formData.visitedUK), required: true, type: 'radio', name: 'visitedUK' },
       ...ukVisits.map((v, i) => [
-        { label: `${t('ukVisa.subLabels.ukVisit', { index: i + 1 })} - ${t('ukVisa.fields.ukVisit.date.label')}`, value: v.date, required: true, type: 'date', name: `visit_${i}_date` as const },
+        { label: `${t('ukVisa.subLabels.ukVisit', { index: i + 1 })} - ${t('ukVisa.fields.ukVisit.date.label')}`, value: v.date, required: true, type: 'date', name: `visit_${i}_date` as const, groupStart: true },
         { label: `${t('ukVisa.subLabels.ukVisit', { index: i + 1 })} - ${t('ukVisa.fields.ukVisit.duration.label')}`, value: v.duration, required: true, type: 'text', name: `visit_${i}_duration` as const, span: 'third' as const },
         { label: `${t('ukVisa.subLabels.ukVisit', { index: i + 1 })} - ${t('ukVisa.fields.ukVisit.purpose.label')}`, value: v.purpose, required: true, type: 'text', name: `visit_${i}_purpose` as const, span: 'full' as const },
       ]).flat(),
       { label: t('ukVisa.fields.beenRefused.label'), value: resolveOption(yesNoOptions, formData.beenRefused), required: true, type: 'radio', name: 'beenRefused' },
       ...refusals.map((r, i) => [
-        { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.country.label')}`, value: resolveOption(nationalityOptions, r.country) || r.country, required: true, type: 'select', name: `refusal_${i}_country` as const, span: 'third' as const },
+        { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.country.label')}`, value: resolveOption(nationalityOptions, r.country) || r.country, required: true, type: 'select', name: `refusal_${i}_country` as const, span: 'third' as const, groupStart: true },
         { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.date.label')}`, value: r.date, required: true, type: 'date', name: `refusal_${i}_date` as const },
         { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.refNumber.label')}`, value: r.refNumber, type: 'text', name: `refusal_${i}_ref` as const, span: 'third' as const },
         { label: `${t('ukVisa.subLabels.refusal', { index: i + 1 })} - ${t('ukVisa.fields.refusal.reason.label')}`, value: r.reason, required: true, type: 'text', name: `refusal_${i}_reason` as const, span: 'full' as const },
@@ -311,7 +311,7 @@ const previewSections = computed(() => [
         : []),
       { label: t('ukVisa.fields.visitedOtherCountries.label'), value: resolveOption(yesNoOptions, formData.visitedOtherCountries), required: true, type: 'radio', name: 'visitedOtherCountries' },
       ...otherCountries.map((c, i) => [
-        { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.name.label')}`, value: resolveOption(otherCountryOptions, c.name), required: true, type: 'select', name: `oc_${i}_name` as const, span: 'third' as const },
+        { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.name.label')}`, value: resolveOption(otherCountryOptions, c.name), required: true, type: 'select', name: `oc_${i}_name` as const, span: 'third' as const, groupStart: true },
         { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.date.label')}`, value: c.date, required: true, type: 'date', name: `oc_${i}_date` as const },
         { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.duration.label')}`, value: c.duration, required: true, type: 'text', name: `oc_${i}_duration` as const, span: 'third' as const },
         { label: `${t('ukVisa.subLabels.otherCountry', { index: i + 1 })} - ${t('ukVisa.fields.otherCountry.purpose.label')}`, value: c.purpose, required: true, type: 'text', name: `oc_${i}_purpose`, span: 'full' as const },
