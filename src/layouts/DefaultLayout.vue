@@ -2,11 +2,10 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { siteConfig } from '@/config/site'
-import { useLanguage } from '@/composables/useLanguage'
 import { useI18n } from 'vue-i18n'
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 
 const route = useRoute()
-const { toggleLanguage, currentLocale } = useLanguage()
 const { t } = useI18n()
 const breadcrumbTitleKey = computed(() => route.meta.titleKey as string | undefined)
 const showBreadcrumb = computed(() => !!breadcrumbTitleKey.value)
@@ -19,16 +18,12 @@ const showBreadcrumb = computed(() => !!breadcrumbTitleKey.value)
         <RouterLink to="/" class="text-lg font-semibold hover:opacity-80 transition-opacity">
           {{ siteConfig.name }}
         </RouterLink>
-        <nav class="ml-auto flex gap-4 text-sm">
+        <nav class="ml-auto flex items-center text-sm">
           <RouterLink to="/" class="text-foreground/70 hover:text-foreground transition-colors">
             {{ t('common.home') }}
           </RouterLink>
-          <button
-            class="text-foreground/70 hover:text-foreground transition-colors"
-            @click="toggleLanguage"
-          >
-            {{ currentLocale === 'zh-CN' ? 'EN' : '中文' }}
-          </button>
+          <span class="h-5 w-px mx-3 border-l border-foreground/10" />
+          <LanguageSwitcher />
         </nav>
       </div>
     </header>
