@@ -51,7 +51,9 @@
     "title": "Visa Application Assistant",
     "description": "Help you fill in visa information correctly, completely and quickly",
     "startUkVisa": "UK Visa",
-    "startUkVisaDesc": "Fill in the UK visa information collection form"
+    "startUkVisaDesc": "Fill in the UK visa information collection form",
+    "startUsVisa": "US Visa",
+    "startUsVisaDesc": "Coming soon…"
   },
   "ukVisa": {
     "title": "UK Visa",

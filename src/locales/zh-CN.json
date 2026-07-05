@@ -51,7 +51,9 @@
     "title": "签证信息填写助手",
     "description": "帮助您正确、完整、快速地填写签证所需信息",
     "startUkVisa": "英国签证",
-    "startUkVisaDesc": "填写英国签证信息收集表"
+    "startUkVisaDesc": "填写英国签证信息收集表",
+    "startUsVisa": "美国签证",
+    "startUsVisaDesc": "即将上线…"
   },
   "ukVisa": {
     "title": "英国签证",

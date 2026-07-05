@@ -4,7 +4,8 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const visaTypes = [
-  { to: '/uk-visa', titleKey: 'home.startUkVisa', descKey: 'home.startUkVisaDesc', flag: 'gb' }
+  { to: '/uk-visa', titleKey: 'home.startUkVisa', descKey: 'home.startUkVisaDesc', flag: 'gb', comingSoon: false },
+  { to: '', titleKey: 'home.startUsVisa', descKey: 'home.startUsVisaDesc', flag: 'us', comingSoon: true },
 ]
 </script>
 
@@ -16,18 +17,32 @@ const visaTypes = [
     </p>
 
     <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <RouterLink
-        v-for="visa in visaTypes"
-        :key="visa.to"
-        :to="visa.to"
-        class="flex items-start gap-4 rounded-lg border border-border p-6 transition-shadow hover:shadow-md cursor-pointer"
-      >
-        <span class="fi shrink-0" :class="'fi-' + visa.flag" style="width:48px;height:36px" />
-        <div>
-          <h2 class="text-lg font-semibold">{{ t(visa.titleKey) }}</h2>
-          <p class="text-sm text-muted-foreground">{{ t(visa.descKey) }}</p>
+      <template v-for="visa in visaTypes" :key="visa.flag">
+        <!-- Active card -->
+        <RouterLink
+          v-if="!visa.comingSoon"
+          :to="visa.to"
+          class="flex items-start gap-4 rounded-lg border border-border p-6 transition-shadow hover:shadow-md cursor-pointer"
+        >
+          <span class="fi shrink-0" :class="'fi-' + visa.flag" style="width:48px;height:36px" />
+          <div>
+            <h2 class="text-lg font-semibold">{{ t(visa.titleKey) }}</h2>
+            <p class="text-sm text-muted-foreground">{{ t(visa.descKey) }}</p>
+          </div>
+        </RouterLink>
+
+        <!-- Coming soon card -->
+        <div
+          v-else
+          class="relative flex items-start gap-4 rounded-lg border border-dashed border-border/50 p-6 opacity-60 cursor-not-allowed"
+        >
+          <span class="fi shrink-0 opacity-50" :class="'fi-' + visa.flag" style="width:48px;height:36px" />
+          <div>
+            <h2 class="text-lg font-semibold text-muted-foreground">{{ t(visa.titleKey) }}</h2>
+            <p class="text-sm text-muted-foreground/70">{{ t(visa.descKey) }}</p>
+          </div>
         </div>
-      </RouterLink>
+      </template>
     </div>
   </div>
 </template>
