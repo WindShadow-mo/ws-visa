@@ -16,6 +16,7 @@ const router = createRouter({
         {
           path: '/uk-visa',
           name: 'uk-visa',
+          meta: { titleKey: 'ukVisa.title' },
           component: () => import('@/views/UKVisaForm.vue'),
         },
       ],

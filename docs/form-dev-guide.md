@@ -33,6 +33,7 @@ i18n key      : ukVisa.*
   path: '/{country-visa}',           // kebab-case
   name: '{country-visa}',            // kebab-case，与 path 一致
   component: () => import('@/views/{Country}VisaForm.vue'),
+  meta: { titleKey: '{formKey}.title' },  // DefaultLayout 面包屑显示用
 },
 ```
 
@@ -169,31 +170,25 @@ const { buildPdfTitle, buildPdfFilename } = useApplicantName(
   <div class="form-page">
     <div class="form-container">
 
-      <!-- 面包屑导航 -->
-      <nav class="form-breadcrumb">
-        <RouterLink to="/" class="hover:text-foreground transition-colors">
-          ← {{ t('common.home') }}
-        </RouterLink>
-        <span class="text-muted-foreground/50">/</span>
-        <span class="text-foreground font-medium">{{ t('{formKey}.title') }}</span>
-      </nav>
+      <!-- 标题区域 + 操作栏，包裹在 sticky wrapper 内（不在 glass-card 内） -->
+      <!-- FormActions 统一渲染标题栏、导出按钮、清除按钮、PreviewModal -->
+      <div class="sticky-header-wrapper">
+        <FormActions
+          ref="formActionsRef"
+          :sections="previewSections"
+          :form-title="t('{formKey}.title')"
+          :form-subtitle="t('{formKey}.subtitle')"
+          :build-pdf-title="buildPdfTitle"
+          :build-pdf-filename="buildPdfFilename"
+          i18n-prefix="{formKey}"
+          @clear="clearForm"
+          @export="handleExportClick"
+        />
+      </div>
 
-      <!-- 标题区域 + 操作栏（由 FormActions 统一渲染） -->
-      <FormActions
-        ref="formActionsRef"
-        :sections="previewSections"
-        :form-title="t('{formKey}.title')"
-        :form-subtitle="t('{formKey}.subtitle')"
-        :build-pdf-title="buildPdfTitle"
-        :build-pdf-filename="buildPdfFilename"
-        i18n-prefix="{formKey}"
-        @clear="clearForm"
-        @export="handleExportClick"
-      />
-
-      <!-- 表单主体（毛玻璃卡片） -->
+      <!-- 表单主体（毛玻璃卡片），Accordion 加 accordion-layer class -->
       <div class="glass-card">
-        <Accordion type="multiple" :default-value="['第一个section的value']">
+        <Accordion type="multiple" class="w-full accordion-layer" :default-value="['第一个section的value']">
           <!-- 每个 AccordionItem 必须加 data-accordion-value，供校验聚焦时查找 -->
           <AccordionItem
             v-for="section in accordionSections"
@@ -228,7 +223,11 @@ const { buildPdfTitle, buildPdfFilename } = useApplicantName(
 </template>
 ```
 
+> **面包屑**：由 `DefaultLayout` 通过 `route.meta.titleKey` 统一渲染，表单页面无需自行处理。路由注册时在 `meta` 中加 `titleKey` 即可。
+
 > **FormActions 职责**：导出按钮（点击后 emit `@export`，由父组件校验）、清除数据按钮（二次确认）、PreviewModal 弹窗。表单页面通过 `ref` 获取实例，校验通过后调用 `formActionsRef.value?.openPreview()` 打开预览。
+
+> **Sticky header 约束**：`FormActions` 必须放在 `.sticky-header-wrapper` 内、`glass-card` 外。`backdrop-filter` 和 `transform` 会创建 containing block，导致其内部 `position: sticky` 子元素失效（详见 §12.3）。
 
 ### 4.3 条件显示（v-if）与条件必填
 
@@ -1047,10 +1046,80 @@ function handleExportClick() {
 
 > 所有字段组件（TextField、DateField、SelectField、RadioField 等）的边框和聚焦环颜色均通过这两个 CSS 变量控制，修改主题色只需调整 `style.css` 中的变量值。
 
-### 12.2 页面布局样式
+### 12.2 页面布局策略
 
-- 表单页面使用 `.form-page` 容器，带渐变背景和装饰动画
-- 表单主体放在 `.glass-card` 毛玻璃卡片内（`max-width: 960px`）
+整体布局分三层，各层职责明确：
+
+```
+DefaultLayout
+├── <header>  Tailwind container（max-width: 1536px @2xl）— 顶栏
+├── breadcrumb（route.meta.titleKey 存在时显示）
+├── <main>    Tailwind container（max-width: 1536px @2xl）— 主内容区
+│   └── {Country}VisaForm
+│       └── .form-container（max-width: 1440px, width: 100%, margin: 0 auto）
+│           ├── .sticky-header-wrapper（position: sticky; top: 0）
+│           │   └── <FormActions>  ← 蓝色标题栏 + 操作按钮
+│           └── .glass-card（backdrop-filter: blur(20px)）
+│               └── Accordion.accordion-layer（transform: translateZ(0)）
+│                   └── .fields-grid（repeat(4, 1fr)）
+└── <footer>  Tailwind container — 页脚
+```
+
+**各层职责**：
+
+| 层 | 控制方式 | 职责 |
+|----|---------|------|
+| `DefaultLayout` `<main>` | Tailwind `container` class（响应式断点，2xl=1536px） | 全局内容宽度约束，保证各分辨率不超出视口 |
+| `.form-container` | `max-width: 1440px; width: 100%` | 表单专用宽度，在外层 container 内居中，提供比全局稍窄的表单视觉区域 |
+| `.sticky-header-wrapper` | `position: sticky; top: 0; z-index: 20` | 标题栏滚动时固定在视口顶部 |
+| `.glass-card` | `backdrop-filter: blur(20px)` | 毛玻璃视觉效果 |
+
+**自适应行为**：`form-container` 用 `max-width: 1440px` + `width: 100%`，不使用百分比或固定值——在 1920px 视口渲染为 1440px 居中，在 1366px 视口渲染为约 1248px，永远不会撑破外层 container，也不会在小屏幕上溢出。
+
+### 12.3 Sticky Header 实现（实战教训）
+
+**问题**：将 `position: sticky` 直接加在 `.form-header`（`FormActions` 内部）上无效。
+
+**根因**：`.glass-card` 的 `backdrop-filter: blur(20px)` 会创建**隐式 containing block**（CSS 规范行为，与 `transform` 效果相同），导致其内部所有 `position: sticky` 子元素相对于 glass-card 定位，而非相对于滚动视口——sticky 失效。
+
+**解决方案**：将 `FormActions` 从 `.glass-card` 内移出，放入独立的 `.sticky-header-wrapper`：
+
+```vue
+<div class="form-container">
+  <!-- sticky wrapper 在 glass-card 外面 -->
+  <div class="sticky-header-wrapper">
+    <FormActions ... />
+  </div>
+  <!-- glass-card 单独包裹表单主体 -->
+  <div class="glass-card">
+    <Accordion class="w-full accordion-layer" ...>
+      ...
+    </Accordion>
+  </div>
+</div>
+```
+
+```css
+.sticky-header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+```
+
+**连带约束**：`transform: translateZ(0)` 同样会创建 containing block，不能放在 `.glass-card` 上（否则 sticky 也失效）。改为在 Accordion 元素上加 `.accordion-layer` class 承载 `translateZ(0)`，用于隔离手风琴动画时的 `backdrop-filter` 重绘：
+
+```css
+/* translateZ 放在 accordion-layer 而非 glass-card，避免破坏 sticky */
+.accordion-layer {
+  transform: translateZ(0);
+}
+```
+
+> **规则**：任何需要 `position: sticky` 的元素，其所有祖先都不能有以下属性（会创建 containing block）：`overflow: hidden/auto`、`transform`、`backdrop-filter`、`contain`、`will-change: transform`。
+
+### 12.4 页面布局样式
+
 - 字段网格使用 `.fields-grid`，**4列基础 CSS Grid**（详见 §5.2）
 - 标题区域（form-header / form-title / form-subtitle）和操作按钮样式由 `FormActions` 组件内部维护，表单页面无需关心
 - 以上 class 已在 `UKVisaForm.vue` 的 `<style scoped>` 中定义，新表单可复制并调整主色调
@@ -1310,7 +1379,8 @@ function fillTestData() {
    - 动态行用 `flatMap` 遍历 reactive 数组生成
    - `required` 必须与模板中字段的 `required` prop 保持一致
 7. 接入 `useApplicantName`（定义姓名提取逻辑，传给 FormActions）
-8. 在模板中配置 `<FormActions>` 的 `ref`、props、`@clear` 和 `@export` 回调
+8. 在模板中配置 `<FormActions>` 的 `ref`、props、`@clear` 和 `@export` 回调，并将其包裹在 `.sticky-header-wrapper` 内（不在 `.glass-card` 内）
+9. Accordion 元素加 `class="w-full accordion-layer"`（承载 `translateZ(0)` 隔离手风琴动画抖动，不放在 `.glass-card` 上）
 9. 实现 `handleExportClick`（见第 10 节），含 sectionMap 映射
 10. 替换模板中的字段组件和 label-key
     - 为条件字段添加 `v-if`，条件字段若必填加 `required`

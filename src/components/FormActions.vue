@@ -72,9 +72,18 @@ defineExpose({ openPreview })
 <template>
   <div>
     <div class="form-header">
-      <div>
-        <h1 class="form-title">{{ formTitle }}</h1>
-        <p v-if="formSubtitle" class="form-subtitle">{{ formSubtitle }}</p>
+      <div class="title-group">
+        <svg class="flag-icon" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="60" height="30" fill="#012169"/>
+          <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/>
+          <path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="2"/>
+          <path d="M30,0 V30 M0,15 H60" stroke="#fff" stroke-width="10"/>
+          <path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/>
+        </svg>
+        <div>
+          <h1 class="form-title">{{ formTitle }}</h1>
+          <p v-if="formSubtitle" class="form-subtitle">{{ formSubtitle }}</p>
+        </div>
       </div>
       <div class="flex gap-2">
         <button
@@ -130,13 +139,29 @@ defineExpose({ openPreview })
 </template>
 
 <style scoped>
-/* 标题区域 */
+/* 标题区域 — Union Jack 深蓝渐变 */
 .form-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #012169 0%, #0a3d91 100%);
+}
+
+.title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.flag-icon {
+  width: 56px;
+  height: 28px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 .form-title {
@@ -145,11 +170,11 @@ defineExpose({ openPreview })
   letter-spacing: -0.025em;
   color: #fff;
   line-height: 1.2;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
 .form-subtitle {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.85);
   margin-top: 0.5rem;
   font-size: 1rem;
   font-weight: 400;
@@ -200,25 +225,25 @@ defineExpose({ openPreview })
   transform: translateY(-2px);
 }
 
-/* 清除数据按钮 — 明显的危险操作样式 */
+/* 清除数据按钮 — Union Jack 红色危险操作 */
 .danger-btn {
   flex-shrink: 0;
   padding: 0.625rem 1.25rem;
   font-size: 0.875rem;
   font-weight: 500;
   color: rgba(255, 200, 200, 0.9);
-  border: 2px solid rgba(239, 68, 68, 0.45);
+  border: 2px solid rgba(200, 16, 46, 0.5);
   border-radius: 0.75rem;
-  background: rgba(239, 68, 68, 0.12);
+  background: rgba(200, 16, 46, 0.15);
   backdrop-filter: blur(10px);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .danger-btn:hover {
   color: #fff;
-  border-color: rgba(239, 68, 68, 0.85);
-  background: rgba(220, 38, 38, 0.6);
-  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35);
+  border-color: #C8102E;
+  background: rgba(200, 16, 46, 0.5);
+  box-shadow: 0 4px 16px rgba(200, 16, 46, 0.35);
   transform: translateY(-2px);
 }
 

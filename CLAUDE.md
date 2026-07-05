@@ -55,9 +55,12 @@ src/
 - [PDF 导出 & 预览](docs/pdf-export-preview.md) — `usePdfExport`、`PreviewModal`、`useApplicantName` 的接口说明
 - [签证表单开发规范](docs/form-dev-guide.md) — 新增签证表单时的文件命名、i18n 结构、字段组件、持久化、`FormActions` 接入清单
 - [英国签证表单设计](docs/uk-visa-form-design.md) — 英国签证模块的功能设计、字段结构、条件联动、动态分组逻辑
+- [美国签证 DS-160 表单设计](docs/us-visa-ds160-form-design.md) — DS-160 美签模块的功能设计、字段结构、条件联动、安全审查问题
 
 ## 经验教训
 
 - **文档冲突时以专项设计文档为准**：`uk-visa-form-design.md`（专项）优先级高于 `form-dev-guide.md`（通用规则）。实现字段布局时先看专项设计的 §2.3 三层结构清单，不要只看通用规则的默认值表。两份文档矛盾时必须向用户指出，不能自行选择一个执行。
 - **§2.3 三层结构清单是最终布局依据**：每个分组的 `L1 → L2 → L3` 结构清单中，同行字段用 `/` 分隔并注明 span，这就是实际排版。详细规格表（§1-§13）和 §10.6 span 清单必须与 §2.3 保持一致。
 - **`components/ui/` 的 shadcn 组件需要按需调整默认值**：虽然原则上不应手动编辑 shadcn CLI 生成的组件，但 shadcn-vue 的默认值不一定适合本项目。当前已有两处必要的默认值覆盖（详见 `form-dev-guide.md §5.2.5`）：① `SelectContent.vue` 的 `bodyLock: false`（防止与 `scrollbar-gutter: stable` 双倍补偿导致页面抖动）；② `PopoverContent.vue` 的 `updatePositionStrategy: "optimized"`（防止每帧重算位置与入场动画冲突导致抖动）。这些修改在 `npx shadcn-vue add` 重新生成组件后需要重新应用。
+- **Sticky header 必须放在 glass-card 外部**：`backdrop-filter` 和 `transform` 会创建隐式 containing block，导致其内部 `position: sticky` 子元素失效。`FormActions` 必须包裹在 `.sticky-header-wrapper`（sticky）内、`.glass-card`（backdrop-filter）外；`translateZ(0)` 隔离手风琴动画抖动放在 `.accordion-layer`（Accordion 元素）而非 `.glass-card` 上。详见 `form-dev-guide.md §12.3`。
+- **布局宽度策略**：`DefaultLayout` 的 Tailwind `container` 控制全局最大宽度（1536px @2xl）；表单页额外用 `.form-container`（`max-width: 1440px; width: 100%`）收窄表单区域，不使用百分比固定值，保证各分辨率下自适应居中。

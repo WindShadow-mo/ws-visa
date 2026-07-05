@@ -2,6 +2,10 @@
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+
+const visaTypes = [
+  { to: '/uk-visa', titleKey: 'home.startUkVisa', descKey: 'home.startUkVisaDesc', flag: 'gb' }
+]
 </script>
 
 <template>
@@ -11,13 +15,18 @@ const { t } = useI18n()
       {{ t('home.description') }}
     </p>
 
-    <div class="w-full max-w-md">
+    <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <RouterLink
-        to="/uk-visa"
-        class="block rounded-lg border border-border p-6 transition-shadow hover:shadow-md cursor-pointer"
+        v-for="visa in visaTypes"
+        :key="visa.to"
+        :to="visa.to"
+        class="flex items-start gap-4 rounded-lg border border-border p-6 transition-shadow hover:shadow-md cursor-pointer"
       >
-        <h2 class="text-lg font-semibold mb-1">{{ t('home.startUkVisa') }}</h2>
-        <p class="text-sm text-muted-foreground">{{ t('home.startUkVisaDesc') }}</p>
+        <span class="fi shrink-0" :class="'fi-' + visa.flag" style="width:48px;height:36px" />
+        <div>
+          <h2 class="text-lg font-semibold">{{ t(visa.titleKey) }}</h2>
+          <p class="text-sm text-muted-foreground">{{ t(visa.descKey) }}</p>
+        </div>
       </RouterLink>
     </div>
   </div>

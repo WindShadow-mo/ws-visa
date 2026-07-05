@@ -682,7 +682,7 @@ function fillTestData() {
   // 临时禁用 transition 避免 13 个 accordion 同时动画导致卡顿
   // 记录当前滚动位置，展开后恢复，避免页面跳到最后一条 accordion
   nextTick(() => {
-    const card = document.querySelector('.glass-card')
+    const card = document.querySelector('.accordion-layer')
     card?.classList.add('no-transition')
     const scrollYBefore = window.scrollY
     document.querySelectorAll<HTMLElement>('[data-accordion-value] button[data-state="closed"]')
@@ -896,32 +896,26 @@ if (typeof window !== 'undefined') {
 <template>
   <div class="form-page">
     <div class="form-container">
-      <!-- 面包屑导航 -->
-      <nav class="form-breadcrumb">
-        <RouterLink to="/" class="hover:text-foreground transition-colors">
-          ← {{ t('common.home') }}
-        </RouterLink>
-        <span class="text-muted-foreground/50">/</span>
-        <span class="text-foreground font-medium">{{ t('ukVisa.title') }}</span>
-      </nav>
 
-      <!-- 标题区域 + 操作栏 -->
-      <FormActions
-        ref="formActionsRef"
-        :sections="previewSections"
-        :form-title="t('ukVisa.title')"
-        :form-subtitle="t('ukVisa.subtitle')"
-        :build-pdf-title="buildPdfTitle"
-        :build-pdf-filename="buildPdfFilename"
-        i18n-prefix="ukVisa"
-        @clear="clearForm"
-        @export="handleExportClick"
-        @fill="fillTestData"
-      />
+      <!-- 标题区域 + 操作栏（sticky，下拉时固定） -->
+      <div class="sticky-header-wrapper">
+        <FormActions
+          ref="formActionsRef"
+          :sections="previewSections"
+          :form-title="t('ukVisa.title')"
+          :form-subtitle="t('ukVisa.subtitle')"
+          :build-pdf-title="buildPdfTitle"
+          :build-pdf-filename="buildPdfFilename"
+          i18n-prefix="ukVisa"
+          @clear="clearForm"
+          @export="handleExportClick"
+          @fill="fillTestData"
+        />
+      </div>
 
       <!-- 表单容器 -->
       <div class="glass-card">
-        <Accordion type="multiple" class="w-full" :default-value="['personal-info']">
+        <Accordion type="multiple" class="w-full accordion-layer" :default-value="['personal-info']">
 
           <!-- 1. 基本信息 -->
           <AccordionItem value="personal-info" data-accordion-value="personal-info">
@@ -964,7 +958,7 @@ if (typeof window !== 'undefined') {
               <h4 class="sub-label">{{ t('ukVisa.subLabels.passport') }}</h4>
               <div class="fields-grid">
                 <!-- Row 1: 国籍(签发国) + 护照号 + 签发日期 -->
-                <NationalityField name="issuingAuthority" label-key="ukVisa.fields.issuingAuthority.label" v-model="formData.issuingAuthority" required span="third" />
+                <NationalityField name="issuingAuthority" label-key="ukVisa.fields.issuingAuthority.label" v-model="formData.issuingAuthority" required :include-regions="true" span="third" />
                 <TextField name="passportNumber" label-key="ukVisa.fields.passportNumber.label" placeholder-key="ukVisa.fields.passportNumber.placeholder" v-model="formData.passportNumber" span="third" required prefix-icon="BookOpen" constraint="alphanumeric" />
                 <DateField name="passportIssueDate" label-key="ukVisa.fields.passportIssueDate.label" v-model="formData.passportIssueDate" required prefix-icon="Calendar" />
                 <!-- Row 2: 到期日 -->
@@ -979,7 +973,7 @@ if (typeof window !== 'undefined') {
               <!-- 其他护照条件字段 -->
               <div v-if="formData.hasOtherPassport === 'yes'" class="conditional-group">
                 <div class="fields-grid">
-                  <NationalityField name="otherPassportCountry" label-key="ukVisa.fields.otherPassportCountry.label" v-model="formData.otherPassportCountry" required span="third" />
+                  <NationalityField name="otherPassportCountry" label-key="ukVisa.fields.otherPassportCountry.label" v-model="formData.otherPassportCountry" required :include-regions="true" span="third" />
                   <TextField name="otherPassportDetail" label-key="ukVisa.fields.otherPassportDetail.label" placeholder-key="ukVisa.fields.otherPassportDetail.placeholder" v-model="formData.otherPassportDetail" required prefix-icon="BookOpen" />
                 </div>
               </div>
@@ -992,7 +986,7 @@ if (typeof window !== 'undefined') {
             <AccordionContent>
               <div class="fields-grid">
                 <!-- Row 1: 国家 + 地址 + 邮编 -->
-                <NationalityField name="currentCountry" label-key="ukVisa.fields.currentCountry.label" v-model="formData.currentCountry" required span="third" />
+                <NationalityField name="currentCountry" label-key="ukVisa.fields.currentCountry.label" v-model="formData.currentCountry" required :include-regions="true" span="third" />
                 <TextField name="currentAddress" label-key="ukVisa.fields.currentAddress.label" placeholder-key="ukVisa.fields.currentAddress.placeholder" v-model="formData.currentAddress" required prefix-icon="MapPin" />
                 <TextField name="postalCode" label-key="ukVisa.fields.postalCode.label" placeholder-key="ukVisa.fields.postalCode.placeholder" v-model="formData.postalCode" inputmode="numeric" span="third" prefix-icon="Mailbox" />
                 <!-- Row 2: 住房状况 + 居住开始日期 + 房东(条件) -->
@@ -1018,7 +1012,7 @@ if (typeof window !== 'undefined') {
                   <DateField name="spouseDob" label-key="ukVisa.fields.spouseDob.label" v-model="formData.spouseDob" required span="third" prefix-icon="Calendar" />
                   <TextField name="spouseBirthCity" label-key="ukVisa.fields.spouseBirthCity.label" placeholder-key="ukVisa.fields.spouseBirthCity.placeholder" v-model="formData.spouseBirthCity" span="third" required prefix-icon="MapPin" />
                   <!-- Row 2: 国家 + 地址 -->
-                  <NationalityField name="spouseCountry" label-key="ukVisa.fields.spouseCountry.label" v-model="formData.spouseCountry" required span="third" />
+                  <NationalityField name="spouseCountry" label-key="ukVisa.fields.spouseCountry.label" v-model="formData.spouseCountry" required :include-regions="true" span="third" />
                   <TextField name="spouseAddress" label-key="ukVisa.fields.spouseAddress.label" placeholder-key="ukVisa.fields.spouseAddress.placeholder" v-model="formData.spouseAddress" required prefix-icon="MapPin" />
                   <!-- Row 3: 是否更换国籍 -->
                   <RadioField name="spouseChangedNationality" label-key="ukVisa.fields.spouseChangedNationality.label" :options="yesNoOptions" v-model="formData.spouseChangedNationality" required />
@@ -1040,7 +1034,7 @@ if (typeof window !== 'undefined') {
               </div>
               <div class="fields-grid">
                 <!-- Row 2: 国家 + 地址 -->
-                <NationalityField name="father_country" label-key="ukVisa.fields.father_country.label" v-model="formData.father_country" required span="third" />
+                <NationalityField name="father_country" label-key="ukVisa.fields.father_country.label" v-model="formData.father_country" required :include-regions="true" span="third" />
                 <TextField name="father_address" label-key="ukVisa.fields.father_address.label" placeholder-key="ukVisa.fields.father_address.placeholder" v-model="formData.father_address" required prefix-icon="MapPin" />
               </div>
               <div class="fields-grid">
@@ -1058,7 +1052,7 @@ if (typeof window !== 'undefined') {
               </div>
               <div class="fields-grid">
                 <!-- Row 2: 国家 + 地址 -->
-                <NationalityField name="mother_country" label-key="ukVisa.fields.mother_country.label" v-model="formData.mother_country" required span="third" />
+                <NationalityField name="mother_country" label-key="ukVisa.fields.mother_country.label" v-model="formData.mother_country" required :include-regions="true" span="third" />
                 <TextField name="mother_address" label-key="ukVisa.fields.mother_address.label" placeholder-key="ukVisa.fields.mother_address.placeholder" v-model="formData.mother_address" required prefix-icon="MapPin" />
               </div>
               <div class="fields-grid">
@@ -1092,7 +1086,7 @@ if (typeof window !== 'undefined') {
                     <DateField :name="'child_' + index + '_dob'" label-key="ukVisa.fields.child.dob.label" v-model="child.dob" required prefix-icon="Calendar" />
                     <SelectField :name="'child_' + index + '_relation'" label-key="ukVisa.fields.child.relation.label" :options="childRelationOptions" v-model="child.relation" span="third" required />
                     <!-- Row 2: 国家 + 地址 -->
-                    <NationalityField :name="'child_' + index + '_country'" label-key="ukVisa.fields.child.country.label" v-model="child.country" required span="third" />
+                    <NationalityField :name="'child_' + index + '_country'" label-key="ukVisa.fields.child.country.label" v-model="child.country" required :include-regions="true" span="third" />
                     <TextField :name="'child_' + index + '_addr'" label-key="ukVisa.fields.child.address.label" placeholder-key="ukVisa.fields.child.address.placeholder" v-model="child.address" prefix-icon="MapPin" />
                     <!-- 决策字段 -->
                   </div>
@@ -1306,7 +1300,7 @@ if (typeof window !== 'undefined') {
                   </div>
                   <div class="fields-grid">
                     <!-- Row 1: 国家 + 日期 + 受理号 -->
-                    <NationalityField :name="'refusal_' + index + '_country'" label-key="ukVisa.fields.refusal.country.label" v-model="ref.country" required span="third" />
+                    <NationalityField :name="'refusal_' + index + '_country'" label-key="ukVisa.fields.refusal.country.label" v-model="ref.country" required :include-regions="true" span="third" />
                     <DateField :name="'refusal_' + index + '_date'" label-key="ukVisa.fields.refusal.date.label" v-model="ref.date" required prefix-icon="Calendar" />
                     <TextField :name="'refusal_' + index + '_ref'" label-key="ukVisa.fields.refusal.refNumber.label" placeholder-key="ukVisa.fields.refusal.refNumber.placeholder" v-model="ref.refNumber" span="third" prefix-icon="Hash" />
                     <!-- Row 2: 原因 (全宽) -->
@@ -1414,66 +1408,52 @@ if (typeof window !== 'undefined') {
 <style scoped>
 .form-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  background: var(--background);
   padding: 2rem 1rem;
   position: relative;
-  overflow: clip; /* 裁剪 ::before 溢出，不产生滚动条（hidden 会强制 overflow-y: auto） */
-}
-
-.form-page::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-  animation: rotate 30s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 
 .form-container {
-  max-width: 960px;
+  max-width: 1440px;
+  width: 100%;
   margin: 0 auto;
   position: relative;
   z-index: 1;
 }
 
-.form-breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.8);
+/* 包裹 FormActions，实现 sticky 定位（不能放在 glass-card 内，
+   backdrop-filter 会创建 containing block 导致 sticky 失效） */
+.sticky-header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 1rem;
   padding: 1.5rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  /* ponytail: isolate compositing layer so accordion height animation
-     doesn't trigger backdrop-filter recomputation per frame (= jitter) */
+}
+
+/* ponytail: isolate accordion compositing layer so height animation
+   doesn't trigger backdrop-filter recomputation per frame (= jitter).
+   Moved from .glass-card to here — translateZ on glass-card broke sticky header. */
+.accordion-layer {
   transform: translateZ(0);
 }
 
-/* Override accordion's transition-all inside glass-card: only animate height,
+/* Override accordion's transition-all: only animate height,
    prevents backdrop-filter recomputation per frame (= jitter) */
-.glass-card :deep([data-state]) {
+.accordion-layer :deep([data-state]) {
   transition: height 0.2s ease !important;
 }
 
 /* 一键填充时临时禁用所有 transition，避免同时展开 13 个分组导致卡顿 */
-.glass-card.no-transition :deep([data-state]) {
+.accordion-layer.no-transition :deep([data-state]) {
   transition: none !important;
 }
 

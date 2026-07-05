@@ -19,8 +19,10 @@ const props = withDefaults(defineProps<{
   modelValue: string
   required?: boolean
   span?: 'full' | 'half' | 'third'
+  includeRegions?: boolean
 }>(), {
   span: 'third',
+  includeRegions: false,
 })
 
 const emit = defineEmits<{
@@ -29,10 +31,17 @@ const emit = defineEmits<{
 
 const { t, locale } = useI18n()
 
+// 过滤港澳台：国籍模式（默认）不含 HK/MO/TW，国家/地区模式含完整列表
+const REGION_CODES = new Set(['HK', 'MO', 'TW'])
+const baseOptions = computed(() => {
+  if (props.includeRegions) return nationalityOptions
+  return nationalityOptions.filter(o => !REGION_CODES.has(o.value))
+})
+
 // 按当前 locale 排序：中文按拼音，英文按字母序
 const sortedOptions = computed(() => {
   const collator = new Intl.Collator(locale.value === 'zh' ? 'zh-CN' : 'en', { sensitivity: 'base' })
-  return [...nationalityOptions].sort((a, b) => collator.compare(t(a.labelKey), t(b.labelKey)))
+  return [...baseOptions.value].sort((a, b) => collator.compare(t(a.labelKey), t(b.labelKey)))
 })
 
 const label = computed(() => t(props.labelKey))
@@ -40,7 +49,7 @@ const label = computed(() => t(props.labelKey))
 // 未知值回退到原始值显示
 const selectedLabel = computed(() => {
   if (!props.modelValue) return ''
-  const opt = nationalityOptions.find(o => o.value === props.modelValue)
+  const opt = baseOptions.value.find(o => o.value === props.modelValue)
   return opt ? t(opt.labelKey) : props.modelValue
 })
 
