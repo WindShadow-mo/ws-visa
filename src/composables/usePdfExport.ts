@@ -5,11 +5,12 @@ import pdfMake from 'pdfmake/build/pdfmake'
 // ---- 通用预览/导出类型 ----
 
 /** 字段控件类型，用于预览/PDF 渲染时推断默认跨度 */
-export type PreviewFieldType = 'text' | 'date' | 'select' | 'radio'
+export type PreviewFieldType = 'text' | 'date' | 'month' | 'select' | 'radio'
 
 /** 各控件类型的默认 span（与字段组件的 withDefaults 保持一致） */
 export const DEFAULT_FIELD_SPAN: Record<PreviewFieldType, 'full' | 'half' | 'third'> = {
   date: 'third',   // 日期格式固定且短
+  month: 'third',  // 年月格式固定且短
   text: 'half',    // 文本长度不确定，取中位
   select: 'half',  // 下拉选项文本较长
   radio: 'full',   // 单选项需要横向空间
@@ -384,10 +385,18 @@ export function usePdfExport() {
       }
 
       const pdfDoc = pdfMake.createPdf(docDefinition)
-      await pdfDoc.download(filename ?? `UK-Visa-Application-${Date.now()}.pdf`)
+      const buffer = await pdfDoc.getBuffer()
+      const blob = new Blob([buffer as unknown as BlobPart], { type: 'application/pdf' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = filename ?? `UK-Visa-Application-${Date.now()}.pdf`
+      a.click()
+      setTimeout(() => URL.revokeObjectURL(url), 5000)
     } catch (err) {
       console.error('PDF export failed:', err)
-      alert('PDF 生成失败，请重试。')
+      const msg = err instanceof Error ? err.message : String(err)
+      alert(`PDF 导出失败：${msg}`)
     } finally {
       isExporting.value = false
     }

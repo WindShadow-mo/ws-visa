@@ -123,7 +123,7 @@ export const mockFormData = {
 
     // Group 12: Visa & Travel History
     hadUKVisa: 'yes',
-    lastUKVisaDate: '2019-06-01',
+    lastUKVisaDate: '2019-06',
     visitedUK: 'yes',
     beenRefused: 'yes',                   // L3: 触发拒签记录
     appliedUKStay: 'yes',
@@ -170,14 +170,14 @@ export const mockFormData = {
   ],
   ukVisits: [
     {
-      date: '2019-06-10',
+      date: '2019-06',
       duration: '14',
       purpose: 'Tourism',
     },
   ],
   refusals: [
     {
-      date: '2018-03-15',
+      date: '2018-03',
       country: 'US',
       reason: 'Incomplete documentation',
       refNumber: 'US-REF-2018-001',
@@ -186,7 +186,7 @@ export const mockFormData = {
   otherCountries: [
     {
       name: 'US',
-      date: '2023-04-01',
+      date: '2023-04',
       duration: '7',
       purpose: 'Tourism',
     },

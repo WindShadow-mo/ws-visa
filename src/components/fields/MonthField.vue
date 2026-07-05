@@ -8,6 +8,7 @@ import * as icons from '@lucide/vue'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { ChevronLeft, ChevronRight } from '@lucide/vue'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { formatDisplayMonth } from '@/utils/date'
 import FormFieldWrapper from '@/components/fields/FormFieldWrapper.vue'
 
@@ -60,6 +61,10 @@ const viewYear = ref<number>(
   props.modelValue ? parseInt(props.modelValue.split('-')[0], 10) || now.getFullYear() : now.getFullYear(),
 )
 
+// 年份下拉选项范围：当前年 ± 80 年
+const currentYear = now.getFullYear()
+const yearRange = Array.from({ length: 161 }, (_, i) => currentYear - 80 + i)
+
 // 月份常量
 const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const
 
@@ -84,13 +89,8 @@ function onMonthSelect(year: number, month: number) {
   popoverOpen.value = false
 }
 
-function prevYear() {
-  viewYear.value--
-}
-
-function nextYear() {
-  viewYear.value++
-}
+function prevYear() { viewYear.value-- }
+function nextYear() { viewYear.value++ }
 </script>
 
 <template>
@@ -115,7 +115,16 @@ function nextYear() {
           <button type="button" class="p-1 hover:bg-accent rounded-md" @click="prevYear">
             <ChevronLeft :size="16" />
           </button>
-          <span class="text-sm font-medium">{{ viewYear }}</span>
+          <Select :model-value="String(viewYear)" @update:model-value="(v: string) => viewYear = Number(v)">
+            <SelectTrigger class="h-8 w-[120px] text-sm font-medium">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem v-for="y in yearRange" :key="y" :value="String(y)">
+                {{ y }}
+              </SelectItem>
+            </SelectContent>
+          </Select>
           <button type="button" class="p-1 hover:bg-accent rounded-md" @click="nextYear">
             <ChevronRight :size="16" />
           </button>

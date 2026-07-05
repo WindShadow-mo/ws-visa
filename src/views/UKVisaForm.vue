@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/accordion'
 import TextField from '@/components/fields/TextField.vue'
 import DateField from '@/components/fields/DateField.vue'
+import MonthField from '@/components/fields/MonthField.vue'
 import SelectField from '@/components/fields/SelectField.vue'
 import type { SelectOption } from '@/components/fields/SelectField.vue'
 import NationalityField from '@/components/fields/NationalityField.vue'
@@ -27,6 +28,7 @@ import type { PreviewSection } from '@/composables/usePdfExport'
 import { useApplicantName } from '@/composables/useApplicantName'
 import FormActions from '@/components/FormActions.vue'
 import { mockFormData } from '@/dev/mockFormData'
+import { formatDisplayMonth } from '@/utils/date'
 
 const { t, locale } = useI18n()
 
@@ -290,18 +292,18 @@ const previewSections = computed(() => [
     fields: [
       { label: t('ukVisa.fields.hadUKVisa.label'), value: resolveOption(yesNoOptions, formData.hadUKVisa), required: true, type: 'radio', name: 'hadUKVisa' },
       ...(formData.hadUKVisa === 'yes'
-        ? [{ label: t('ukVisa.fields.lastUKVisaDate.label'), value: formatDate(formData.lastUKVisaDate), required: true, type: 'date', name: 'lastUKVisaDate' }]
+        ? [{ label: t('ukVisa.fields.lastUKVisaDate.label'), value: formatDisplayMonth(formData.lastUKVisaDate, locale.value), required: true, type: 'month', name: 'lastUKVisaDate' }]
         : []),
       { label: t('ukVisa.fields.visitedUK.label'), value: resolveOption(yesNoOptions, formData.visitedUK), required: true, type: 'radio', name: 'visitedUK' },
       ...ukVisits.map((v, i) => [
-        { label: t('ukVisa.fields.ukVisit.date.label'), value: v.date, required: true, type: 'date', name: `visit_${i}_date` as const, groupStart: true, cardName: t('ukVisa.subLabels.ukVisit', { index: i + 1 }) },
+        { label: t('ukVisa.fields.ukVisit.date.label'), value: formatDisplayMonth(v.date, locale.value), required: true, type: 'month', name: `visit_${i}_date` as const, groupStart: true, cardName: t('ukVisa.subLabels.ukVisit', { index: i + 1 }) },
         { label: t('ukVisa.fields.ukVisit.duration.label'), value: v.duration, required: true, type: 'text', name: `visit_${i}_duration` as const, span: 'third' as const },
         { label: t('ukVisa.fields.ukVisit.purpose.label'), value: v.purpose, required: true, type: 'text', name: `visit_${i}_purpose` as const, span: 'full' as const },
       ]).flat(),
       { label: t('ukVisa.fields.beenRefused.label'), value: resolveOption(yesNoOptions, formData.beenRefused), required: true, type: 'radio', name: 'beenRefused', groupStart: true },
       ...refusals.map((r, i) => [
         { label: t('ukVisa.fields.refusal.country.label'), value: resolveOption(nationalityOptions, r.country) || r.country, required: true, type: 'select', name: `refusal_${i}_country` as const, span: 'third' as const, groupStart: true, cardName: t('ukVisa.subLabels.refusal', { index: i + 1 }) },
-        { label: t('ukVisa.fields.refusal.date.label'), value: r.date, required: true, type: 'date', name: `refusal_${i}_date` as const },
+        { label: t('ukVisa.fields.refusal.date.label'), value: formatDisplayMonth(r.date, locale.value), required: true, type: 'month', name: `refusal_${i}_date` as const },
         { label: t('ukVisa.fields.refusal.refNumber.label'), value: r.refNumber, type: 'text', name: `refusal_${i}_ref` as const, span: 'third' as const },
         { label: t('ukVisa.fields.refusal.reason.label'), value: r.reason, required: true, type: 'text', name: `refusal_${i}_reason` as const, span: 'full' as const },
       ]).flat(),
@@ -316,7 +318,7 @@ const previewSections = computed(() => [
       { label: t('ukVisa.fields.visitedOtherCountries.label'), value: resolveOption(yesNoOptions, formData.visitedOtherCountries), required: true, type: 'radio', name: 'visitedOtherCountries', groupStart: true },
       ...otherCountries.map((c, i) => [
         { label: t('ukVisa.fields.otherCountry.name.label'), value: resolveOption(otherCountryOptions, c.name), required: true, type: 'select', name: `oc_${i}_name` as const, span: 'third' as const, groupStart: true, cardName: t('ukVisa.subLabels.otherCountry', { index: i + 1 }) },
-        { label: t('ukVisa.fields.otherCountry.date.label'), value: c.date, required: true, type: 'date', name: `oc_${i}_date` as const },
+        { label: t('ukVisa.fields.otherCountry.date.label'), value: formatDisplayMonth(c.date, locale.value), required: true, type: 'month', name: `oc_${i}_date` as const },
         { label: t('ukVisa.fields.otherCountry.duration.label'), value: c.duration, required: true, type: 'text', name: `oc_${i}_duration` as const, span: 'third' as const },
         { label: t('ukVisa.fields.otherCountry.purpose.label'), value: c.purpose, required: true, type: 'text', name: `oc_${i}_purpose`, span: 'full' as const },
       ]).flat(),
@@ -550,7 +552,8 @@ const defaultData = {
 }
 
 // 从全部 key 计算 schema 版本：字段增删或重命名时版本自动变化
-const SCHEMA_VERSION = Object.keys(defaultData).sort().join('|')
+// 后缀 ':v2' — 日期字段部分从 YYYY-MM-DD 改为 YYYY-MM 格式时手动递增
+const SCHEMA_VERSION = Object.keys(defaultData).sort().join('|') + ':v2'
 
 // 从 localStorage 加载已保存的表单数据（版本不匹配则丢弃）
 function loadSavedData() {
@@ -1258,7 +1261,7 @@ if (typeof window !== 'undefined') {
               </div>
               <div v-if="formData.hadUKVisa === 'yes'" class="conditional-group">
                 <div class="fields-grid">
-                  <DateField name="lastUKVisaDate" label-key="ukVisa.fields.lastUKVisaDate.label" v-model="formData.lastUKVisaDate" required prefix-icon="Calendar" />
+                  <MonthField name="lastUKVisaDate" label-key="ukVisa.fields.lastUKVisaDate.label" v-model="formData.lastUKVisaDate" required prefix-icon="Calendar" />
                 </div>
               </div>
 
@@ -1276,7 +1279,7 @@ if (typeof window !== 'undefined') {
                   </div>
                   <div class="fields-grid">
                     <!-- 日期 + 停留时长 + 目的(全宽) -->
-                    <DateField :name="'visit_' + index + '_date'" label-key="ukVisa.fields.ukVisit.date.label" v-model="visit.date" required prefix-icon="Calendar" />
+                    <MonthField :name="'visit_' + index + '_date'" label-key="ukVisa.fields.ukVisit.date.label" v-model="visit.date" required prefix-icon="Calendar" />
                     <TextField :name="'visit_' + index + '_duration'" label-key="ukVisa.fields.ukVisit.duration.label" placeholder-key="ukVisa.fields.ukVisit.duration.placeholder" v-model="visit.duration" required span="third" prefix-icon="Clock" />
                     <TextField :name="'visit_' + index + '_purpose'" label-key="ukVisa.fields.ukVisit.purpose.label" placeholder-key="ukVisa.fields.ukVisit.purpose.placeholder" v-model="visit.purpose" required span="full" prefix-icon="ClipboardList" />
                   </div>
@@ -1301,7 +1304,7 @@ if (typeof window !== 'undefined') {
                   <div class="fields-grid">
                     <!-- Row 1: 国家 + 日期 + 受理号 -->
                     <NationalityField :name="'refusal_' + index + '_country'" label-key="ukVisa.fields.refusal.country.label" v-model="ref.country" required :include-regions="true" span="third" />
-                    <DateField :name="'refusal_' + index + '_date'" label-key="ukVisa.fields.refusal.date.label" v-model="ref.date" required prefix-icon="Calendar" />
+                    <MonthField :name="'refusal_' + index + '_date'" label-key="ukVisa.fields.refusal.date.label" v-model="ref.date" required prefix-icon="Calendar" />
                     <TextField :name="'refusal_' + index + '_ref'" label-key="ukVisa.fields.refusal.refNumber.label" placeholder-key="ukVisa.fields.refusal.refNumber.placeholder" v-model="ref.refNumber" span="third" prefix-icon="Hash" />
                     <!-- Row 2: 原因 (全宽) -->
                     <TextField :name="'refusal_' + index + '_reason'" label-key="ukVisa.fields.refusal.reason.label" placeholder-key="ukVisa.fields.refusal.reason.placeholder" v-model="ref.reason" required span="full" prefix-icon="FileQuestion" />
@@ -1341,7 +1344,7 @@ if (typeof window !== 'undefined') {
                   <div class="fields-grid">
                     <!-- Row 1: 国家 + 日期 + 停留时长 -->
                     <SelectField :name="'oc_' + index + '_name'" label-key="ukVisa.fields.otherCountry.name.label" :options="otherCountryOptions" v-model="oc.name" required span="third" />
-                    <DateField :name="'oc_' + index + '_date'" label-key="ukVisa.fields.otherCountry.date.label" v-model="oc.date" required prefix-icon="Calendar" />
+                    <MonthField :name="'oc_' + index + '_date'" label-key="ukVisa.fields.otherCountry.date.label" v-model="oc.date" required prefix-icon="Calendar" />
                     <TextField :name="'oc_' + index + '_duration'" label-key="ukVisa.fields.otherCountry.duration.label" placeholder-key="ukVisa.fields.otherCountry.duration.placeholder" v-model="oc.duration" required span="third" prefix-icon="Clock" />
                     <!-- Row 2: 目的 (全宽) -->
                     <TextField :name="'oc_' + index + '_purpose'" label-key="ukVisa.fields.otherCountry.purpose.label" placeholder-key="ukVisa.fields.otherCountry.purpose.placeholder" v-model="oc.purpose" required span="full" prefix-icon="ClipboardList" />
