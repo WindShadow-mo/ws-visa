@@ -344,7 +344,7 @@ export function usePdfExport() {
 
     try {
       // 加载 CJK 字体（首次加载后浏览器缓存）
-      const fontResp = await fetch('/fonts/NotoSansSC-Regular.ttf')
+      const fontResp = await fetch(`${import.meta.env.BASE_URL}fonts/NotoSansSC-Regular.ttf`)
       if (!fontResp.ok) throw new Error('CJK 字体加载失败，请确保 /fonts/NotoSansSC-Regular.ttf 存在')
       const fontBuffer = await fontResp.arrayBuffer()
 
@@ -377,7 +377,7 @@ export function usePdfExport() {
           color: '#b0b0b0',
           opacity: 0.3,
           bold: true,
-          fontSize: 128,
+          fontSize: 43,
           rotate: 45,
         },
         content,

@@ -11,7 +11,7 @@ const { currentLocale, toggleLanguage } = useLanguage()
     :title="currentLocale === 'zh-CN' ? 'English' : '中文'"
     @click="toggleLanguage"
   >
-    <Globe :size="'1.15em'" :stroke-width="1.75" />
+    <Globe :size="14" :stroke-width="1.75" />
     <span class="lang-label" aria-live="polite">
       <span class="lang-text" :class="{ active: currentLocale === 'zh-CN' }">中</span>
       <span class="lang-text" :class="{ active: currentLocale === 'en' }">EN</span>
