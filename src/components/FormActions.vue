@@ -85,7 +85,7 @@ defineExpose({ openPreview })
           <p v-if="formSubtitle" class="form-subtitle">{{ formSubtitle }}</p>
         </div>
       </div>
-      <div class="flex gap-2">
+      <div class="flex flex-wrap gap-2">
         <button
           v-if="isDev"
           class="fill-btn"
@@ -148,6 +148,19 @@ defineExpose({ openPreview })
   padding: 1.5rem;
   border-radius: 1rem;
   background: linear-gradient(135deg, #012169 0%, #0a3d91 100%);
+}
+
+@media (max-width: 640px) {
+  .form-header {
+    flex-direction: column;
+  }
+  .form-title {
+    font-size: 1.5rem;
+  }
+  .flag-icon {
+    width: 40px;
+    height: 20px;
+  }
 }
 
 .title-group {
