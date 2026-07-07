@@ -115,7 +115,7 @@ function nextYear() { viewYear.value++ }
           <button type="button" class="p-1 hover:bg-accent rounded-md" @click="prevYear">
             <ChevronLeft :size="16" />
           </button>
-          <Select :model-value="String(viewYear)" @update:model-value="(v: string) => viewYear = Number(v)">
+          <Select :model-value="String(viewYear)" @update:model-value="(v) => viewYear = Number(v)">
             <SelectTrigger class="h-8 w-[120px] text-sm font-medium">
               <SelectValue />
             </SelectTrigger>
