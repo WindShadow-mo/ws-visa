@@ -19,12 +19,23 @@
       "searchOption": "Search..."
     },
     "labels": {
-      "required": "Required"
+      "required": "Required",
+      "doesNotApply": "Does Not Apply",
+      "doNotKnow": "Do Not Know"
     },
     "months": {
-      "1": "Jan", "2": "Feb", "3": "Mar", "4": "Apr",
-      "5": "May", "6": "Jun", "7": "Jul", "8": "Aug",
-      "9": "Sep", "10": "Oct", "11": "Nov", "12": "Dec"
+      "1": "Jan",
+      "2": "Feb",
+      "3": "Mar",
+      "4": "Apr",
+      "5": "May",
+      "6": "Jun",
+      "7": "Jul",
+      "8": "Aug",
+      "9": "Sep",
+      "10": "Oct",
+      "11": "Nov",
+      "12": "Dec"
     }
   },
   "schema": {
@@ -122,7 +133,7 @@
         "label": "Issuing Country / Region"
       },
       "nationality": {
-        "label": "Country/Region"
+        "label": "Nationality"
       },
       "gender": {
         "label": "Gender"
@@ -978,6 +989,1943 @@
       "ukVisit": "Visit {index}",
       "refusal": "Refusal {index}",
       "otherCountry": "Country {index}"
+    }
+  },
+  "usVisa": {
+    "title": "U.S. Visa DS-160",
+    "subtitle": "Nonimmigrant Visa Application",
+    "clearForm": "Clear Data",
+    "clearConfirm": "Are you sure you want to clear all data? This cannot be undone.",
+    "exportPdf": "Export PDF",
+    "exporting": "Generating...",
+    "addRow": "Add Another",
+    "removeRow": "Remove",
+    "backToTop": "Back to Top",
+    "fillMock": "Fill Test Data",
+    "fillTestData": "Fill Test Data",
+    "buttons": {
+      "back": "Back",
+      "next": "Next"
+    },
+    "sections": {
+      "personal1": "Personal Information (I)",
+      "personal2": "Personal Information (II)",
+      "travel": "Travel Information",
+      "companions": "Travel Companions",
+      "previousTravel": "Previous U.S. Travel",
+      "addressPhone": "Address & Phone",
+      "passport": "Passport Information",
+      "usContact": "U.S. Contact",
+      "family": "Family Information",
+      "presentWork": "Present Work/Education",
+      "previousWork": "Previous Work/Education",
+      "additionalWork": "Additional Work/Education",
+      "security": "Security and Background",
+      "travelCompanions": "Travel Companions",
+      "previousUSTravel": "Previous U.S. Travel",
+      "securityBackground": "Security and Background"
+    },
+    "subLabels": {
+      "name": "Name",
+      "telecode": "Telecode",
+      "nationality": "Nationality",
+      "idNumbers": "ID Numbers",
+      "travelPurpose": "Purpose of Trip",
+      "travelPlan": "Travel Plan",
+      "usAddress": "U.S. Address",
+      "payer": "Trip Payer",
+      "companionList": "Travel Companions",
+      "usVisits": "U.S. Visit Records",
+      "usDriversLicense": "U.S. Driver's License",
+      "usVisaHistory": "U.S. Visa History",
+      "refused": "Refusal / Denial",
+      "estaRefused": "ESTA Denial",
+      "immigrantPetition": "Immigrant Petition",
+      "homeAddress": "Home Address",
+      "phone": "Phone",
+      "emailSection": "Email",
+      "otherContact": "Other Contact Information",
+      "mailingAddress": "Mailing Address",
+      "socialMedia": "Social Media",
+      "passportBasic": "Passport Basic Information",
+      "issuanceInfo": "Issuance Information",
+      "passportDates": "Dates",
+      "lostPassport": "Lost Passport",
+      "father": "Father's Information",
+      "mother": "Mother's Information",
+      "immediateRelatives": "Immediate Relatives in the U.S.",
+      "otherRelatives": "Other Relatives in the U.S.",
+      "spouse": "Spouse/Partner Information",
+      "languageList": "Languages",
+      "militaryService": "Military Service",
+      "previousWorkRecords": "Previous Work Records",
+      "educationRecords": "Education Records",
+      "part1": "Part 1 — Health Related",
+      "part2": "Part 2 — Crimes/Trafficking",
+      "part3": "Part 3 — Terrorism/Human Rights",
+      "part4": "Part 4 — Immigration Violations",
+      "part5": "Part 5 — Citizenship/Custody/Voting/Student/Exchange Visitor",
+      "birthInfo": "Birth Information",
+      "usContactAddress": "U.S. Contact Address"
+    },
+    "subLabelsRepeat": {
+      "companion": "Companion {N}",
+      "usVisit": "Visit {N}",
+      "previousWork": "Previous Work {N}",
+      "education": "Education {N}",
+      "relative": "Relative {N}",
+      "military": "Military Service {N}",
+      "lostPassport": "Lost Passport {N}"
+    },
+    "fields": {
+      "surname": {
+        "label": "Surname",
+        "placeholder": "e.g., FERNANDEZ GARCIA"
+      },
+      "givenName": {
+        "label": "Given Names",
+        "placeholder": "e.g., JUAN MIGUEL"
+      },
+      "given_name": {
+        "label": "Given Names",
+        "placeholder": "e.g., JUAN MIGUEL"
+      },
+      "native_name": {
+        "label": "Name in Native Alphabet",
+        "placeholder": "Enter name in native alphabet if non-Roman"
+      },
+      "native_name_not_applicable": "Not Applicable",
+      "hasOtherNames": {
+        "label": "Have you ever used other names?"
+      },
+      "has_other_names": {
+        "label": "Have you ever used other names?"
+      },
+      "otherSurname": {
+        "label": "Other Surname Used"
+      },
+      "other_surname": {
+        "label": "Other Surname Used"
+      },
+      "otherGivenName": {
+        "label": "Other Given Names Used"
+      },
+      "other_given_name": {
+        "label": "Other Given Names Used"
+      },
+      "hasTelecode": {
+        "label": "Do you have a telecode?"
+      },
+      "has_telecode": {
+        "label": "Do you have a telecode?"
+      },
+      "telecodeSurname": {
+        "label": "Telecode Surnames",
+        "placeholder": "4 digits"
+      },
+      "telecode_surname": {
+        "label": "Telecode Surnames",
+        "placeholder": "4 digits"
+      },
+      "telecodeGivenName": {
+        "label": "Telecode Given Names",
+        "placeholder": "4 digits"
+      },
+      "telecode_given_name": {
+        "label": "Telecode Given Names",
+        "placeholder": "4 digits"
+      },
+      "sex": {
+        "label": "Sex"
+      },
+      "maritalStatus": {
+        "label": "Marital Status"
+      },
+      "marital_status": {
+        "label": "Marital Status"
+      },
+      "maritalStatusExplain": {
+        "label": "Explain"
+      },
+      "marital_status_explain": {
+        "label": "Explain"
+      },
+      "dateOfBirth": {
+        "label": "Date of Birth"
+      },
+      "date_of_birth": {
+        "label": "Date of Birth"
+      },
+      "birthCity": {
+        "label": "City of Birth"
+      },
+      "birth_city": {
+        "label": "City of Birth"
+      },
+      "birthState": {
+        "label": "State/Province of Birth"
+      },
+      "birth_state": {
+        "label": "State/Province of Birth"
+      },
+      "birthCountry": {
+        "label": "Country/Region of Birth"
+      },
+      "birth_country": {
+        "label": "Country/Region of Birth"
+      },
+      "nationality": {
+        "label": "Nationality"
+      },
+      "hasOtherNationality": {
+        "label": "Do you hold any other nationality?"
+      },
+      "has_other_nationality": {
+        "label": "Do you hold any other nationality?"
+      },
+      "otherNationality": {
+        "label": "Other Nationality"
+      },
+      "other_nationality": {
+        "label": "Other Nationality"
+      },
+      "hasOtherNationalityPassport": {
+        "label": "Do you hold a passport for that country?"
+      },
+      "has_other_nationality_passport": {
+        "label": "Do you hold a passport for that country?"
+      },
+      "otherNationalityPassportNo": {
+        "label": "Passport Number"
+      },
+      "other_nationality_passport_no": {
+        "label": "Passport Number"
+      },
+      "isPermanentResident": {
+        "label": "Are you a permanent resident of another country?"
+      },
+      "is_permanent_resident": {
+        "label": "Are you a permanent resident of another country?"
+      },
+      "permanentResidentCountry": {
+        "label": "Country/Region of permanent residence"
+      },
+      "permanent_resident_country": {
+        "label": "Country/Region of permanent residence"
+      },
+      "nationalIdNumber": {
+        "label": "National ID Number"
+      },
+      "national_id_number": {
+        "label": "National ID Number"
+      },
+      "socialSecurityNumber": {
+        "label": "U.S. Social Security Number",
+        "placeholder": "XXX-XX-XXXX"
+      },
+      "social_security_number": {
+        "label": "U.S. Social Security Number",
+        "placeholder": "XXX-XX-XXXX"
+      },
+      "taxIdNumber": {
+        "label": "U.S. Taxpayer ID Number"
+      },
+      "tax_id_number": {
+        "label": "U.S. Taxpayer ID Number"
+      },
+      "purposeOfTrip": {
+        "label": "Purpose of Trip"
+      },
+      "purpose_of_trip": {
+        "label": "Purpose of Trip"
+      },
+      "visaCategory": {
+        "label": "Visa Category"
+      },
+      "visa_category": {
+        "label": "Visa Category"
+      },
+      "arrivalDate": {
+        "label": "Intended Date of Arrival"
+      },
+      "arrival_date": {
+        "label": "Intended Date of Arrival"
+      },
+      "lengthOfStay": {
+        "label": "Expected Length of Stay"
+      },
+      "length_of_stay": {
+        "label": "Expected Length of Stay"
+      },
+      "lengthOfStayPeriod": {
+        "label": "Period"
+      },
+      "length_of_stay_period": {
+        "label": "Period"
+      },
+      "usAddressStreetAddr1": {
+        "label": "Street Address (Line 1)"
+      },
+      "us_address_street_addr1": {
+        "label": "Street Address (Line 1)"
+      },
+      "usAddressCity": {
+        "label": "City"
+      },
+      "us_address_city": {
+        "label": "City"
+      },
+      "usAddressState": {
+        "label": "State"
+      },
+      "us_address_state": {
+        "label": "State"
+      },
+      "usAddressZipCode": {
+        "label": "ZIP Code"
+      },
+      "us_address_zip_code": {
+        "label": "ZIP Code"
+      },
+      "payingPersonType": {
+        "label": "Who Will Pay for Your Trip"
+      },
+      "paying_person_type": {
+        "label": "Who Will Pay for Your Trip"
+      },
+      "payingPersonSurname": {
+        "label": "Surname"
+      },
+      "paying_person_surname": {
+        "label": "Surname"
+      },
+      "payingPersonGivenName": {
+        "label": "Given Name"
+      },
+      "paying_person_given_name": {
+        "label": "Given Name"
+      },
+      "payingPersonTel": {
+        "label": "Phone Number"
+      },
+      "paying_person_tel": {
+        "label": "Phone Number"
+      },
+      "payingPersonEmail": {
+        "label": "Email"
+      },
+      "paying_person_email": {
+        "label": "Email"
+      },
+      "payingPersonRelationship": {
+        "label": "Relationship"
+      },
+      "paying_person_relationship": {
+        "label": "Relationship"
+      },
+      "paying_person_address_same": {
+        "label": "Address same as home/mailing address?"
+      },
+      "paying_person_address_street_addr1": {
+        "label": "Street Address"
+      },
+      "paying_person_address_city": {
+        "label": "City"
+      },
+      "paying_person_address_state": {
+        "label": "State/Province"
+      },
+      "paying_person_address_zip_code": {
+        "label": "ZIP Code"
+      },
+      "paying_person_address_country": {
+        "label": "Country/Region"
+      },
+      "payingOrgName": {
+        "label": "Organization Name"
+      },
+      "paying_org_name": {
+        "label": "Organization Name"
+      },
+      "payingOrgTel": {
+        "label": "Phone Number"
+      },
+      "paying_org_tel": {
+        "label": "Phone Number"
+      },
+      "payingOrgRelationship": {
+        "label": "Relationship"
+      },
+      "paying_org_relationship": {
+        "label": "Relationship"
+      },
+      "payingOrgCountry": {
+        "label": "Country/Region"
+      },
+      "paying_org_address_country": {
+        "label": "Country/Region"
+      },
+      "payingOrgStreetAddr1": {
+        "label": "Street Address"
+      },
+      "paying_org_address_street_addr1": {
+        "label": "Street Address"
+      },
+      "payingOrgCity": {
+        "label": "City"
+      },
+      "paying_org_address_city": {
+        "label": "City"
+      },
+      "payingOrgState": {
+        "label": "State/Province"
+      },
+      "paying_org_address_state": {
+        "label": "State/Province"
+      },
+      "payingOrgZipCode": {
+        "label": "ZIP Code"
+      },
+      "paying_org_address_zip_code": {
+        "label": "ZIP Code"
+      },
+      "hasTravelCompanions": {
+        "label": "Are there other persons traveling with you?"
+      },
+      "has_travel_companions": {
+        "label": "Are there other persons traveling with you?"
+      },
+      "companion_list_help": {
+        "helpText": "A list of persons traveling with you. (Each traveler must complete their own application)"
+      },
+      "companionSurname": {
+        "label": "Surname"
+      },
+      "companionGivenName": {
+        "label": "Given Name"
+      },
+      "companionRelationship": {
+        "label": "Relationship"
+      },
+      "isGroupTravel": {
+        "label": "Traveling as part of a group?"
+      },
+      "is_group_travel": {
+        "label": "Traveling as part of a group?"
+      },
+      "groupName": {
+        "label": "Group/Organization Name"
+      },
+      "group_name": {
+        "label": "Group/Organization Name"
+      },
+      "hasBeenInUs": {
+        "label": "Have you ever been in the U.S.?"
+      },
+      "has_been_in_us": {
+        "label": "Have you ever been in the U.S.?"
+      },
+      "visitArrivalDate": {
+        "label": "Date Arrived"
+      },
+      "visitLengthOfStay": {
+        "label": "Length of Stay"
+      },
+      "visitStayPeriod": {
+        "label": "Period"
+      },
+      "hasUsDriversLicense": {
+        "label": "Do you hold a U.S. Driver's License?"
+      },
+      "has_us_drivers_license": {
+        "label": "Do you hold a U.S. Driver's License?"
+      },
+      "driversLicenseNumber": {
+        "label": "Driver's License Number"
+      },
+      "drivers_license_number": {
+        "label": "Driver's License Number"
+      },
+      "driversLicenseState": {
+        "label": "Driver's License State"
+      },
+      "drivers_license_state": {
+        "label": "Driver's License State"
+      },
+      "hasUsVisa": {
+        "label": "Have you ever been issued a U.S. Visa?"
+      },
+      "has_us_visa": {
+        "label": "Have you ever been issued a U.S. Visa?"
+      },
+      "lastVisaDate": {
+        "label": "Date Last Visa Was Issued"
+      },
+      "last_visa_date": {
+        "label": "Date Last Visa Was Issued"
+      },
+      "lastVisaNumber": {
+        "label": "Visa Number"
+      },
+      "last_visa_number": {
+        "label": "Visa Number"
+      },
+      "applyingSameType": {
+        "label": "Applying for same type?"
+      },
+      "applying_same_type": {
+        "label": "Applying for same type?"
+      },
+      "applyingSameCountry": {
+        "label": "Applying in same country?"
+      },
+      "applying_same_country": {
+        "label": "Applying in same country?"
+      },
+      "hasBeenTenPrinted": {
+        "label": "Have you been ten-printed?"
+      },
+      "has_been_ten_printed": {
+        "label": "Have you been ten-printed?"
+      },
+      "visaLostOrStolen": {
+        "label": "Has visa been lost or stolen?"
+      },
+      "visa_lost_or_stolen": {
+        "label": "Has visa been lost or stolen?"
+      },
+      "visaCancelled": {
+        "label": "Has visa been cancelled or revoked?"
+      },
+      "visa_cancelled": {
+        "label": "Has visa been cancelled or revoked?"
+      },
+      "hasBeenRefused": {
+        "label": "Have you ever been refused a U.S. Visa or admission?"
+      },
+      "has_been_refused": {
+        "label": "Have you ever been refused a U.S. Visa or admission?"
+      },
+      "refusalExplain": {
+        "label": "Explain"
+      },
+      "refusal_explain": {
+        "label": "Explain"
+      },
+      "hasEstaRefused": {
+        "label": "Have you ever been denied travel authorization under ESTA?"
+      },
+      "has_esta_refused": {
+        "label": "Have you ever been denied travel authorization under ESTA?"
+      },
+      "estaRefusalExplain": {
+        "label": "Explain"
+      },
+      "esta_refusal_explain": {
+        "label": "Explain"
+      },
+      "hasImmigrantPetition": {
+        "label": "Has anyone filed an immigrant petition on your behalf?"
+      },
+      "has_immigrant_petition": {
+        "label": "Has anyone filed an immigrant petition on your behalf?"
+      },
+      "immigrantPetitionExplain": {
+        "label": "Explain"
+      },
+      "immigrant_petition_explain": {
+        "label": "Explain"
+      },
+      "homeAddrStreetAddr1": {
+        "label": "Street Address (Line 1)"
+      },
+      "home_addr_street_addr1": {
+        "label": "Street Address (Line 1)"
+      },
+      "homeAddrCity": {
+        "label": "City"
+      },
+      "home_addr_city": {
+        "label": "City"
+      },
+      "homeAddrState": {
+        "label": "State/Province"
+      },
+      "home_addr_state": {
+        "label": "State/Province"
+      },
+      "homeAddrZipCode": {
+        "label": "Postal Code"
+      },
+      "home_addr_zip_code": {
+        "label": "Postal Code"
+      },
+      "homeAddrCountry": {
+        "label": "Country/Region"
+      },
+      "home_addr_country": {
+        "label": "Country/Region"
+      },
+      "phonePrimary": {
+        "label": "Primary Phone Number"
+      },
+      "phone_primary": {
+        "label": "Primary Phone Number"
+      },
+      "phoneSecondary": {
+        "label": "Secondary Phone Number"
+      },
+      "phone_secondary": {
+        "label": "Secondary Phone Number"
+      },
+      "phoneWork": {
+        "label": "Work Phone Number"
+      },
+      "phone_work": {
+        "label": "Work Phone Number"
+      },
+      "email": {
+        "label": "Email Address"
+      },
+      "emailConfirm": {
+        "label": "Confirm Email"
+      },
+      "email_confirm": {
+        "label": "Confirm Email"
+      },
+      "hasOtherPhones": {
+        "label": "Used other phone numbers in last 5 years?"
+      },
+      "has_other_phones": {
+        "label": "Used other phone numbers in last 5 years?"
+      },
+      "otherPhoneNumber": {
+        "label": "Phone Number"
+      },
+      "other_phone_number": {
+        "label": "Phone Number"
+      },
+      "hasOtherEmails": {
+        "label": "Used other email addresses in last 5 years?"
+      },
+      "has_other_emails": {
+        "label": "Used other email addresses in last 5 years?"
+      },
+      "otherEmailAddress": {
+        "label": "Email Address"
+      },
+      "other_email_address": {
+        "label": "Email Address"
+      },
+      "mailingDifferent": {
+        "label": "Mailing address different from home?"
+      },
+      "mailing_different": {
+        "label": "Mailing address different from home?"
+      },
+      "mailingAddrStreetAddr1": {
+        "label": "Street Address (Line 1)"
+      },
+      "mailing_addr_street_addr1": {
+        "label": "Street Address (Line 1)"
+      },
+      "mailingAddrCity": {
+        "label": "City"
+      },
+      "mailing_addr_city": {
+        "label": "City"
+      },
+      "mailingAddrState": {
+        "label": "State/Province"
+      },
+      "mailing_addr_state": {
+        "label": "State/Province"
+      },
+      "mailingAddrZipCode": {
+        "label": "Postal Code"
+      },
+      "mailing_addr_zip_code": {
+        "label": "Postal Code"
+      },
+      "mailingAddrCountry": {
+        "label": "Country/Region"
+      },
+      "mailing_addr_country": {
+        "label": "Country/Region"
+      },
+      "socialMediaPlatform": {
+        "label": "Platform"
+      },
+      "social_media_platform": {
+        "label": "Platform"
+      },
+      "socialMediaUsername": {
+        "label": "Social Media Identifier"
+      },
+      "social_media_username": {
+        "label": "Social Media Identifier"
+      },
+      "hasOtherSocialMedia": {
+        "label": "Wish to provide info about other websites?"
+      },
+      "has_other_social_media": {
+        "label": "Wish to provide info about other websites?"
+      },
+      "otherSocialPlatform": {
+        "label": "Platform Name"
+      },
+      "other_social_platform": {
+        "label": "Platform Name"
+      },
+      "otherSocialUsername": {
+        "label": "Identifier"
+      },
+      "other_social_username": {
+        "label": "Identifier"
+      },
+      "docType": {
+        "label": "Passport/Travel Document Type"
+      },
+      "doc_type": {
+        "label": "Passport/Travel Document Type"
+      },
+      "docTypeExplain": {
+        "label": "Explain"
+      },
+      "doc_type_explain": {
+        "label": "Explain"
+      },
+      "docNumber": {
+        "label": "Passport Number"
+      },
+      "doc_number": {
+        "label": "Passport Number"
+      },
+      "bookNumber": {
+        "label": "Passport Book Number"
+      },
+      "book_number": {
+        "label": "Passport Book Number"
+      },
+      "docAuthority": {
+        "label": "Country/Authority That Issued Passport"
+      },
+      "doc_authority": {
+        "label": "Country/Authority That Issued Passport"
+      },
+      "issuedLocationCity": {
+        "label": "Issuance City"
+      },
+      "issued_location_city": {
+        "label": "Issuance City"
+      },
+      "issuedLocationState": {
+        "label": "State/Province"
+      },
+      "issued_location_state": {
+        "label": "State/Province"
+      },
+      "issuedLocationCountry": {
+        "label": "Country/Region"
+      },
+      "issued_location_country": {
+        "label": "Country/Region"
+      },
+      "issuanceDate": {
+        "label": "Issuance Date"
+      },
+      "issuance_date": {
+        "label": "Issuance Date"
+      },
+      "expirationDate": {
+        "label": "Expiration Date"
+      },
+      "expiration_date": {
+        "label": "Expiration Date"
+      },
+      "noExpiration": {
+        "label": "No Expiration Date"
+      },
+      "no_expiration": {
+        "label": "No Expiration Date"
+      },
+      "hasLostPassport": {
+        "label": "Have you lost or had a passport stolen?"
+      },
+      "has_lost_passport": {
+        "label": "Have you lost or had a passport stolen?"
+      },
+      "lostPassportNumber": {
+        "label": "Passport Number"
+      },
+      "lost_passport_number": {
+        "label": "Passport Number"
+      },
+      "lostPassportCountry": {
+        "label": "Country/Region"
+      },
+      "lost_passport_country": {
+        "label": "Country/Region"
+      },
+      "lostPassportExplain": {
+        "label": "Explain"
+      },
+      "lost_passport_explain": {
+        "label": "Explain"
+      },
+      "usRelationship": {
+        "label": "Relationship"
+      },
+      "us_relationship": {
+        "label": "Relationship"
+      },
+      "usContactSurname": {
+        "label": "Surname"
+      },
+      "us_contact_surname": {
+        "label": "Surname"
+      },
+      "usContactGivenName": {
+        "label": "Given Name"
+      },
+      "us_contact_given_name": {
+        "label": "Given Name"
+      },
+      "usContactOrganization": {
+        "label": "Organization Name"
+      },
+      "us_contact_organization": {
+        "label": "Organization Name"
+      },
+      "usContactStreetAddr1": {
+        "label": "Street Address (Line 1)"
+      },
+      "us_contact_address_street_addr1": {
+        "label": "Street Address (Line 1)"
+      },
+      "usContactCity": {
+        "label": "City"
+      },
+      "us_contact_address_city": {
+        "label": "City"
+      },
+      "usContactState": {
+        "label": "State"
+      },
+      "us_contact_address_state": {
+        "label": "State"
+      },
+      "usContactZipCode": {
+        "label": "ZIP Code"
+      },
+      "us_contact_address_zip_code": {
+        "label": "ZIP Code"
+      },
+      "usContactPhone": {
+        "label": "Phone Number"
+      },
+      "us_contact_phone": {
+        "label": "Phone Number"
+      },
+      "usContactEmail": {
+        "label": "Email (if known)"
+      },
+      "us_contact_email": {
+        "label": "Email (if known)"
+      },
+      "fatherSurname": {
+        "label": "Father's Surname"
+      },
+      "father_surname": {
+        "label": "Father's Surname"
+      },
+      "fatherGivenName": {
+        "label": "Father's Given Name"
+      },
+      "father_given_name": {
+        "label": "Father's Given Name"
+      },
+      "fatherDateOfBirth": {
+        "label": "Father's Date of Birth"
+      },
+      "father_date_of_birth": {
+        "label": "Father's Date of Birth"
+      },
+      "fatherInUs": {
+        "label": "Is your father in the U.S.?"
+      },
+      "father_in_us": {
+        "label": "Is your father in the U.S.?"
+      },
+      "fatherStatus": {
+        "label": "Father's Status"
+      },
+      "father_status": {
+        "label": "Father's Status"
+      },
+      "motherSurname": {
+        "label": "Mother's Surname"
+      },
+      "mother_surname": {
+        "label": "Mother's Surname"
+      },
+      "motherGivenName": {
+        "label": "Mother's Given Name"
+      },
+      "mother_given_name": {
+        "label": "Mother's Given Name"
+      },
+      "motherDateOfBirth": {
+        "label": "Mother's Date of Birth"
+      },
+      "mother_date_of_birth": {
+        "label": "Mother's Date of Birth"
+      },
+      "motherInUs": {
+        "label": "Is your mother in the U.S.?"
+      },
+      "mother_in_us": {
+        "label": "Is your mother in the U.S.?"
+      },
+      "motherStatus": {
+        "label": "Mother's Status"
+      },
+      "mother_status": {
+        "label": "Mother's Status"
+      },
+      "hasImmediateRelatives": {
+        "label": "Do you have immediate relatives in the U.S. (not including parents)?"
+      },
+      "has_immediate_relatives": {
+        "label": "Do you have immediate relatives in the U.S. (not including parents)?"
+      },
+      "immediateRelativeSurname": {
+        "label": "Surname"
+      },
+      "immediate_relatives_surname": {
+        "label": "Surname"
+      },
+      "immediateRelativeGivenName": {
+        "label": "Given Name"
+      },
+      "immediate_relatives_given_name": {
+        "label": "Given Name"
+      },
+      "immediateRelativeRelationship": {
+        "label": "Relationship"
+      },
+      "immediate_relatives_relationship": {
+        "label": "Relationship"
+      },
+      "immediateRelativeStatus": {
+        "label": "Relative's Status"
+      },
+      "immediate_relatives_status": {
+        "label": "Relative's Status"
+      },
+      "hasOtherRelatives": {
+        "label": "Do you have other relatives in the U.S. (not including parents and immediate)?"
+      },
+      "has_other_relatives": {
+        "label": "Do you have other relatives in the U.S. (not including parents and immediate)?"
+      },
+      "otherRelativeSurname": {
+        "label": "Surname"
+      },
+      "other_relatives_surname": {
+        "label": "Surname"
+      },
+      "otherRelativeGivenName": {
+        "label": "Given Name"
+      },
+      "other_relatives_given_name": {
+        "label": "Given Name"
+      },
+      "otherRelativeRelationship": {
+        "label": "Relationship"
+      },
+      "other_relatives_relationship": {
+        "label": "Relationship"
+      },
+      "otherRelativeStatus": {
+        "label": "Relative's Status"
+      },
+      "other_relatives_status": {
+        "label": "Relative's Status"
+      },
+      "spouseSurname": {
+        "label": "Spouse's Surname"
+      },
+      "spouse_surname": {
+        "label": "Spouse's Surname"
+      },
+      "spouseGivenName": {
+        "label": "Spouse's Given Name"
+      },
+      "spouse_given_name": {
+        "label": "Spouse's Given Name"
+      },
+      "spouseDateOfBirth": {
+        "label": "Spouse's Date of Birth"
+      },
+      "spouse_date_of_birth": {
+        "label": "Spouse's Date of Birth"
+      },
+      "spouseNationality": {
+        "label": "Spouse's Nationality"
+      },
+      "spouse_nationality": {
+        "label": "Spouse's Nationality"
+      },
+      "spouseBirthCity": {
+        "label": "Spouse's Birth City"
+      },
+      "spouse_birth_city": {
+        "label": "Spouse's Birth City"
+      },
+      "spouseBirthCountry": {
+        "label": "Spouse's Country/Region of Birth"
+      },
+      "spouse_birth_country": {
+        "label": "Spouse's Country/Region of Birth"
+      },
+      "spouseAddressType": {
+        "label": "Spouse's Address"
+      },
+      "spouse_address_type": {
+        "label": "Spouse's Address"
+      },
+      "spouseAddressStreetAddr1": {
+        "label": "Street Address"
+      },
+      "spouse_address_street_addr1": {
+        "label": "Street Address"
+      },
+      "spouseAddressCity": {
+        "label": "City"
+      },
+      "spouse_address_city": {
+        "label": "City"
+      },
+      "spouseAddressState": {
+        "label": "State/Province"
+      },
+      "spouse_address_state": {
+        "label": "State/Province"
+      },
+      "spouseAddressZipCode": {
+        "label": "Postal Code"
+      },
+      "spouse_address_zip_code": {
+        "label": "Postal Code"
+      },
+      "spouseAddressCountry": {
+        "label": "Country/Region"
+      },
+      "spouse_address_country": {
+        "label": "Country/Region"
+      },
+      "occupation": {
+        "label": "Primary Occupation"
+      },
+      "currentEmployer": {
+        "label": "Employer/School Name"
+      },
+      "current_employer": {
+        "label": "Employer/School Name"
+      },
+      "currentAddressStreetAddr1": {
+        "label": "Street Address (Line 1)"
+      },
+      "current_address_street_addr1": {
+        "label": "Street Address (Line 1)"
+      },
+      "currentAddressCity": {
+        "label": "City"
+      },
+      "current_address_city": {
+        "label": "City"
+      },
+      "currentAddressState": {
+        "label": "State/Province"
+      },
+      "current_address_state": {
+        "label": "State/Province"
+      },
+      "currentAddressZipCode": {
+        "label": "Postal Code"
+      },
+      "current_address_zip_code": {
+        "label": "Postal Code"
+      },
+      "currentAddressCountry": {
+        "label": "Country/Region"
+      },
+      "current_address_country": {
+        "label": "Country/Region"
+      },
+      "currentAddressTel": {
+        "label": "Phone Number"
+      },
+      "current_address_tel": {
+        "label": "Phone Number"
+      },
+      "startDate": {
+        "label": "Start Date"
+      },
+      "start_date": {
+        "label": "Start Date"
+      },
+      "monthlyIncome": {
+        "label": "Monthly Income"
+      },
+      "monthly_income": {
+        "label": "Monthly Income"
+      },
+      "jobDescription": {
+        "label": "Job Description"
+      },
+      "job_description": {
+        "label": "Job Description"
+      },
+      "wasPreviouslyEmployed": {
+        "label": "Were you previously employed?"
+      },
+      "was_previously_employed": {
+        "label": "Were you previously employed?"
+      },
+      "prevWorkEmployerName": {
+        "label": "Employer Name"
+      },
+      "pw_employer_name": {
+        "label": "Employer Name"
+      },
+      "prevWorkStreetAddr1": {
+        "label": "Street Address"
+      },
+      "pw_address_street_addr1": {
+        "label": "Street Address"
+      },
+      "prevWorkCity": {
+        "label": "City"
+      },
+      "pw_address_city": {
+        "label": "City"
+      },
+      "prevWorkState": {
+        "label": "State/Province"
+      },
+      "pw_address_state": {
+        "label": "State/Province"
+      },
+      "prevWorkZipCode": {
+        "label": "Postal Code"
+      },
+      "pw_address_zip_code": {
+        "label": "Postal Code"
+      },
+      "prevWorkCountry": {
+        "label": "Country/Region"
+      },
+      "pw_address_country": {
+        "label": "Country/Region"
+      },
+      "prevWorkPhone": {
+        "label": "Phone Number"
+      },
+      "pw_phone": {
+        "label": "Phone Number"
+      },
+      "prevWorkJobTitle": {
+        "label": "Job Title"
+      },
+      "pw_job_title": {
+        "label": "Job Title"
+      },
+      "prevWorkSupervisorSurname": {
+        "label": "Supervisor Surname"
+      },
+      "pw_supervisor_surname": {
+        "label": "Supervisor Surname"
+      },
+      "prevWorkSupervisorGivenName": {
+        "label": "Supervisor Given Name"
+      },
+      "pw_supervisor_given_name": {
+        "label": "Supervisor Given Name"
+      },
+      "prevWorkDateFrom": {
+        "label": "Start Date"
+      },
+      "pw_date_from": {
+        "label": "Start Date"
+      },
+      "prevWorkDateTo": {
+        "label": "End Date"
+      },
+      "pw_date_to": {
+        "label": "End Date"
+      },
+      "prevWorkJobDescription": {
+        "label": "Job Description"
+      },
+      "pw_job_description": {
+        "label": "Job Description"
+      },
+      "hasEducation": {
+        "label": "Have you attended any educational institutions at secondary level or above?"
+      },
+      "has_education": {
+        "label": "Have you attended any educational institutions at secondary level or above?"
+      },
+      "educationName": {
+        "label": "Institution Name"
+      },
+      "edu_name": {
+        "label": "Institution Name"
+      },
+      "educationStreetAddr1": {
+        "label": "Street Address"
+      },
+      "edu_address_street_addr1": {
+        "label": "Street Address"
+      },
+      "educationCity": {
+        "label": "City"
+      },
+      "edu_address_city": {
+        "label": "City"
+      },
+      "educationState": {
+        "label": "State/Province"
+      },
+      "edu_address_state": {
+        "label": "State/Province"
+      },
+      "educationZipCode": {
+        "label": "Postal Code"
+      },
+      "edu_address_zip_code": {
+        "label": "Postal Code"
+      },
+      "educationCountry": {
+        "label": "Country/Region"
+      },
+      "edu_address_country": {
+        "label": "Country/Region"
+      },
+      "educationCourse": {
+        "label": "Course of Study"
+      },
+      "edu_course": {
+        "label": "Course of Study"
+      },
+      "educationDateFrom": {
+        "label": "From Date"
+      },
+      "edu_date_from": {
+        "label": "From Date"
+      },
+      "educationDateTo": {
+        "label": "To Date"
+      },
+      "edu_date_to": {
+        "label": "To Date"
+      },
+      "languageName": {
+        "label": "Language Name"
+      },
+      "languages_name": {
+        "label": "Language Name"
+      },
+      "hasClan": {
+        "label": "Do you belong to a clan or tribe?"
+      },
+      "has_clan": {
+        "label": "Do you belong to a clan or tribe?"
+      },
+      "clanName": {
+        "label": "Clan/Tribe Name"
+      },
+      "clan_name": {
+        "label": "Clan/Tribe Name"
+      },
+      "hasTraveled5yr": {
+        "label": "Traveled to any countries in last 5 years?"
+      },
+      "has_traveled_5yr": {
+        "label": "Traveled to any countries in last 5 years?"
+      },
+      "traveledCountry": {
+        "label": "Country/Region"
+      },
+      "traveled_countries_country": {
+        "label": "Country/Region"
+      },
+      "hasOrganization": {
+        "label": "Belonged to any professional/social/charitable organization?"
+      },
+      "has_organization": {
+        "label": "Belonged to any professional/social/charitable organization?"
+      },
+      "organizationName": {
+        "label": "Organization Name"
+      },
+      "organizations_name": {
+        "label": "Organization Name"
+      },
+      "hasMilitaryService": {
+        "label": "Have you ever served in the military?"
+      },
+      "has_military_service": {
+        "label": "Have you ever served in the military?"
+      },
+      "militaryCountry": {
+        "label": "Country/Region"
+      },
+      "mil_country": {
+        "label": "Country/Region"
+      },
+      "militaryBranch": {
+        "label": "Branch of Service"
+      },
+      "mil_branch": {
+        "label": "Branch of Service"
+      },
+      "militaryRank": {
+        "label": "Rank/Position"
+      },
+      "mil_rank": {
+        "label": "Rank/Position"
+      },
+      "militarySpecialty": {
+        "label": "Military Specialty"
+      },
+      "mil_specialty": {
+        "label": "Military Specialty"
+      },
+      "militaryDateFrom": {
+        "label": "Date From"
+      },
+      "mil_date_from": {
+        "label": "Date From"
+      },
+      "militaryDateTo": {
+        "label": "Date To"
+      },
+      "mil_date_to": {
+        "label": "Date To"
+      },
+      "hasTaliban": {
+        "label": "Have you been a member of the Taliban?"
+      },
+      "has_taliban": {
+        "label": "Have you been a member of the Taliban?"
+      },
+      "talibanExplain": {
+        "label": "Explain"
+      },
+      "taliban_explain": {
+        "label": "Explain"
+      },
+      "hasSpecialSkills": {
+        "label": "Do you have specialized skills (firearms, explosives, etc.)?"
+      },
+      "has_special_skills": {
+        "label": "Do you have specialized skills (firearms, explosives, etc.)?"
+      },
+      "specialSkillsExplain": {
+        "label": "Explain"
+      },
+      "special_skills_explain": {
+        "label": "Explain"
+      },
+      "hasParamilitary": {
+        "label": "Served in paramilitary/rebel/insurgent organization?"
+      },
+      "has_paramilitary": {
+        "label": "Served in paramilitary/rebel/insurgent organization?"
+      },
+      "paramilitaryExplain": {
+        "label": "Explain"
+      },
+      "paramilitary_explain": {
+        "label": "Explain"
+      },
+      "securityExplain": {
+        "label": "Please explain in detail"
+      },
+      "security_explain": {
+        "label": "Please explain in detail"
+      },
+      "companion_surname": {
+        "label": "Surname"
+      },
+      "companion_given_name": {
+        "label": "Given Name"
+      },
+      "companion_relationship": {
+        "label": "Relationship"
+      },
+      "visit_arrival_date": {
+        "label": "Arrival Date"
+      },
+      "visit_length_of_stay": {
+        "label": "Length of Stay"
+      },
+      "visit_stay_period": {
+        "label": "Stay Period"
+      },
+      "other_email": {
+        "label": "Email Address"
+      }
+    },
+    "options": {
+      "yesNo": {
+        "yes": "Yes",
+        "no": "No"
+      },
+      "gender": {
+        "M": "Male",
+        "F": "Female"
+      },
+      "maritalStatus": {
+        "MARRIED": "Married",
+        "COMMON_LAW": "Common Law Marriage",
+        "CIVIL_UNION": "Civil Union/Domestic Partnership",
+        "SINGLE": "Single",
+        "WIDOWED": "Widowed",
+        "DIVORCED": "Divorced",
+        "LEGALLY_SEPARATED": "Legally Separated",
+        "OTHER": "Other"
+      },
+      "relationship": {
+        "RELATIVE": "Relative",
+        "SPOUSE": "Spouse",
+        "FRIEND": "Friend",
+        "BUSINESS_ASSOCIATE": "Business Associate",
+        "EMPLOYER": "Employer",
+        "SCHOOL_OFFICIAL": "School Official",
+        "OTHER": "Other"
+      },
+      "immediateRelation": {
+        "SPOUSE": "Spouse",
+        "FIANCE": "Fiancé/Fiancée",
+        "CHILD": "Child",
+        "SIBLING": "Sibling"
+      },
+      "familyStatus": {
+        "US_CITIZEN": "U.S. Citizen",
+        "LPR": "U.S. Legal Permanent Resident (LPR)",
+        "NONIMMIGRANT": "Nonimmigrant",
+        "OTHER": "Other/I Don't Know"
+      },
+      "purposeOfTrip": {
+        "B": "Temp. Business or Pleasure Visitor (B)",
+        "C": "Alien in Transit (C)",
+        "D": "Crewmember (D)",
+        "F": "Academic or Language Student (F)",
+        "H": "Temporary Worker (H)",
+        "I": "Foreign Media Representative (I)",
+        "J": "Exchange Visitor (J)",
+        "L": "Intracompany Transferee (L)",
+        "M": "Vocational/Nonacademic Student (M)"
+      },
+      "period": {
+        "Y": "Years",
+        "M": "Months",
+        "W": "Weeks",
+        "D": "Days",
+        "H": "Less Than 24 Hours"
+      },
+      "visaCategory": {
+        "B1B2": "B1-B2 Business & Tourism",
+        "B1CF": "B1-CF Business/Conference",
+        "B2TM": "B2-TM Tourism/Medical",
+        "C1D": "C1-D Crewmember Transit",
+        "C1TR": "C1-TR Transit",
+        "C2UN": "C2-UN UN Headquarters Transit",
+        "F1": "F1 Student",
+        "F2CH": "F2 Child",
+        "F2SP": "F2 Spouse",
+        "H1B": "H1B Specialty Occupation",
+        "H1B1CHL": "H1B1 Chile",
+        "H1B1SGP": "H1B1 Singapore",
+        "H1C": "H1C Nurse",
+        "H2A": "H2A Agricultural Worker",
+        "H2B": "H2B Non-Agricultural Worker",
+        "H3TR": "H3 Trainee",
+        "IFR": "I Foreign Media Representative",
+        "ICH": "I Child",
+        "ISP": "I Spouse",
+        "J1": "J1 Exchange Visitor",
+        "J2CH": "J2 Child",
+        "J2SP": "J2 Spouse",
+        "L1": "L1 Intracompany Transferee",
+        "L2CH": "L2 Child",
+        "L2SP": "L2 Spouse",
+        "M1": "M1 Vocational Student",
+        "M2CH": "M2 Child",
+        "M2SP": "M2 Spouse"
+      },
+      "stayPeriod": {
+        "Y": "Years",
+        "M": "Months",
+        "W": "Weeks",
+        "D": "Days",
+        "LT24H": "Less Than 24 Hours"
+      },
+      "payerType": {
+        "S": "Self",
+        "O": "Other Person",
+        "C": "Other Company/Organization"
+      },
+      "payerRelation": {
+        "C": "Child",
+        "P": "Parent",
+        "S": "Spouse",
+        "R": "Other Relative",
+        "F": "Friend",
+        "O": "Other"
+      },
+      "docType": {
+        "REGULAR": "Regular",
+        "OFFICIAL": "Official",
+        "DIPLOMATIC": "Diplomatic",
+        "LAISSEZ_PASSER": "Laissez-Passer",
+        "OTHER": "Other"
+      },
+      "occupation": {
+        "AGRICULTURE": "Agriculture",
+        "ARTIST": "Artist/Performer",
+        "BUSINESS": "Business",
+        "COMMUNICATIONS": "Communications",
+        "COMPUTER_SCIENCE": "Computer Science",
+        "CULINARY": "Culinary/Food Service",
+        "EDUCATION": "Education",
+        "ENGINEERING": "Engineering",
+        "GOVERNMENT": "Government",
+        "HOMEMAKER": "Homemaker",
+        "LAW": "Law",
+        "MEDICAL": "Medical/Health",
+        "MILITARY": "Military",
+        "NATURAL_SCIENCE": "Natural Sciences",
+        "NOT_EMPLOYED": "Not Employed",
+        "PHYSICAL_SCIENCE": "Physical Sciences",
+        "RELIGIOUS": "Religious Vocation",
+        "RESEARCH": "Research",
+        "RETIRED": "Retired",
+        "SOCIAL_SCIENCE": "Social Sciences",
+        "STUDENT": "Student",
+        "OTHER": "Other"
+      },
+      "socialMedia": {
+        "ASK_FM": "Ask.fm",
+        "DOUBAN": "Douban",
+        "FACEBOOK": "Facebook",
+        "FLICKR": "Flickr",
+        "GOOGLE_PLUS": "Google+",
+        "INSTAGRAM": "Instagram",
+        "LINKEDIN": "LinkedIn",
+        "MYSPACE": "MySpace",
+        "PINTEREST": "Pinterest",
+        "QZONE": "Qzone (QQ)",
+        "REDDIT": "Reddit",
+        "SINA_WEIBO": "Sina Weibo",
+        "TENCENT_WEIBO": "Tencent Weibo",
+        "TUMBLR": "Tumblr",
+        "TWITTER": "Twitter",
+        "TWOO": "Twoo",
+        "VINE": "Vine",
+        "VKONTAKTE": "Vkontakte (VK)",
+        "YOUKU": "Youku",
+        "YOUTUBE": "YouTube",
+        "NONE": "None"
+      },
+      "spouseAddress": {
+        "SAME_HOME": "Same as Home Address",
+        "SAME_MAILING": "Same as Mailing Address",
+        "SAME_US_CONTACT": "Same as U.S. Contact Address",
+        "UNKNOWN": "Don't Know",
+        "OTHER": "Other (Specify Address)"
+      },
+      "countries": {
+        "AF": "Afghanistan",
+        "AL": "Albania",
+        "DZ": "Algeria",
+        "AD": "Andorra",
+        "AO": "Angola",
+        "AI": "Anguilla",
+        "AG": "Antigua and Barbuda",
+        "AR": "Argentina",
+        "AM": "Armenia",
+        "AU": "Australia",
+        "AT": "Austria",
+        "AZ": "Azerbaijan",
+        "BS": "Bahamas",
+        "BH": "Bahrain",
+        "BD": "Bangladesh",
+        "BB": "Barbados",
+        "BY": "Belarus",
+        "BE": "Belgium",
+        "BZ": "Belize",
+        "BJ": "Benin",
+        "BM": "Bermuda",
+        "BT": "Bhutan",
+        "BO": "Bolivia",
+        "BA": "Bosnia-Herzegovina",
+        "BW": "Botswana",
+        "BR": "Brazil",
+        "BN": "Brunei",
+        "BG": "Bulgaria",
+        "BF": "Burkina Faso",
+        "MM": "Burma",
+        "BI": "Burundi",
+        "KH": "Cambodia",
+        "CM": "Cameroon",
+        "CA": "Canada",
+        "CV": "Cabo Verde",
+        "KY": "Cayman Islands",
+        "CF": "Central African Republic",
+        "TD": "Chad",
+        "CL": "Chile",
+        "CN": "China",
+        "CO": "Colombia",
+        "KM": "Comoros",
+        "CD": "Congo Democratic Republic of the",
+        "CG": "Congo Republic of the",
+        "CR": "Costa Rica",
+        "CI": "Cote d'Ivoire",
+        "HR": "Croatia",
+        "CU": "Cuba",
+        "CY": "Cyprus",
+        "CZ": "Czech Republic",
+        "DK": "Denmark",
+        "DJ": "Djibouti",
+        "DM": "Dominica",
+        "DO": "Dominican Republic",
+        "EC": "Ecuador",
+        "EG": "Egypt",
+        "SV": "El Salvador",
+        "GQ": "Equatorial Guinea",
+        "ER": "Eritrea",
+        "EE": "Estonia",
+        "SZ": "Eswatini",
+        "ET": "Ethiopia",
+        "FJ": "Fiji",
+        "FI": "Finland",
+        "FR": "France",
+        "GA": "Gabon",
+        "GM": "Gambia The",
+        "GE": "Georgia",
+        "DE": "Germany",
+        "GH": "Ghana",
+        "GI": "Gibraltar",
+        "GR": "Greece",
+        "GD": "Grenada",
+        "GT": "Guatemala",
+        "GN": "Guinea",
+        "GW": "Guinea-Bissau",
+        "GY": "Guyana",
+        "HT": "Haiti",
+        "VA": "Holy See (Vatican City)",
+        "HN": "Honduras",
+        "HK_BNO": "Hong Kong BNO",
+        "HK": "Hong Kong SAR",
+        "HU": "Hungary",
+        "IS": "Iceland",
+        "IN": "India",
+        "ID": "Indonesia",
+        "IR": "Iran",
+        "IQ": "Iraq",
+        "IE": "Ireland",
+        "IL": "Israel",
+        "IT": "Italy",
+        "JM": "Jamaica",
+        "JP": "Japan",
+        "JO": "Jordan",
+        "KZ": "Kazakhstan",
+        "KE": "Kenya",
+        "KI": "Kiribati",
+        "KP": "Korea Democratic Republic of (North)",
+        "KR": "Korea Republic of (South)",
+        "XK": "Kosovo",
+        "KW": "Kuwait",
+        "KG": "Kyrgyzstan",
+        "LA": "Laos",
+        "LV": "Latvia",
+        "LB": "Lebanon",
+        "LS": "Lesotho",
+        "LR": "Liberia",
+        "LY": "Libya",
+        "LI": "Liechtenstein",
+        "LT": "Lithuania",
+        "LU": "Luxembourg",
+        "MO": "Macau",
+        "MK": "Macedonia North",
+        "MG": "Madagascar",
+        "MW": "Malawi",
+        "MY": "Malaysia",
+        "MV": "Maldives",
+        "ML": "Mali",
+        "MT": "Malta",
+        "MH": "Marshall Islands",
+        "MR": "Mauritania",
+        "MU": "Mauritius",
+        "MX": "Mexico",
+        "FM": "Micronesia",
+        "MD": "Moldova",
+        "MC": "Monaco",
+        "MN": "Mongolia",
+        "ME": "Montenegro",
+        "MS": "Montserrat",
+        "MA": "Morocco",
+        "MZ": "Mozambique",
+        "NA": "Namibia",
+        "NR": "Nauru",
+        "NP": "Nepal",
+        "NL": "Netherlands",
+        "NZ": "New Zealand",
+        "NI": "Nicaragua",
+        "NE": "Niger",
+        "NG": "Nigeria",
+        "NO": "Norway",
+        "OM": "Oman",
+        "PK": "Pakistan",
+        "PW": "Palau",
+        "PA": "Panama",
+        "PG": "Papua New Guinea",
+        "PY": "Paraguay",
+        "PE": "Peru",
+        "PH": "Philippines",
+        "PN": "Pitcairn Islands",
+        "PL": "Poland",
+        "PT": "Portugal",
+        "QA": "Qatar",
+        "RO": "Romania",
+        "RU": "Russia",
+        "RW": "Rwanda",
+        "WS": "Samoa",
+        "SM": "San Marino",
+        "ST": "Sao Tome and Principe",
+        "SA": "Saudi Arabia",
+        "SN": "Senegal",
+        "RS": "Serbia",
+        "SC": "Seychelles",
+        "SL": "Sierra Leone",
+        "SG": "Singapore",
+        "SK": "Slovakia",
+        "SI": "Slovenia",
+        "SB": "Solomon Islands",
+        "SO": "Somalia",
+        "ZA": "South Africa",
+        "SS": "South Sudan",
+        "ES": "Spain",
+        "LK": "Sri Lanka",
+        "SH": "St. Helena",
+        "KN": "St. Kitts and Nevis",
+        "LC": "St. Lucia",
+        "VC": "St. Vincent and the Grenadines",
+        "STATELESS": "Stateless",
+        "SD": "Sudan",
+        "SR": "Suriname",
+        "SE": "Sweden",
+        "CH": "Switzerland",
+        "SY": "Syria",
+        "TW": "Taiwan",
+        "TJ": "Tajikistan",
+        "TZ": "Tanzania",
+        "TH": "Thailand",
+        "TL": "Timor-Leste",
+        "TG": "Togo",
+        "TO": "Tonga",
+        "TT": "Trinidad and Tobago",
+        "TN": "Tunisia",
+        "TR": "Turkey",
+        "TM": "Turkmenistan",
+        "TC": "Turks and Caicos Islands",
+        "TV": "Tuvalu",
+        "UG": "Uganda",
+        "UA": "Ukraine",
+        "AE": "United Arab Emirates",
+        "GB": "United Kingdom",
+        "UY": "Uruguay",
+        "UZ": "Uzbekistan",
+        "VU": "Vanuatu",
+        "VE": "Venezuela",
+        "VN": "Vietnam",
+        "VG": "Virgin Islands British",
+        "WF": "Wallis and Futuna Islands",
+        "EH": "Western Sahara",
+        "YE": "Yemen",
+        "ZM": "Zambia",
+        "ZW": "Zimbabwe",
+        "ARUBA": "Aruba",
+        "BONAIRE": "Bonaire",
+        "CHRISTMAS_ISLAND": "Christmas Island",
+        "COOK_ISLANDS": "Cook Islands",
+        "CURACAO": "Curacao",
+        "EU": "European Union",
+        "FK": "Falkland Islands",
+        "FO": "Faroe Islands",
+        "GAZA": "Gaza Strip",
+        "GL": "Greenland",
+        "GP": "Guadeloupe",
+        "GU": "Guam",
+        "JERUSALEM": "Jerusalem",
+        "YT": "Mayotte",
+        "NC": "New Caledonia",
+        "NU": "Niue",
+        "NF": "Norfolk Island",
+        "MP": "Northern Mariana Islands",
+        "NIRELAND": "Northern Ireland",
+        "PALESTINE": "Palestinian Authority",
+        "PALMYRA": "Palmyra Atoll",
+        "PR": "Puerto Rico",
+        "REUNION": "Reunion",
+        "SABA": "Saba Island",
+        "SAINT_MARTIN": "Saint Martin (French)",
+        "SINT_MAARTEN": "Sint Maarten (Dutch)",
+        "SGSSI": "South Georgia and the South Sandwich Island",
+        "ST_EUSTATIUS": "St. Eustatius",
+        "PM": "St. Pierre and Miquelon",
+        "ST_MARTIN": "St. Martin",
+        "STATUS_NEUTRAL": "Status Neutral Travel Document",
+        "SVALBARD": "Svalbard",
+        "TK": "Tokelau",
+        "UN": "United Nations",
+        "US": "United States of America",
+        "VI": "Virgin Islands (U.S.)",
+        "WAKE": "Wake Island",
+        "WEST_BANK": "West Bank"
+      },
+      "usStates": {
+        "ALABAMA": "Alabama",
+        "ALASKA": "Alaska",
+        "AMERICAN_SAMOA": "American Samoa",
+        "ARIZONA": "Arizona",
+        "ARKANSAS": "Arkansas",
+        "CALIFORNIA": "California",
+        "COLORADO": "Colorado",
+        "CONNECTICUT": "Connecticut",
+        "DELAWARE": "Delaware",
+        "DISTRICT_OF_COLUMBIA": "District of Columbia",
+        "FLORIDA": "Florida",
+        "GEORGIA": "Georgia",
+        "GUAM": "Guam",
+        "HAWAII": "Hawaii",
+        "IDAHO": "Idaho",
+        "ILLINOIS": "Illinois",
+        "INDIANA": "Indiana",
+        "IOWA": "Iowa",
+        "KANSAS": "Kansas",
+        "KENTUCKY": "Kentucky",
+        "LOUISIANA": "Louisiana",
+        "MAINE": "Maine",
+        "MARYLAND": "Maryland",
+        "MASSACHUSETTS": "Massachusetts",
+        "MICHIGAN": "Michigan",
+        "MINNESOTA": "Minnesota",
+        "MISSISSIPPI": "Mississippi",
+        "MISSOURI": "Missouri",
+        "MONTANA": "Montana",
+        "NEBRASKA": "Nebraska",
+        "NEVADA": "Nevada",
+        "NEW_HAMPSHIRE": "New Hampshire",
+        "NEW_JERSEY": "New Jersey",
+        "NEW_MEXICO": "New Mexico",
+        "NEW_YORK": "New York",
+        "NORTH_CAROLINA": "North Carolina",
+        "NORTH_DAKOTA": "North Dakota",
+        "NORTHERN_MARIANA_ISLANDS": "Northern Mariana Islands",
+        "OHIO": "Ohio",
+        "OKLAHOMA": "Oklahoma",
+        "OREGON": "Oregon",
+        "PENNSYLVANIA": "Pennsylvania",
+        "PUERTO_RICO": "Puerto Rico",
+        "RHODE_ISLAND": "Rhode Island",
+        "SOUTH_CAROLINA": "South Carolina",
+        "SOUTH_DAKOTA": "South Dakota",
+        "TENNESSEE": "Tennessee",
+        "TEXAS": "Texas",
+        "UTAH": "Utah",
+        "VERMONT": "Vermont",
+        "VIRGIN_ISLANDS": "Virgin Islands",
+        "VIRGINIA": "Virginia",
+        "WASHINGTON": "Washington",
+        "WEST_VIRGINIA": "West Virginia",
+        "WISCONSIN": "Wisconsin",
+        "WYOMING": "Wyoming"
+      },
+      "visaCategories": {
+        "A": "Foreign Government Official (A)",
+        "B": "Temp. Business or Pleasure Visitor (B)",
+        "C": "Alien in Transit (C)",
+        "CW_E2C": "CNMI Worker or Investor (CW/E2C)",
+        "D": "Crewmember (D)",
+        "E": "Treaty Trader or Investor (E)",
+        "F": "Academic or Language Student (F)",
+        "G": "International Organization Rep./Emp. (G)",
+        "H": "Temporary Worker (H)",
+        "I": "Foreign Media Representative (I)",
+        "J": "Exchange Visitor (J)",
+        "K": "Fiancé(e) or Spouse of a U.S. Citizen (K)",
+        "L": "Intracompany Transferee (L)",
+        "M": "Vocational/Nonacademic Student (M)",
+        "N": "Other (N)",
+        "NATO": "NATO Staff (NATO)",
+        "O": "Alien with Extraordinary Ability (O)",
+        "P": "Internationally Recognized Alien (P)",
+        "Q": "Cultural Exchange Visitor (Q)",
+        "R": "Religious Worker (R)",
+        "S": "Informant or Witness (S)",
+        "T": "Victim of Trafficking (T)",
+        "TD_TN": "NAFTA Professional (TD/TN)",
+        "U": "Victim of Criminal Activity (U)",
+        "PARCIS": "Parole Beneficiary (PARCIS)"
+      }
+    },
+    "security": {
+      "part1": "Part 1 — Health Related",
+      "part2": "Part 2 — Crimes/Trafficking",
+      "part3": "Part 3 — Terrorism/Human Rights",
+      "part4": "Part 4 — Immigration Violations",
+      "part5": "Part 5 — Citizenship/Custody/Voting/Student/Exchange Visitor",
+      "explain": {
+        "label": "Please explain in detail"
+      },
+      "q1": "Do you have a communicable disease of public health significance?",
+      "q2": "Do you have a mental or physical disorder that poses or is likely to pose a threat to the safety or welfare of yourself or others?",
+      "q3": "Are you or have you ever been a drug abuser or addict?",
+      "q4": "Have you ever been arrested or convicted for any offense or crime, even though subject of a pardon, amnesty, or other similar action?",
+      "q5": "Have you ever violated, or engaged in a conspiracy to violate, any law relating to controlled substances?",
+      "q6": "Are you coming to the United States to engage in prostitution or unlawful commercialized vice or have you been engaged in prostitution or procuring prostitutes within the past 10 years?",
+      "q7": "Have you ever been involved in, or do you seek to engage in, money laundering?",
+      "q8": "Have you ever committed or conspired to commit a human trafficking offense in the United States or outside the United States?",
+      "q9": "Have you ever knowingly aided, abetted, assisted or colluded with an individual who has committed, or conspired to commit a severe human trafficking offense in the United States or outside the United States?",
+      "q10": "Are you the spouse, son, or daughter of an individual who has committed or conspired to commit a human trafficking offense in the United States or outside the United States and have you within the last five years, knowingly benefited from the trafficking activities?",
+      "q11": "Do you seek to engage in espionage, sabotage, export control violations, or any other illegal activity while in the United States?",
+      "q12": "Do you seek to engage in terrorist activities while in the United States or have you ever engaged in terrorist activities?",
+      "q13": "Have you ever or do you intend to provide financial assistance or other support to terrorists or terrorist organizations?",
+      "q14": "Are you a member or representative of a terrorist organization?",
+      "q15": "Are you the spouse, son, or daughter of an individual who has engaged in terrorist activity, including providing financial assistance or other support to terrorists or terrorist organizations, in the last five years?",
+      "q16": "Have you ever ordered, incited, committed, assisted, or otherwise participated in genocide?",
+      "q17": "Have you ever committed, ordered, incited, assisted, or otherwise participated in torture?",
+      "q18": "Have you committed, ordered, incited, assisted, or otherwise participated in extrajudicial killings, political killings, or other acts of violence?",
+      "q19": "Have you ever engaged in the recruitment or the use of child soldiers?",
+      "q20": "Have you, while serving as a government official, been responsible for or directly carried out, at any time, particularly severe violations of religious freedom?",
+      "q21": "Have you ever been directly involved in the establishment or enforcement of population controls forcing a woman to undergo an abortion against her free choice or a man or a woman to undergo sterilization against his or her free will?",
+      "q22": "Have you ever been directly involved in the coercive transplantation of human organs or bodily tissue?",
+      "q23": "Have you ever been expelled or deported from any country?",
+      "q24": "Have you ever sought to obtain or assist others to obtain a visa, entry into the United States, or any other United States immigration benefit by fraud or willful misrepresentation or other unlawful means?",
+      "q25": "In the past five years, have you failed to attend a hearing regarding your removability or inadmissibility?",
+      "q26": "Have you ever been unlawfully present, remained in the United States beyond the period authorized by the Secretary of Homeland Security, or otherwise violated the terms of your U.S. visa?",
+      "q27": "Have you ever been expelled or deported from any country?",
+      "q28": "Have you ever withheld custody of a U.S. citizen child outside the United States from a person granted legal custody by a U.S. court?",
+      "q29": "Have you voted in the United States in violation of any law or regulation?",
+      "q30": "Have you ever renounced United States citizenship for the purposes of avoiding taxation?",
+      "q31": "Did you enter a public elementary or public secondary school in F student status after November 30, 1996, without reimbursing the school for the cost of your education?",
+      "q32": "Are you a former exchange visitor (J) who has not fulfilled the two-year foreign residence requirement?"
     }
   }
 }

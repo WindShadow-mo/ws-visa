@@ -18,8 +18,10 @@ const props = withDefaults(defineProps<{
   labelKey: string
   modelValue: string
   required?: boolean
-  span?: 'full' | 'half' | 'third'
+  span?: 'full' | 'half' | 'third' | 'quarter'
   includeRegions?: boolean
+  /** 自定义选项列表，传入则覆盖默认的 nationalityOptions（US 表单传 usCountryOptions） */
+  options?: SelectOption[]
 }>(), {
   span: 'third',
   includeRegions: false,
@@ -32,10 +34,28 @@ const emit = defineEmits<{
 const { t, locale } = useI18n()
 
 // 过滤港澳台：国籍模式（默认）不含 HK/MO/TW，国家/地区模式含完整列表
+// 传入自定义 options 时跳过区域过滤（US 表单需要完整列表含 STATELESS 等）
+// 非标准码 → flag-icons 码映射（value 不是 ISO alpha-2 的条目）
+const flagCodeMap: Record<string, string> = {
+  HK_BNO: 'gb', STATELESS: 'un', ARUBA: 'aw', BONAIRE: 'bq',
+  CHRISTMAS_ISLAND: 'cx', COOK_ISLANDS: 'ck', CURACAO: 'cw',
+  GAZA: 'ps', JERUSALEM: 'il', NIRELAND: 'gb-nir', PALESTINE: 'ps',
+  PALMYRA: 'um', REUNION: 're', SABA: 'bq', SAINT_MARTIN: 'mf',
+  SINT_MAARTEN: 'sx', SGSSI: 'gs', ST_EUSTATIUS: 'bq',
+  ST_MARTIN: 'mf', STATUS_NEUTRAL: 'xk', SVALBARD: 'sj',
+  WAKE: 'um', WEST_BANK: 'ps',
+}
+
+function flagCode(value: string): string {
+  return flagCodeMap[value] || value.toLowerCase()
+}
+
 const REGION_CODES = new Set(['HK', 'MO', 'TW'])
 const baseOptions = computed(() => {
-  if (props.includeRegions) return nationalityOptions
-  return nationalityOptions.filter(o => !REGION_CODES.has(o.value))
+  const source = props.options ?? nationalityOptions
+  if (props.options) return source  // custom options → no region filtering
+  if (props.includeRegions) return source
+  return source.filter(o => !REGION_CODES.has(o.value))
 })
 
 // 按当前 locale 排序：中文按拼音，英文按字母序
@@ -152,7 +172,7 @@ watch(popoverOpen, (open) => {
         >
           <Globe :size="16" class="shrink-0 text-muted-foreground mr-1" />
           <template v-if="modelValue">
-            <span class="fi shrink-0" :class="`fi-${modelValue.toLowerCase()}`" style="width:32px;height:24px" />
+            <span class="fi shrink-0" :class="`fi-${flagCode(modelValue)}`" style="width:32px;height:24px" />
             {{ selectedLabel }}
           </template>
           <template v-else>
@@ -195,7 +215,7 @@ watch(popoverOpen, (open) => {
                       :class="{ 'bg-primary/10 text-primary font-medium hover:bg-primary/15': opt.value === modelValue }"
                       @click="onSelect(opt.value)"
                     >
-                      <span class="fi shrink-0" :class="`fi-${opt.value.toLowerCase()}`" style="width:32px;height:24px" />
+                      <span class="fi shrink-0" :class="`fi-${flagCode(opt.value)}`" style="width:32px;height:24px" />
                       <span class="truncate">{{ t(opt.labelKey) }}</span>
                     </button>
                   </div>

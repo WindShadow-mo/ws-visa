@@ -13,7 +13,7 @@ export const DEFAULT_FIELD_SPAN: Record<PreviewFieldType, 'full' | 'half' | 'thi
   month: 'third',  // 年月格式固定且短
   text: 'half',    // 文本长度不确定，取中位
   select: 'half',  // 下拉选项文本较长
-  radio: 'full',   // 单选项需要横向空间
+  radio: 'full',   // 与表单一致：单选按钮独占一行
 }
 
 /** 预览中单个字段的展示数据 */
@@ -34,6 +34,12 @@ export interface PreviewField {
   groupStart?: boolean
   /** 可重复组卡片头标题（仅在 groupStart 字段上设置，不再从 label 中拆分） */
   cardName?: string
+  /** L2 子组标题标记，渲染时作为蓝色边框标题独占一行 */
+  subGroupTitle?: string
+  /** L3 条件字段标记，属于条件触发区域的字段 */
+  conditional?: boolean
+  /** 仅渲染 L2 标题，不渲染字段数据（用于标题和数据分离的场景） */
+  titleOnly?: boolean
 }
 
 /** 预览中一个分组 */
@@ -61,14 +67,28 @@ interface FieldGroup {
   fields: PreviewField[]
 }
 
+/** 将 N/A / DNC 哨兵值转为空字符串（预览中字段保留但值显示为 '—'） */
+function sanitizeFields(fields: PreviewField[]): PreviewField[] {
+  return fields.map(f =>
+    f.value === 'N/A' || f.value === 'DNC' ? { ...f, value: '' } : f,
+  )
+}
+
 /** 按 groupStart 标记将字段分为卡片组（与 PreviewModal 逻辑一致） */
 function groupFields(fields: PreviewField[]): FieldGroup[] {
-  if (fields.length === 0) return []
+  const visible = sanitizeFields(fields)
+  if (visible.length === 0) return []
   const groups: FieldGroup[] = []
-  let current: FieldGroup = { cardName: fields[0].cardName ?? null, fields: [fields[0]] }
+  let current: FieldGroup = { cardName: visible[0].cardName ?? null, fields: [visible[0]] }
 
-  for (let i = 1; i < fields.length; i++) {
-    const field = fields[i]
+  for (let i = 1; i < visible.length; i++) {
+    const field = visible[i]
+    // titleOnly 字段单独成组（不并入卡片）
+    if (field.titleOnly) {
+      groups.push(current)
+      current = { cardName: null, fields: [field] }
+      continue
+    }
     if (field.groupStart) {
       groups.push(current)
       current = { cardName: field.cardName ?? null, fields: [field] }
@@ -77,7 +97,7 @@ function groupFields(fields: PreviewField[]): FieldGroup[] {
     }
   }
   groups.push(current)
-  return groups
+  return groups.filter(g => g.fields.length > 0)
 }
 
 /**
@@ -182,6 +202,18 @@ function groupHeight(group: FieldGroup): number {
 
 /** 将一个分组的内容推入 stack 数组 */
 function pushGroupToStack(stack: any[], group: FieldGroup) {
+  // titleOnly 组：渲染为蓝色 section heading
+  if (group.fields.length === 1 && group.fields[0].titleOnly) {
+    const title = group.fields[0].subGroupTitle || group.fields[0].label
+    stack.push({
+      text: title,
+      fontSize: 11,
+      bold: true,
+      color: '#1e40af',
+      margin: [0, 12, 0, 4],
+    })
+    return
+  }
   if (group.cardName) {
     stack.push({ ...buildCardTable(group.cardName, group.fields), margin: [0, 0, 0, 12] })
   } else {

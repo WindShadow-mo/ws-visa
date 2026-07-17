@@ -19,12 +19,23 @@
       "searchOption": "搜索..."
     },
     "labels": {
-      "required": "必填"
+      "required": "必填",
+      "doesNotApply": "不适用",
+      "doNotKnow": "不知道"
     },
     "months": {
-      "1": "1月", "2": "2月", "3": "3月", "4": "4月",
-      "5": "5月", "6": "6月", "7": "7月", "8": "8月",
-      "9": "9月", "10": "10月", "11": "11月", "12": "12月"
+      "1": "1月",
+      "2": "2月",
+      "3": "3月",
+      "4": "4月",
+      "5": "5月",
+      "6": "6月",
+      "7": "7月",
+      "8": "8月",
+      "9": "9月",
+      "10": "10月",
+      "11": "11月",
+      "12": "12月"
     }
   },
   "schema": {
@@ -122,7 +133,7 @@
         "label": "签发国家/地区"
       },
       "nationality": {
-        "label": "国家/地区"
+        "label": "国籍"
       },
       "gender": {
         "label": "性别"
@@ -978,6 +989,2002 @@
       "ukVisit": "第{index}次访问",
       "refusal": "第{index}次拒签",
       "otherCountry": "第{index}个国家"
+    }
+  },
+  "usVisa": {
+    "title": "美国签证 DS-160",
+    "subtitle": "非移民签证申请表",
+    "clearForm": "清除数据",
+    "clearConfirm": "确定要清除所有已填写的数据吗？此操作无法撤销。",
+    "exportPdf": "导出 PDF",
+    "exporting": "正在生成...",
+    "addRow": "加上另一个",
+    "removeRow": "删除",
+    "backToTop": "回到顶部",
+    "fillMock": "填充测试数据",
+    "fillTestData": "填充测试数据",
+    "buttons": {
+      "back": "上一步",
+      "next": "下一步"
+    },
+    "sections": {
+      "personal1": "个人信息（一）",
+      "personal2": "个人信息（二）",
+      "travel": "旅行信息",
+      "companions": "同行人员",
+      "previousTravel": "以往赴美记录",
+      "addressPhone": "地址与联系方式",
+      "passport": "护照信息",
+      "usContact": "美国联系人",
+      "family": "家庭信息",
+      "presentWork": "当前工作/教育/培训",
+      "previousWork": "以往工作/教育/培训",
+      "additionalWork": "附加工作/教育/培训",
+      "security": "安全与背景",
+      "travelCompanions": "同行人员",
+      "previousUSTravel": "以往赴美记录",
+      "securityBackground": "安全与背景"
+    },
+    "subLabels": {
+      "name": "姓名",
+      "telecode": "电码",
+      "nationality": "国籍",
+      "idNumbers": "证件号码",
+      "travelPurpose": "旅行目的",
+      "travelPlan": "行程计划",
+      "usAddress": "美国住宿地址",
+      "payer": "费用支付",
+      "companionList": "同行人员",
+      "usVisits": "赴美记录",
+      "usDriversLicense": "美国驾照",
+      "usVisaHistory": "美国签证历史",
+      "homeAddress": "家庭住址",
+      "phone": "联系电话",
+      "emailSection": "电子邮箱",
+      "otherContact": "其他联系方式",
+      "mailingAddress": "邮寄地址",
+      "socialMedia": "社交媒体",
+      "passportBasic": "护照基本信息",
+      "issuanceInfo": "签发信息",
+      "passportDates": "日期",
+      "lostPassport": "遗失护照",
+      "father": "父亲信息",
+      "mother": "母亲信息",
+      "immediateRelatives": "在美直系亲属",
+      "otherRelatives": "在美其他亲戚",
+      "spouse": "配偶/伴侣信息",
+      "languageList": "语言能力",
+      "militaryService": "军事服役",
+      "previousWorkRecords": "以往工作记录",
+      "educationRecords": "教育经历",
+      "part1": "Part 1 — 健康相关",
+      "part2": "Part 2 — 犯罪/贩运",
+      "part3": "Part 3 — 恐怖主义/人权",
+      "part4": "Part 4 — 移民违规",
+      "part5": "Part 5 — 公民身份/监护权/投票/学生/交流访问者",
+      "birthInfo": "出生信息",
+      "usContactAddress": "美国联系人地址"
+    },
+    "subLabelsRepeat": {
+      "companion": "同行人",
+      "usVisit": "第{N}次访问",
+      "previousWork": "第{N}份工作",
+      "education": "第{N}段教育",
+      "relative": "第{N}位亲属",
+      "military": "第{N}段服役",
+      "lostPassport": "第{N}本遗失护照"
+    },
+    "fields": {
+      "surname": {
+        "label": "姓",
+        "placeholder": "如: FERNANDEZ GARCIA"
+      },
+      "givenName": {
+        "label": "名",
+        "placeholder": "如: JUAN MIGUEL"
+      },
+      "given_name": {
+        "label": "名",
+        "placeholder": "如: JUAN MIGUEL"
+      },
+      "native_name": {
+        "label": "本国文字姓名",
+        "placeholder": "如非罗马字母文字，请在此输入"
+      },
+      "native_name_not_applicable": "不适用",
+      "hasOtherNames": {
+        "label": "是否使用过其他名称？"
+      },
+      "has_other_names": {
+        "label": "是否使用过其他名称？"
+      },
+      "otherSurname": {
+        "label": "其他姓氏"
+      },
+      "other_surname": {
+        "label": "其他姓氏"
+      },
+      "otherGivenName": {
+        "label": "其他名字"
+      },
+      "other_given_name": {
+        "label": "其他名字"
+      },
+      "hasTelecode": {
+        "label": "是否有代表名字的电码？"
+      },
+      "has_telecode": {
+        "label": "是否有代表名字的电码？"
+      },
+      "telecodeSurname": {
+        "label": "姓电码",
+        "placeholder": "4位数字"
+      },
+      "telecode_surname": {
+        "label": "姓电码",
+        "placeholder": "4位数字"
+      },
+      "telecodeGivenName": {
+        "label": "名电码",
+        "placeholder": "4位数字"
+      },
+      "telecode_given_name": {
+        "label": "名电码",
+        "placeholder": "4位数字"
+      },
+      "sex": {
+        "label": "性别"
+      },
+      "maritalStatus": {
+        "label": "婚姻状况"
+      },
+      "marital_status": {
+        "label": "婚姻状况"
+      },
+      "maritalStatusExplain": {
+        "label": "婚姻状况说明",
+        "placeholder": "请说明婚姻状况"
+      },
+      "marital_status_explain": {
+        "label": "婚姻状况说明",
+        "placeholder": "请说明婚姻状况"
+      },
+      "dateOfBirth": {
+        "label": "出生日期"
+      },
+      "date_of_birth": {
+        "label": "出生日期"
+      },
+      "birthCity": {
+        "label": "出生城市"
+      },
+      "birth_city": {
+        "label": "出生城市"
+      },
+      "birthState": {
+        "label": "省份/出生州"
+      },
+      "birth_state": {
+        "label": "省份/出生州"
+      },
+      "birthCountry": {
+        "label": "出生国家/地区"
+      },
+      "birth_country": {
+        "label": "出生国家/地区"
+      },
+      "nationality": {
+        "label": "国籍"
+      },
+      "hasOtherNationality": {
+        "label": "是否拥有其他国籍？"
+      },
+      "has_other_nationality": {
+        "label": "是否拥有其他国籍？"
+      },
+      "otherNationality": {
+        "label": "其他国籍"
+      },
+      "other_nationality": {
+        "label": "其他国籍"
+      },
+      "hasOtherNationalityPassport": {
+        "label": "是否持有该国护照？"
+      },
+      "has_other_nationality_passport": {
+        "label": "是否持有该国护照？"
+      },
+      "otherNationalityPassportNo": {
+        "label": "护照号码"
+      },
+      "other_nationality_passport_no": {
+        "label": "护照号码"
+      },
+      "isPermanentResident": {
+        "label": "是否是其他国家永久居民？"
+      },
+      "is_permanent_resident": {
+        "label": "是否是其他国家永久居民？"
+      },
+      "permanentResidentCountry": {
+        "label": "永久居民国家/地区"
+      },
+      "permanent_resident_country": {
+        "label": "永久居民国家/地区"
+      },
+      "nationalIdNumber": {
+        "label": "身份证号码"
+      },
+      "national_id_number": {
+        "label": "身份证号码"
+      },
+      "socialSecurityNumber": {
+        "label": "美国社会安全号码",
+        "placeholder": "XXX-XX-XXXX"
+      },
+      "social_security_number": {
+        "label": "美国社会安全号码",
+        "placeholder": "XXX-XX-XXXX"
+      },
+      "taxIdNumber": {
+        "label": "美国税号"
+      },
+      "tax_id_number": {
+        "label": "美国税号"
+      },
+      "purposeOfTrip": {
+        "label": "来美目的"
+      },
+      "purpose_of_trip": {
+        "label": "来美目的"
+      },
+      "visaCategory": {
+        "label": "签证类别"
+      },
+      "visa_category": {
+        "label": "签证类别"
+      },
+      "arrivalDate": {
+        "label": "预计抵达日期"
+      },
+      "arrival_date": {
+        "label": "预计抵达日期"
+      },
+      "lengthOfStay": {
+        "label": "预期停留时间",
+        "placeholder": "数字，1-100"
+      },
+      "length_of_stay": {
+        "label": "预期停留时间",
+        "placeholder": "数字，1-100"
+      },
+      "lengthOfStayPeriod": {
+        "label": "时间单位"
+      },
+      "length_of_stay_period": {
+        "label": "时间单位"
+      },
+      "usAddress.streetAddr1": {
+        "label": "街道地址"
+      },
+      "usAddress.city": {
+        "label": "城市"
+      },
+      "usAddress.state": {
+        "label": "州"
+      },
+      "usAddress.zipCode": {
+        "label": "邮编"
+      },
+      "us_address_street_addr1": {
+        "label": "街道地址"
+      },
+      "us_address_city": {
+        "label": "城市"
+      },
+      "us_address_state": {
+        "label": "州"
+      },
+      "us_address_zip_code": {
+        "label": "邮编"
+      },
+      "payingPersonType": {
+        "label": "支付方"
+      },
+      "paying_person_type": {
+        "label": "支付方"
+      },
+      "payingPerson.surname": {
+        "label": "支付人姓"
+      },
+      "paying_person_surname": {
+        "label": "支付人姓"
+      },
+      "payingPerson.givenName": {
+        "label": "支付人名"
+      },
+      "paying_person_given_name": {
+        "label": "支付人名"
+      },
+      "payingPerson.tel": {
+        "label": "电话号码",
+        "placeholder": "仅数字"
+      },
+      "paying_person_tel": {
+        "label": "电话号码",
+        "placeholder": "仅数字"
+      },
+      "payingPerson.email": {
+        "label": "邮箱"
+      },
+      "paying_person_email": {
+        "label": "邮箱"
+      },
+      "payingPerson.relationship": {
+        "label": "与你的关系"
+      },
+      "paying_person_relationship": {
+        "label": "与你的关系"
+      },
+      "paying_person_address_same": {
+        "label": "地址与家庭/邮寄地址相同？"
+      },
+      "paying_person_address_street_addr1": {
+        "label": "街道地址"
+      },
+      "paying_person_address_city": {
+        "label": "城市"
+      },
+      "paying_person_address_state": {
+        "label": "州/省"
+      },
+      "paying_person_address_zip_code": {
+        "label": "邮编"
+      },
+      "paying_person_address_country": {
+        "label": "国家/地区"
+      },
+      "payingOrg.name": {
+        "label": "公司名称"
+      },
+      "paying_org_name": {
+        "label": "公司名称"
+      },
+      "payingOrg.tel": {
+        "label": "电话号码",
+        "placeholder": "仅数字"
+      },
+      "paying_org_tel": {
+        "label": "电话号码",
+        "placeholder": "仅数字"
+      },
+      "payingOrg.relationship": {
+        "label": "与你的关系"
+      },
+      "paying_org_relationship": {
+        "label": "与你的关系"
+      },
+      "payingOrg.address.country": {
+        "label": "国家/地区"
+      },
+      "paying_org_address_country": {
+        "label": "国家/地区"
+      },
+      "payingOrg.address.streetAddr1": {
+        "label": "街道地址"
+      },
+      "paying_org_address_street_addr1": {
+        "label": "街道地址"
+      },
+      "payingOrg.address.city": {
+        "label": "城市"
+      },
+      "paying_org_address_city": {
+        "label": "城市"
+      },
+      "payingOrg.address.state": {
+        "label": "州/省"
+      },
+      "paying_org_address_state": {
+        "label": "州/省"
+      },
+      "payingOrg.address.zipCode": {
+        "label": "邮编"
+      },
+      "paying_org_address_zip_code": {
+        "label": "邮编"
+      },
+      "hasTravelCompanions": {
+        "label": "是否有其他人与您一起旅行？"
+      },
+      "has_travel_companions": {
+        "label": "是否有其他人与您一起旅行？"
+      },
+      "companion_list_help": {
+        "helpText": "与您一起旅行的人的清单。（每个旅行者必须完成自己的申请）"
+      },
+      "companions[].surname": {
+        "label": "姓"
+      },
+      "companions[].givenName": {
+        "label": "名"
+      },
+      "companions[].relationship": {
+        "label": "关系"
+      },
+      "isGroupTravel": {
+        "label": "是否作为团体旅行？"
+      },
+      "is_group_travel": {
+        "label": "是否作为团体旅行？"
+      },
+      "groupName": {
+        "label": "团体名称"
+      },
+      "group_name": {
+        "label": "团体名称"
+      },
+      "hasBeenInUs": {
+        "label": "以前去过美国吗？"
+      },
+      "has_been_in_us": {
+        "label": "以前去过美国吗？"
+      },
+      "usVisits[].arrivalDate": {
+        "label": "到达日期"
+      },
+      "usVisits[].lengthOfStay": {
+        "label": "停留时间",
+        "placeholder": "数字"
+      },
+      "usVisits[].stayPeriod": {
+        "label": "时间单位"
+      },
+      "hasUsDriversLicense": {
+        "label": "是否持有美国驾照？"
+      },
+      "has_us_drivers_license": {
+        "label": "是否持有美国驾照？"
+      },
+      "driversLicenseNumber": {
+        "label": "驾照号码"
+      },
+      "drivers_license_number": {
+        "label": "驾照号码"
+      },
+      "driversLicenseState": {
+        "label": "驾照签发州"
+      },
+      "drivers_license_state": {
+        "label": "驾照签发州"
+      },
+      "hasUsVisa": {
+        "label": "曾被核发美国签证吗？"
+      },
+      "has_us_visa": {
+        "label": "曾被核发美国签证吗？"
+      },
+      "lastVisaDate": {
+        "label": "上次签证签发日期"
+      },
+      "last_visa_date": {
+        "label": "上次签证签发日期"
+      },
+      "lastVisaNumber": {
+        "label": "签证号码",
+        "placeholder": "8位红色号码"
+      },
+      "last_visa_number": {
+        "label": "签证号码",
+        "placeholder": "8位红色号码"
+      },
+      "applyingSameType": {
+        "label": "申请同类型签证？"
+      },
+      "applying_same_type": {
+        "label": "申请同类型签证？"
+      },
+      "applyingSameCountry": {
+        "label": "在同一国家申请？"
+      },
+      "applying_same_country": {
+        "label": "在同一国家申请？"
+      },
+      "hasBeenTenPrinted": {
+        "label": "进行过十指指纹？"
+      },
+      "has_been_ten_printed": {
+        "label": "进行过十指指纹？"
+      },
+      "visaLostOrStolen": {
+        "label": "签证丢失或被盗？"
+      },
+      "visa_lost_or_stolen": {
+        "label": "签证丢失或被盗？"
+      },
+      "visaCancelled": {
+        "label": "签证被取消或撤销？"
+      },
+      "visa_cancelled": {
+        "label": "签证被取消或撤销？"
+      },
+      "hasBeenRefused": {
+        "label": "曾被拒签或拒绝入境？"
+      },
+      "has_been_refused": {
+        "label": "曾被拒签或拒绝入境？"
+      },
+      "refusalExplain": {
+        "label": "详细说明",
+        "placeholder": "请详细说明"
+      },
+      "refusal_explain": {
+        "label": "详细说明",
+        "placeholder": "请详细说明"
+      },
+      "hasEstaRefused": {
+        "label": "曾被 ESTA 拒绝旅行授权？"
+      },
+      "has_esta_refused": {
+        "label": "曾被 ESTA 拒绝旅行授权？"
+      },
+      "estaRefusalExplain": {
+        "label": "详细说明",
+        "placeholder": "请详细说明"
+      },
+      "esta_refusal_explain": {
+        "label": "详细说明",
+        "placeholder": "请详细说明"
+      },
+      "hasImmigrantPetition": {
+        "label": "有人代您填写移民请愿书？"
+      },
+      "has_immigrant_petition": {
+        "label": "有人代您填写移民请愿书？"
+      },
+      "immigrantPetitionExplain": {
+        "label": "详细说明",
+        "placeholder": "请详细说明"
+      },
+      "immigrant_petition_explain": {
+        "label": "详细说明",
+        "placeholder": "请详细说明"
+      },
+      "homeAddr.streetAddr1": {
+        "label": "街道地址"
+      },
+      "homeAddr.city": {
+        "label": "城市"
+      },
+      "homeAddr.state": {
+        "label": "州/省"
+      },
+      "homeAddr.zipCode": {
+        "label": "邮编"
+      },
+      "homeAddr.country": {
+        "label": "国家/地区"
+      },
+      "home_addr_street_addr1": {
+        "label": "街道地址"
+      },
+      "home_addr_city": {
+        "label": "城市"
+      },
+      "home_addr_state": {
+        "label": "州/省"
+      },
+      "home_addr_zip_code": {
+        "label": "邮编"
+      },
+      "home_addr_country": {
+        "label": "国家/地区"
+      },
+      "phonePrimary": {
+        "label": "最常用电话号码",
+        "placeholder": "仅数字"
+      },
+      "phone_primary": {
+        "label": "最常用电话号码",
+        "placeholder": "仅数字"
+      },
+      "phoneSecondary": {
+        "label": "备用电话号码",
+        "placeholder": "仅数字"
+      },
+      "phone_secondary": {
+        "label": "备用电话号码",
+        "placeholder": "仅数字"
+      },
+      "phoneWork": {
+        "label": "工作电话号码",
+        "placeholder": "仅数字"
+      },
+      "phone_work": {
+        "label": "工作电话号码",
+        "placeholder": "仅数字"
+      },
+      "email": {
+        "label": "电子邮件"
+      },
+      "emailConfirm": {
+        "label": "确认邮件"
+      },
+      "email_confirm": {
+        "label": "确认邮件"
+      },
+      "hasOtherPhones": {
+        "label": "5年内使用过其他电话号码？"
+      },
+      "has_other_phones": {
+        "label": "5年内使用过其他电话号码？"
+      },
+      "otherPhones[].number": {
+        "label": "电话号码",
+        "placeholder": "仅数字"
+      },
+      "other_phone_number": {
+        "label": "电话号码",
+        "placeholder": "仅数字"
+      },
+      "hasOtherEmails": {
+        "label": "5年内使用过其他邮箱？"
+      },
+      "has_other_emails": {
+        "label": "5年内使用过其他邮箱？"
+      },
+      "otherEmails[].email": {
+        "label": "邮箱地址"
+      },
+      "other_email_address": {
+        "label": "邮箱地址"
+      },
+      "mailingDifferent": {
+        "label": "邮寄地址与家庭住址不同？"
+      },
+      "mailing_different": {
+        "label": "邮寄地址与家庭住址不同？"
+      },
+      "mailingAddr.streetAddr1": {
+        "label": "街道地址"
+      },
+      "mailingAddr.city": {
+        "label": "城市"
+      },
+      "mailingAddr.state": {
+        "label": "州/省"
+      },
+      "mailingAddr.zipCode": {
+        "label": "邮编"
+      },
+      "mailingAddr.country": {
+        "label": "国家/地区"
+      },
+      "mailing_addr_street_addr1": {
+        "label": "街道地址"
+      },
+      "mailing_addr_city": {
+        "label": "城市"
+      },
+      "mailing_addr_state": {
+        "label": "州/省"
+      },
+      "mailing_addr_zip_code": {
+        "label": "邮编"
+      },
+      "mailing_addr_country": {
+        "label": "国家/地区"
+      },
+      "socialMedia[].platform": {
+        "label": "平台"
+      },
+      "socialMedia[].username": {
+        "label": "社交媒体标识符"
+      },
+      "hasOtherSocialMedia": {
+        "label": "是否提供其他网站信息？"
+      },
+      "has_other_social_media": {
+        "label": "是否提供其他网站信息？"
+      },
+      "social_media_platform": {
+        "label": "平台"
+      },
+      "social_media_username": {
+        "label": "社交媒体标识符"
+      },
+      "other_social_platform": {
+        "label": "平台名称"
+      },
+      "other_social_username": {
+        "label": "标识符"
+      },
+      "otherSocial[].platform": {
+        "label": "平台名称"
+      },
+      "otherSocial[].username": {
+        "label": "标识符"
+      },
+      "docType": {
+        "label": "护照/旅行证件类型"
+      },
+      "doc_type": {
+        "label": "护照/旅行证件类型"
+      },
+      "docTypeExplain": {
+        "label": "说明",
+        "placeholder": "请说明证件类型"
+      },
+      "doc_type_explain": {
+        "label": "说明",
+        "placeholder": "请说明证件类型"
+      },
+      "docNumber": {
+        "label": "护照号码"
+      },
+      "doc_number": {
+        "label": "护照号码"
+      },
+      "bookNumber": {
+        "label": "护照本号"
+      },
+      "book_number": {
+        "label": "护照本号"
+      },
+      "docAuthority": {
+        "label": "签发国家/当局"
+      },
+      "doc_authority": {
+        "label": "签发国家/当局"
+      },
+      "issuedLocation.city": {
+        "label": "签发城市"
+      },
+      "issuedLocation.state": {
+        "label": "州/省"
+      },
+      "issuedLocation.country": {
+        "label": "国家/地区"
+      },
+      "issued_location_city": {
+        "label": "签发城市"
+      },
+      "issued_location_state": {
+        "label": "州/省"
+      },
+      "issued_location_country": {
+        "label": "国家/地区"
+      },
+      "issuanceDate": {
+        "label": "签发日期"
+      },
+      "issuance_date": {
+        "label": "签发日期"
+      },
+      "expirationDate": {
+        "label": "到期日期"
+      },
+      "expiration_date": {
+        "label": "到期日期"
+      },
+      "noExpiration": {
+        "label": "无到期日期"
+      },
+      "no_expiration": {
+        "label": "无到期日期"
+      },
+      "hasLostPassport": {
+        "label": "丢过或被偷过护照吗？"
+      },
+      "has_lost_passport": {
+        "label": "丢过或被偷过护照吗？"
+      },
+      "lostPassports[].number": {
+        "label": "护照号码"
+      },
+      "lostPassports[].country": {
+        "label": "签发国家/地区"
+      },
+      "lostPassports[].explain": {
+        "label": "说明",
+        "placeholder": "请详细说明"
+      },
+      "lost_passport_number": {
+        "label": "护照号码"
+      },
+      "lost_passport_country": {
+        "label": "签发国家/地区"
+      },
+      "lost_passport_explain": {
+        "label": "说明",
+        "placeholder": "请详细说明"
+      },
+      "lost_passport_date": {
+        "label": "遗失日期"
+      },
+      "usRelationship": {
+        "label": "与你的关系"
+      },
+      "us_relationship": {
+        "label": "与你的关系"
+      },
+      "usContact.surname": {
+        "label": "姓"
+      },
+      "us_contact_surname": {
+        "label": "姓"
+      },
+      "usContact.givenName": {
+        "label": "名"
+      },
+      "us_contact_given_name": {
+        "label": "名"
+      },
+      "usContact.organization": {
+        "label": "组织名称"
+      },
+      "us_contact_organization": {
+        "label": "组织名称"
+      },
+      "usContact.address.streetAddr1": {
+        "label": "街道地址"
+      },
+      "us_contact_address_street_addr1": {
+        "label": "街道地址"
+      },
+      "usContact.address.city": {
+        "label": "城市"
+      },
+      "us_contact_address_city": {
+        "label": "城市"
+      },
+      "usContact.address.state": {
+        "label": "州"
+      },
+      "us_contact_address_state": {
+        "label": "州"
+      },
+      "usContact.address.zipCode": {
+        "label": "邮编"
+      },
+      "us_contact_address_zip_code": {
+        "label": "邮编"
+      },
+      "usContact.phone": {
+        "label": "电话号码"
+      },
+      "us_contact_phone": {
+        "label": "电话号码"
+      },
+      "usContact.email": {
+        "label": "电子邮件"
+      },
+      "us_contact_email": {
+        "label": "电子邮件"
+      },
+      "father.surname": {
+        "label": "父亲的姓"
+      },
+      "father_surname": {
+        "label": "父亲的姓"
+      },
+      "father.givenName": {
+        "label": "父亲的名"
+      },
+      "father_given_name": {
+        "label": "父亲的名"
+      },
+      "father.dateOfBirth": {
+        "label": "父亲的生日"
+      },
+      "father_date_of_birth": {
+        "label": "父亲的生日"
+      },
+      "father.inUs": {
+        "label": "父亲在美国吗？"
+      },
+      "father_in_us": {
+        "label": "父亲在美国吗？"
+      },
+      "father.status": {
+        "label": "父亲身份"
+      },
+      "father_status": {
+        "label": "父亲身份"
+      },
+      "mother.surname": {
+        "label": "母亲的姓"
+      },
+      "mother_surname": {
+        "label": "母亲的姓"
+      },
+      "mother.givenName": {
+        "label": "母亲的名"
+      },
+      "mother_given_name": {
+        "label": "母亲的名"
+      },
+      "mother.dateOfBirth": {
+        "label": "母亲的生日"
+      },
+      "mother_date_of_birth": {
+        "label": "母亲的生日"
+      },
+      "mother.inUs": {
+        "label": "母亲在美国吗？"
+      },
+      "mother_in_us": {
+        "label": "母亲在美国吗？"
+      },
+      "mother.status": {
+        "label": "母亲身份"
+      },
+      "mother_status": {
+        "label": "母亲身份"
+      },
+      "hasImmediateRelatives": {
+        "label": "在美国有直系亲属（除父母外）？"
+      },
+      "has_immediate_relatives": {
+        "label": "在美国有直系亲属（除父母外）？"
+      },
+      "immediateRelatives[].surname": {
+        "label": "姓"
+      },
+      "immediate_relatives_surname": {
+        "label": "姓"
+      },
+      "immediateRelatives[].givenName": {
+        "label": "名"
+      },
+      "immediate_relatives_given_name": {
+        "label": "名"
+      },
+      "immediateRelatives[].relationship": {
+        "label": "关系"
+      },
+      "immediate_relatives_relationship": {
+        "label": "关系"
+      },
+      "immediateRelatives[].status": {
+        "label": "移民身份"
+      },
+      "immediate_relatives_status": {
+        "label": "移民身份"
+      },
+      "hasOtherRelatives": {
+        "label": "在美国有其他亲戚？"
+      },
+      "has_other_relatives": {
+        "label": "在美国有其他亲戚？"
+      },
+      "otherRelatives[].surname": {
+        "label": "姓"
+      },
+      "other_relatives_surname": {
+        "label": "姓"
+      },
+      "otherRelatives[].givenName": {
+        "label": "名"
+      },
+      "other_relatives_given_name": {
+        "label": "名"
+      },
+      "otherRelatives[].relationship": {
+        "label": "关系"
+      },
+      "other_relatives_relationship": {
+        "label": "关系"
+      },
+      "otherRelatives[].status": {
+        "label": "移民身份"
+      },
+      "other_relatives_status": {
+        "label": "移民身份"
+      },
+      "spouse.surname": {
+        "label": "配偶姓"
+      },
+      "spouse_surname": {
+        "label": "配偶姓"
+      },
+      "spouse.givenName": {
+        "label": "配偶名"
+      },
+      "spouse_given_name": {
+        "label": "配偶名"
+      },
+      "spouse.dateOfBirth": {
+        "label": "配偶生日"
+      },
+      "spouse_date_of_birth": {
+        "label": "配偶生日"
+      },
+      "spouse.nationality": {
+        "label": "配偶国籍"
+      },
+      "spouse_nationality": {
+        "label": "配偶国籍"
+      },
+      "spouse.birthCity": {
+        "label": "配偶出生城市"
+      },
+      "spouse_birth_city": {
+        "label": "配偶出生城市"
+      },
+      "spouse.birthCountry": {
+        "label": "配偶出生国家/地区"
+      },
+      "spouse_birth_country": {
+        "label": "配偶出生国家/地区"
+      },
+      "spouse.addressType": {
+        "label": "配偶地址"
+      },
+      "spouse_address_type": {
+        "label": "配偶地址"
+      },
+      "spouse.address.streetAddr1": {
+        "label": "街道地址"
+      },
+      "spouse_address_street_addr1": {
+        "label": "街道地址"
+      },
+      "spouse.address.city": {
+        "label": "城市"
+      },
+      "spouse_address_city": {
+        "label": "城市"
+      },
+      "spouse.address.state": {
+        "label": "州/省"
+      },
+      "spouse_address_state": {
+        "label": "州/省"
+      },
+      "spouse.address.zipCode": {
+        "label": "邮编"
+      },
+      "spouse_address_zip_code": {
+        "label": "邮编"
+      },
+      "spouse.address.country": {
+        "label": "国家/地区"
+      },
+      "spouse_address_country": {
+        "label": "国家/地区"
+      },
+      "occupation": {
+        "label": "职业"
+      },
+      "currentEmployer": {
+        "label": "单位名称"
+      },
+      "current_employer": {
+        "label": "单位名称"
+      },
+      "currentAddress.streetAddr1": {
+        "label": "街道地址"
+      },
+      "current_address_street_addr1": {
+        "label": "街道地址"
+      },
+      "currentAddress.city": {
+        "label": "城市"
+      },
+      "current_address_city": {
+        "label": "城市"
+      },
+      "currentAddress.state": {
+        "label": "州/省"
+      },
+      "current_address_state": {
+        "label": "州/省"
+      },
+      "currentAddress.zipCode": {
+        "label": "邮编"
+      },
+      "current_address_zip_code": {
+        "label": "邮编"
+      },
+      "currentAddress.country": {
+        "label": "国家/地区"
+      },
+      "current_address_country": {
+        "label": "国家/地区"
+      },
+      "currentAddress.tel": {
+        "label": "电话号码",
+        "placeholder": "仅数字"
+      },
+      "current_address_tel": {
+        "label": "电话号码",
+        "placeholder": "仅数字"
+      },
+      "startDate": {
+        "label": "开始日期"
+      },
+      "start_date": {
+        "label": "开始日期"
+      },
+      "monthlyIncome": {
+        "label": "月收入"
+      },
+      "monthly_income": {
+        "label": "月收入"
+      },
+      "jobDescription": {
+        "label": "工作职责描述",
+        "placeholder": "请简要描述工作职责"
+      },
+      "job_description": {
+        "label": "工作职责描述",
+        "placeholder": "请简要描述工作职责"
+      },
+      "wasPreviouslyEmployed": {
+        "label": "以前工作过吗？"
+      },
+      "was_previously_employed": {
+        "label": "以前工作过吗？"
+      },
+      "previousWork[].employerName": {
+        "label": "雇主名称"
+      },
+      "pw_employer_name": {
+        "label": "雇主名称"
+      },
+      "previousWork[].address.streetAddr1": {
+        "label": "街道地址"
+      },
+      "pw_address_street_addr1": {
+        "label": "街道地址"
+      },
+      "previousWork[].address.city": {
+        "label": "城市"
+      },
+      "pw_address_city": {
+        "label": "城市"
+      },
+      "previousWork[].address.state": {
+        "label": "州/省"
+      },
+      "pw_address_state": {
+        "label": "州/省"
+      },
+      "previousWork[].address.zipCode": {
+        "label": "邮编"
+      },
+      "pw_address_zip_code": {
+        "label": "邮编"
+      },
+      "previousWork[].address.country": {
+        "label": "国家/地区"
+      },
+      "pw_address_country": {
+        "label": "国家/地区"
+      },
+      "previousWork[].phone": {
+        "label": "电话号码",
+        "placeholder": "仅数字"
+      },
+      "pw_phone": {
+        "label": "电话号码",
+        "placeholder": "仅数字"
+      },
+      "previousWork[].jobTitle": {
+        "label": "职称"
+      },
+      "pw_job_title": {
+        "label": "职称"
+      },
+      "previousWork[].supervisorSurname": {
+        "label": "主管姓"
+      },
+      "pw_supervisor_surname": {
+        "label": "主管姓"
+      },
+      "previousWork[].supervisorGivenName": {
+        "label": "主管名"
+      },
+      "pw_supervisor_given_name": {
+        "label": "主管名"
+      },
+      "previousWork[].dateFrom": {
+        "label": "入职日期"
+      },
+      "pw_date_from": {
+        "label": "入职日期"
+      },
+      "previousWork[].dateTo": {
+        "label": "离职日期"
+      },
+      "pw_date_to": {
+        "label": "离职日期"
+      },
+      "previousWork[].jobDescription": {
+        "label": "工作职责",
+        "placeholder": "请简要描述工作职责"
+      },
+      "pw_job_description": {
+        "label": "工作职责",
+        "placeholder": "请简要描述工作职责"
+      },
+      "hasEducation": {
+        "label": "上过中学或以上教育机构？"
+      },
+      "has_education": {
+        "label": "上过中学或以上教育机构？"
+      },
+      "education[].name": {
+        "label": "机构名称"
+      },
+      "edu_name": {
+        "label": "机构名称"
+      },
+      "education[].address.streetAddr1": {
+        "label": "街道地址"
+      },
+      "edu_address_street_addr1": {
+        "label": "街道地址"
+      },
+      "education[].address.city": {
+        "label": "城市"
+      },
+      "edu_address_city": {
+        "label": "城市"
+      },
+      "education[].address.state": {
+        "label": "州/省"
+      },
+      "edu_address_state": {
+        "label": "州/省"
+      },
+      "education[].address.zipCode": {
+        "label": "邮编"
+      },
+      "edu_address_zip_code": {
+        "label": "邮编"
+      },
+      "education[].address.country": {
+        "label": "国家/地区"
+      },
+      "edu_address_country": {
+        "label": "国家/地区"
+      },
+      "education[].course": {
+        "label": "研究课程"
+      },
+      "edu_course": {
+        "label": "研究课程"
+      },
+      "education[].dateFrom": {
+        "label": "开始日期"
+      },
+      "edu_date_from": {
+        "label": "开始日期"
+      },
+      "education[].dateTo": {
+        "label": "结束日期"
+      },
+      "edu_date_to": {
+        "label": "结束日期"
+      },
+      "languages[].name": {
+        "label": "语言名称"
+      },
+      "languages_name": {
+        "label": "语言名称"
+      },
+      "hasClan": {
+        "label": "属于氏族或部落？"
+      },
+      "has_clan": {
+        "label": "属于氏族或部落？"
+      },
+      "clanName": {
+        "label": "氏族/部落名称"
+      },
+      "clan_name": {
+        "label": "氏族/部落名称"
+      },
+      "hasTraveled5yr": {
+        "label": "过去5年去过其他国家？"
+      },
+      "has_traveled_5yr": {
+        "label": "过去5年去过其他国家？"
+      },
+      "traveledCountries[].country": {
+        "label": "国家/地区"
+      },
+      "traveled_countries_country": {
+        "label": "国家/地区"
+      },
+      "hasOrganization": {
+        "label": "隶属于专业/社会/慈善组织？"
+      },
+      "has_organization": {
+        "label": "隶属于专业/社会/慈善组织？"
+      },
+      "organizations[].name": {
+        "label": "组织名称"
+      },
+      "organizations_name": {
+        "label": "组织名称"
+      },
+      "hasMilitaryService": {
+        "label": "曾在军中服役？"
+      },
+      "has_military_service": {
+        "label": "曾在军中服役？"
+      },
+      "militaryService[].country": {
+        "label": "国家/地区"
+      },
+      "mil_country": {
+        "label": "国家/地区"
+      },
+      "militaryService[].branch": {
+        "label": "军种/部门"
+      },
+      "mil_branch": {
+        "label": "军种/部门"
+      },
+      "militaryService[].rank": {
+        "label": "级别/职务"
+      },
+      "mil_rank": {
+        "label": "级别/职务"
+      },
+      "militaryService[].specialty": {
+        "label": "军事专业"
+      },
+      "mil_specialty": {
+        "label": "军事专业"
+      },
+      "militaryService[].dateFrom": {
+        "label": "起始日期"
+      },
+      "mil_date_from": {
+        "label": "起始日期"
+      },
+      "militaryService[].dateTo": {
+        "label": "结束日期"
+      },
+      "mil_date_to": {
+        "label": "结束日期"
+      },
+      "hasTaliban": {
+        "label": "曾是塔利班成员？"
+      },
+      "has_taliban": {
+        "label": "曾是塔利班成员？"
+      },
+      "talibanExplain": {
+        "label": "详细说明",
+        "placeholder": "请详细说明"
+      },
+      "taliban_explain": {
+        "label": "详细说明",
+        "placeholder": "请详细说明"
+      },
+      "hasSpecialSkills": {
+        "label": "有专门技能？"
+      },
+      "has_special_skills": {
+        "label": "有专门技能？"
+      },
+      "specialSkillsExplain": {
+        "label": "详细说明",
+        "placeholder": "请详细说明"
+      },
+      "special_skills_explain": {
+        "label": "详细说明",
+        "placeholder": "请详细说明"
+      },
+      "hasParamilitary": {
+        "label": "参与准军事/叛乱组织？"
+      },
+      "has_paramilitary": {
+        "label": "参与准军事/叛乱组织？"
+      },
+      "paramilitaryExplain": {
+        "label": "详细说明",
+        "placeholder": "请详细说明"
+      },
+      "paramilitary_explain": {
+        "label": "详细说明",
+        "placeholder": "请详细说明"
+      },
+      "securityExplain": {
+        "label": "详细说明",
+        "placeholder": "请详细说明"
+      },
+      "security_explain": {
+        "label": "详细说明",
+        "placeholder": "请详细说明"
+      },
+      "companion_surname": {
+        "label": "姓"
+      },
+      "companion_given_name": {
+        "label": "名"
+      },
+      "companion_relationship": {
+        "label": "关系"
+      },
+      "visit_arrival_date": {
+        "label": "抵达日期"
+      },
+      "visit_length_of_stay": {
+        "label": "停留时长"
+      },
+      "visit_stay_period": {
+        "label": "停留周期"
+      },
+      "other_email": {
+        "label": "邮箱地址"
+      }
+    },
+    "options": {
+      "yesNo": {
+        "yes": "是",
+        "no": "否"
+      },
+      "gender": {
+        "M": "男",
+        "F": "女"
+      },
+      "maritalStatus": {
+        "MARRIED": "已婚",
+        "COMMON_LAW": "普通法婚姻",
+        "CIVIL_UNION": "民事结合/家庭伴侣",
+        "SINGLE": "单身",
+        "WIDOWED": "丧偶",
+        "DIVORCED": "离婚",
+        "LEGALLY_SEPARATED": "合法分居",
+        "OTHER": "其他"
+      },
+      "purposeOfTrip": {
+        "B": "临时商务访问者",
+        "C": "过境外国人",
+        "D": "机组人员",
+        "F": "学术或语言学生",
+        "H": "临时工人",
+        "I": "外国媒体代表",
+        "J": "交流访问学者",
+        "L": "跨国公司内部调动人员",
+        "M": "职业/非学术学生"
+      },
+      "period": {
+        "Y": "年",
+        "M": "月",
+        "W": "周",
+        "D": "天",
+        "H": "少于24小时"
+      },
+      "visaCategory": {
+        "B1B2": "B1-B2 商务及旅游",
+        "B1CF": "B1-CF 商务/会议",
+        "B2TM": "B2-TM 旅游/医疗",
+        "C1D": "C1-D 机组人员过境",
+        "C1TR": "C1-TR 过境",
+        "C2UN": "C2-UN 联合国总部过境",
+        "F1": "F1 学生",
+        "F2CH": "F2 子女",
+        "F2SP": "F2 配偶",
+        "H1B": "H1B 专业职业",
+        "H1B1CHL": "H1B1 智利",
+        "H1B1SGP": "H1B1 新加坡",
+        "H1C": "H1C 护理人员",
+        "H2A": "H2A 农业工人",
+        "H2B": "H2B 非农业工人",
+        "H3TR": "H3 实习生",
+        "IFR": "I 外国媒体代表",
+        "ICH": "I 子女",
+        "ISP": "I 配偶",
+        "J1": "J1 交流访问学者",
+        "J2CH": "J2 子女",
+        "J2SP": "J2 配偶",
+        "L1": "L1 跨国公司内部调动",
+        "L2CH": "L2 子女",
+        "L2SP": "L2 配偶",
+        "M1": "M1 职业学生",
+        "M2CH": "M2 子女",
+        "M2SP": "M2 配偶"
+      },
+      "stayPeriod": {
+        "Y": "年",
+        "M": "月",
+        "W": "周",
+        "D": "天",
+        "LT24H": "少于24小时"
+      },
+      "payerType": {
+        "S": "本人",
+        "O": "他人",
+        "C": "其他公司/组织"
+      },
+      "payerRelation": {
+        "C": "子女",
+        "P": "父母",
+        "S": "配偶",
+        "R": "其他亲属",
+        "F": "朋友",
+        "O": "其他"
+      },
+      "docType": {
+        "REGULAR": "普通",
+        "OFFICIAL": "公务",
+        "DIPLOMATIC": "外交",
+        "LAISSEZ_PASSER": "来往通行证",
+        "OTHER": "其他"
+      },
+      "occupation": {
+        "AGRICULTURE": "农业",
+        "ARTIST": "艺术家/表演者",
+        "BUSINESS": "商业",
+        "COMMUNICATIONS": "传媒",
+        "COMPUTER_SCIENCE": "计算机科学",
+        "CULINARY": "烹饪/餐饮服务",
+        "EDUCATION": "教育",
+        "ENGINEERING": "工程",
+        "GOVERNMENT": "政府",
+        "HOMEMAKER": "家庭主妇/夫",
+        "LAW": "法律职业",
+        "MEDICAL": "医疗/保健",
+        "MILITARY": "军事",
+        "NATURAL_SCIENCE": "自然科学",
+        "NOT_EMPLOYED": "失业",
+        "PHYSICAL_SCIENCE": "物理科学",
+        "RELIGIOUS": "宗教职业",
+        "RESEARCH": "研究",
+        "RETIRED": "退休",
+        "SOCIAL_SCIENCE": "社会科学",
+        "STUDENT": "学生",
+        "OTHER": "其他"
+      },
+      "socialMedia": {
+        "ASK_FM": "ASK.FM",
+        "DOUBAN": "豆瓣",
+        "FACEBOOK": "脸书 (Facebook)",
+        "FLICKR": "Flickr",
+        "GOOGLE_PLUS": "谷歌+ (Google Plus)",
+        "INSTAGRAM": "Instagram",
+        "LINKEDIN": "领英 (LinkedIn)",
+        "MYSPACE": "Myspace",
+        "PINTEREST": "Pinterest",
+        "QZONE": "QQ空间 (QQ)",
+        "REDDIT": "Reddit",
+        "SINA_WEIBO": "新浪微博",
+        "TENCENT_WEIBO": "腾讯微博",
+        "TUMBLR": "Tumblr",
+        "TWITTER": "推特 (Twitter)",
+        "TWOO": "TWOO",
+        "VINE": "VINE",
+        "VKONTAKTE": "VKONTAKTE (VK)",
+        "YOUKU": "优酷",
+        "YOUTUBE": "YOUTUBE",
+        "NONE": "无"
+      },
+      "spouseAddress": {
+        "SAME_HOME": "与家庭住址相同",
+        "SAME_MAILING": "与邮寄地址相同",
+        "SAME_US_CONTACT": "与美国联系地址相同",
+        "UNKNOWN": "不知道",
+        "OTHER": "其他（指定地址）"
+      },
+      "relationship": {
+        "RELATIVE": "亲戚",
+        "SPOUSE": "配偶",
+        "FRIEND": "朋友",
+        "BUSINESS_ASSOCIATE": "商业伙伴",
+        "EMPLOYER": "雇主",
+        "SCHOOL_OFFICIAL": "学校官员",
+        "OTHER": "其他"
+      },
+      "immediateRelation": {
+        "SPOUSE": "配偶",
+        "FIANCE": "未婚夫/妻",
+        "CHILD": "子女",
+        "SIBLING": "兄弟姐妹"
+      },
+      "familyStatus": {
+        "US_CITIZEN": "美国公民",
+        "LPR": "美国合法永久居民",
+        "NONIMMIGRANT": "非移民",
+        "OTHER": "其他/我不知道"
+      },
+      "countries": {
+        "AF": "阿富汗",
+        "AL": "阿尔巴尼亚",
+        "DZ": "阿尔及利亚",
+        "AD": "安道尔",
+        "AO": "安哥拉",
+        "AI": "安圭拉",
+        "AG": "安提瓜和巴布达",
+        "AR": "阿根廷",
+        "AM": "亚美尼亚",
+        "AU": "澳大利亚",
+        "AT": "奥地利",
+        "AZ": "阿塞拜疆",
+        "BS": "巴哈马",
+        "BH": "巴林",
+        "BD": "孟加拉国",
+        "BB": "巴巴多斯",
+        "BY": "白俄罗斯",
+        "BE": "比利时",
+        "BZ": "伯利兹",
+        "BJ": "贝宁",
+        "BM": "百慕大",
+        "BT": "不丹",
+        "BO": "玻利维亚",
+        "BA": "波斯尼亚和黑塞哥维那",
+        "BW": "博茨瓦纳",
+        "BR": "巴西",
+        "BN": "文莱",
+        "BG": "保加利亚",
+        "BF": "布基纳法索",
+        "MM": "缅甸",
+        "BI": "布隆迪",
+        "KH": "柬埔寨",
+        "CM": "喀麦隆",
+        "CA": "加拿大",
+        "CV": "佛得角",
+        "KY": "开曼群岛",
+        "CF": "中非共和国",
+        "TD": "乍得",
+        "CL": "智利",
+        "CN": "中国",
+        "CO": "哥伦比亚",
+        "KM": "科摩罗",
+        "CD": "刚果（金）",
+        "CG": "刚果（布）",
+        "CR": "哥斯达黎加",
+        "CI": "科特迪瓦",
+        "HR": "克罗地亚",
+        "CU": "古巴",
+        "CY": "塞浦路斯",
+        "CZ": "捷克",
+        "DK": "丹麦",
+        "DJ": "吉布提",
+        "DM": "多米尼克",
+        "DO": "多米尼加共和国",
+        "EC": "厄瓜多尔",
+        "EG": "埃及",
+        "SV": "萨尔瓦多",
+        "GQ": "赤道几内亚",
+        "ER": "厄立特里亚",
+        "EE": "爱沙尼亚",
+        "SZ": "斯威士兰",
+        "ET": "埃塞俄比亚",
+        "FJ": "斐济",
+        "FI": "芬兰",
+        "FR": "法国",
+        "GA": "加蓬",
+        "GM": "冈比亚",
+        "GE": "格鲁吉亚",
+        "DE": "德国",
+        "GH": "加纳",
+        "GI": "直布罗陀",
+        "GR": "希腊",
+        "GD": "格林纳达",
+        "GT": "危地马拉",
+        "GN": "几内亚",
+        "GW": "几内亚比绍",
+        "GY": "圭亚那",
+        "HT": "海地",
+        "VA": "梵蒂冈",
+        "HN": "洪都拉斯",
+        "HK_BNO": "香港（英国国民海外）",
+        "HK": "香港特别行政区",
+        "HU": "匈牙利",
+        "IS": "冰岛",
+        "IN": "印度",
+        "ID": "印度尼西亚",
+        "IR": "伊朗",
+        "IQ": "伊拉克",
+        "IE": "爱尔兰",
+        "IL": "以色列",
+        "IT": "意大利",
+        "JM": "牙买加",
+        "JP": "日本",
+        "JO": "约旦",
+        "KZ": "哈萨克斯坦",
+        "KE": "肯尼亚",
+        "KI": "基里巴斯",
+        "KP": "朝鲜",
+        "KR": "韩国",
+        "XK": "科索沃",
+        "KW": "科威特",
+        "KG": "吉尔吉斯斯坦",
+        "LA": "老挝",
+        "LV": "拉脱维亚",
+        "LB": "黎巴嫩",
+        "LS": "莱索托",
+        "LR": "利比里亚",
+        "LY": "利比亚",
+        "LI": "列支敦士登",
+        "LT": "立陶宛",
+        "LU": "卢森堡",
+        "MO": "澳门",
+        "MK": "北马其顿",
+        "MG": "马达加斯加",
+        "MW": "马拉维",
+        "MY": "马来西亚",
+        "MV": "马尔代夫",
+        "ML": "马里",
+        "MT": "马耳他",
+        "MH": "马绍尔群岛",
+        "MR": "毛里塔尼亚",
+        "MU": "毛里求斯",
+        "MX": "墨西哥",
+        "FM": "密克罗尼西亚",
+        "MD": "摩尔多瓦",
+        "MC": "摩纳哥",
+        "MN": "蒙古",
+        "ME": "黑山",
+        "MS": "蒙特塞拉特",
+        "MA": "摩洛哥",
+        "MZ": "莫桑比克",
+        "NA": "纳米比亚",
+        "NR": "瑙鲁",
+        "NP": "尼泊尔",
+        "NL": "荷兰",
+        "NZ": "新西兰",
+        "NI": "尼加拉瓜",
+        "NE": "尼日尔",
+        "NG": "尼日利亚",
+        "NO": "挪威",
+        "OM": "阿曼",
+        "PK": "巴基斯坦",
+        "PW": "帕劳",
+        "PA": "巴拿马",
+        "PG": "巴布亚新几内亚",
+        "PY": "巴拉圭",
+        "PE": "秘鲁",
+        "PH": "菲律宾",
+        "PN": "皮特凯恩群岛",
+        "PL": "波兰",
+        "PT": "葡萄牙",
+        "QA": "卡塔尔",
+        "RO": "罗马尼亚",
+        "RU": "俄罗斯",
+        "RW": "卢旺达",
+        "WS": "萨摩亚",
+        "SM": "圣马力诺",
+        "ST": "圣多美和普林西比",
+        "SA": "沙特阿拉伯",
+        "SN": "塞内加尔",
+        "RS": "塞尔维亚",
+        "SC": "塞舌尔",
+        "SL": "塞拉利昂",
+        "SG": "新加坡",
+        "SK": "斯洛伐克",
+        "SI": "斯洛文尼亚",
+        "SB": "所罗门群岛",
+        "SO": "索马里",
+        "ZA": "南非",
+        "SS": "南苏丹",
+        "ES": "西班牙",
+        "LK": "斯里兰卡",
+        "SH": "圣赫勒拿",
+        "KN": "圣基茨和尼维斯",
+        "LC": "圣卢西亚",
+        "VC": "圣文森特和格林纳丁斯",
+        "STATELESS": "无国籍",
+        "SD": "苏丹",
+        "SR": "苏里南",
+        "SE": "瑞典",
+        "CH": "瑞士",
+        "SY": "叙利亚",
+        "TW": "中国台湾",
+        "TJ": "塔吉克斯坦",
+        "TZ": "坦桑尼亚",
+        "TH": "泰国",
+        "TL": "东帝汶",
+        "TG": "多哥",
+        "TO": "汤加",
+        "TT": "特立尼达和多巴哥",
+        "TN": "突尼斯",
+        "TR": "土耳其",
+        "TM": "土库曼斯坦",
+        "TC": "特克斯和凯科斯群岛",
+        "TV": "图瓦卢",
+        "UG": "乌干达",
+        "UA": "乌克兰",
+        "AE": "阿联酋",
+        "GB": "英国",
+        "UY": "乌拉圭",
+        "UZ": "乌兹别克斯坦",
+        "VU": "瓦努阿图",
+        "VE": "委内瑞拉",
+        "VN": "越南",
+        "VG": "英属维尔京群岛",
+        "WF": "瓦利斯和富图纳",
+        "EH": "西撒哈拉",
+        "YE": "也门",
+        "ZM": "赞比亚",
+        "ZW": "津巴布韦",
+        "ARUBA": "阿鲁巴",
+        "BONAIRE": "博奈尔",
+        "CHRISTMAS_ISLAND": "圣诞岛",
+        "COOK_ISLANDS": "库克群岛",
+        "CURACAO": "库拉索",
+        "EU": "欧盟",
+        "FK": "福克兰群岛",
+        "FO": "法罗群岛",
+        "GAZA": "加沙地带",
+        "GL": "格陵兰",
+        "GP": "瓜德罗普",
+        "GU": "关岛",
+        "JERUSALEM": "耶路撒冷",
+        "YT": "马约特",
+        "NC": "新喀里多尼亚",
+        "NU": "纽埃",
+        "NF": "诺福克岛",
+        "MP": "北马里亚纳群岛",
+        "NIRELAND": "北爱尔兰",
+        "PALESTINE": "巴勒斯坦权力机构",
+        "PALMYRA": "巴尔米拉环礁",
+        "PR": "波多黎各",
+        "REUNION": "留尼汪",
+        "SABA": "萨巴岛",
+        "SAINT_MARTIN": "圣马丁（法属）",
+        "SINT_MAARTEN": "圣马丁（荷属）",
+        "SGSSI": "南乔治亚和南桑威奇群岛",
+        "ST_EUSTATIUS": "圣尤斯特歇斯",
+        "PM": "圣皮埃尔和密克隆",
+        "ST_MARTIN": "圣马丁",
+        "STATUS_NEUTRAL": "中性旅行证件",
+        "SVALBARD": "斯瓦尔巴",
+        "TK": "托克劳",
+        "UN": "联合国",
+        "US": "美国",
+        "VI": "美属维尔京群岛",
+        "WAKE": "威克岛",
+        "WEST_BANK": "约旦河西岸"
+      },
+      "usStates": {
+        "ALABAMA": "阿拉巴马",
+        "ALASKA": "阿拉斯加",
+        "AMERICAN_SAMOA": "美属萨摩亚",
+        "ARIZONA": "亚利桑那",
+        "ARKANSAS": "阿肯色",
+        "CALIFORNIA": "加利福尼亚",
+        "COLORADO": "科罗拉多",
+        "CONNECTICUT": "康涅狄格",
+        "DELAWARE": "特拉华",
+        "DISTRICT_OF_COLUMBIA": "哥伦比亚特区",
+        "FLORIDA": "佛罗里达",
+        "GEORGIA": "佐治亚",
+        "GUAM": "关岛",
+        "HAWAII": "夏威夷",
+        "IDAHO": "爱达荷",
+        "ILLINOIS": "伊利诺伊",
+        "INDIANA": "印第安纳",
+        "IOWA": "艾奥瓦",
+        "KANSAS": "堪萨斯",
+        "KENTUCKY": "肯塔基",
+        "LOUISIANA": "路易斯安那",
+        "MAINE": "缅因",
+        "MARYLAND": "马里兰",
+        "MASSACHUSETTS": "马萨诸塞",
+        "MICHIGAN": "密歇根",
+        "MINNESOTA": "明尼苏达",
+        "MISSISSIPPI": "密西西比",
+        "MISSOURI": "密苏里",
+        "MONTANA": "蒙大拿",
+        "NEBRASKA": "内布拉斯加",
+        "NEVADA": "内华达",
+        "NEW_HAMPSHIRE": "新罕布什尔",
+        "NEW_JERSEY": "新泽西",
+        "NEW_MEXICO": "新墨西哥",
+        "NEW_YORK": "纽约",
+        "NORTH_CAROLINA": "北卡罗来纳",
+        "NORTH_DAKOTA": "北达科他",
+        "NORTHERN_MARIANA_ISLANDS": "北马里亚纳群岛",
+        "OHIO": "俄亥俄",
+        "OKLAHOMA": "俄克拉荷马",
+        "OREGON": "俄勒冈",
+        "PENNSYLVANIA": "宾夕法尼亚",
+        "PUERTO_RICO": "波多黎各",
+        "RHODE_ISLAND": "罗德岛",
+        "SOUTH_CAROLINA": "南卡罗来纳",
+        "SOUTH_DAKOTA": "南达科他",
+        "TENNESSEE": "田纳西",
+        "TEXAS": "得克萨斯",
+        "UTAH": "犹他",
+        "VERMONT": "佛蒙特",
+        "VIRGIN_ISLANDS": "美属维尔京群岛",
+        "VIRGINIA": "弗吉尼亚",
+        "WASHINGTON": "华盛顿",
+        "WEST_VIRGINIA": "西弗吉尼亚",
+        "WISCONSIN": "威斯康星",
+        "WYOMING": "怀俄明"
+      },
+      "visaCategories": {
+        "A": "外国政府官员 (A)",
+        "B": "临时商务/旅游 (B)",
+        "C": "过境 (C)",
+        "CW_E2C": "北马里亚纳工人/投资者 (CW/E2C)",
+        "D": "船员 (D)",
+        "E": "条约贸易商/投资者 (E)",
+        "F": "学术/语言学生 (F)",
+        "G": "国际组织代表/雇员 (G)",
+        "H": "临时工人 (H)",
+        "I": "外国媒体代表 (I)",
+        "J": "交流访问者 (J)",
+        "K": "美国公民的未婚夫/配偶 (K)",
+        "L": "公司内部调遣人员 (L)",
+        "M": "职业/非学术学生 (M)",
+        "N": "其他 (N)",
+        "NATO": "北约工作人员 (NATO)",
+        "O": "杰出能力外国人 (O)",
+        "P": "国际认可外国人 (P)",
+        "Q": "文化交流访问者 (Q)",
+        "R": "宗教工作者 (R)",
+        "S": "线人或证人 (S)",
+        "T": "贩运受害者 (T)",
+        "TD_TN": "NAFTA专业人士 (TD/TN)",
+        "U": "犯罪活动受害者 (U)",
+        "PARCIS": "假释受益人 (PARCIS)"
+      },
+      "month": {
+        "JAN": "1月",
+        "FEB": "2月",
+        "MAR": "3月",
+        "APR": "4月",
+        "MAY": "5月",
+        "JUN": "6月",
+        "JUL": "7月",
+        "AUG": "8月",
+        "SEP": "9月",
+        "OCT": "10月",
+        "NOV": "11月",
+        "DEC": "12月"
+      }
+    },
+    "security": {
+      "part1": "Part 1 — 健康相关",
+      "part2": "Part 2 — 犯罪/贩运",
+      "part3": "Part 3 — 恐怖主义/人权",
+      "part4": "Part 4 — 移民违规",
+      "part5": "Part 5 — 公民身份/监护权/投票/学生/交流访问者",
+      "explain": {
+        "label": "请详细说明"
+      },
+      "q1": "你是否患有具有公共卫生意义的传染病？",
+      "q2": "你是否有对你或他人的安全或福利构成威胁的精神或身体障碍？",
+      "q3": "你曾经或现在是药物滥用者或瘾君子吗？",
+      "q4": "你是否曾被逮捕或定罪任何罪行，即使受到赦免、大赦或类似处理？",
+      "q5": "你是否曾违反或参与违反任何有关管制物质的法律？",
+      "q6": "你来美国是否从事故意卖淫或非法商业恶行，或在过去10年内曾从事此类活动？",
+      "q7": "你是否曾参与或试图参与洗钱活动？",
+      "q8": "你是否曾在美境内或境外犯下或共谋犯下人口贩卖罪行？",
+      "q9": "你是否曾明知故犯地帮助、教唆、协助或与在美国境内或境外犯下严重人口贩卖罪行的人串通？",
+      "q10": "你是否是在美国境内或境外犯下人口贩卖罪行之人的配偶、儿子或女儿，且在过去五年内明知故犯地从贩卖活动中获益？",
+      "q11": "你是否试图在美国境内从事间谍、破坏、出口管制违规或其他任何非法活动？",
+      "q12": "你是否试图在美国境内从事恐怖活动，或曾经从事过恐怖活动？",
+      "q13": "你是否曾或打算向恐怖分子或恐怖组织提供经济援助或其他支持？",
+      "q14": "你是恐怖组织的成员或代表吗？",
+      "q15": "你是否是过去五年内从事过恐怖活动（包括向恐怖分子或恐怖组织提供经济援助或其他支持）之人的配偶、儿子或女儿？",
+      "q16": "你是否曾下令、煽动、实施、协助或以其他方式参与种族灭绝？",
+      "q17": "你是否曾下令、煽动、实施、协助或以其他方式参与酷刑？",
+      "q18": "你是否曾下令、煽动、实施、协助或以其他方式参与法外处决、政治杀害或其他暴力行为？",
+      "q19": "你是否曾参与招募或使用儿童兵？",
+      "q20": "你在担任政府官员期间，是否曾对严重侵犯宗教自由行为负有责任或直接实施？",
+      "q21": "你是否曾直接参与建立或强制执行计划生育措施，强迫妇女违背自由意愿堕胎，或强迫男子或女子违背自由意愿绝育？",
+      "q22": "你是否曾直接参与强制移植人体器官或组织？",
+      "q23": "你是否曾被任何国家驱逐或遣返？",
+      "q24": "你是否曾试图通过欺诈、故意虚假陈述或其他非法手段获取或帮助他人获取签证、入境美国或任何其他美国移民利益？",
+      "q25": "在过去的五年中，你是否未能参加关于可移动性或不可接纳性的听证会？",
+      "q26": "你是否曾经非法居留、居留时间过长或违反了美国签证条款？",
+      "q27": "你是否曾被任何国家驱逐出境？",
+      "q28": "你是否曾将美国公民子女拘留在美国境外，拒绝交给美国法院授予合法监护权的人？",
+      "q29": "你是否曾违反任何法律或法规在美国投票？",
+      "q30": "你是否曾为避免纳税而放弃美国公民身份？",
+      "q31": "你是否在1996年11月30日之后进入了具有学生（F）身份的公立小学或公立中学，而没有偿还学校费用？",
+      "q32": "你是否是以前的交流访问者（J），尚未满足两年的外国居住要求？"
     }
   }
 }

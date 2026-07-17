@@ -5,7 +5,7 @@ const { t } = useI18n()
 
 const visaTypes = [
   { to: '/uk-visa', titleKey: 'home.startUkVisa', descKey: 'home.startUkVisaDesc', flag: 'gb', comingSoon: false },
-  { to: '', titleKey: 'home.startUsVisa', descKey: 'home.startUsVisaDesc', flag: 'us', comingSoon: true },
+  { to: '/us-visa', titleKey: 'home.startUsVisa', descKey: 'home.startUsVisaDesc', flag: 'us', comingSoon: false },
 ]
 </script>
 

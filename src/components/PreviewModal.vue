@@ -42,14 +42,27 @@ interface FieldGroup {
   fields: PreviewField[]
 }
 
+/** 将 N/A / DNC 哨兵值转为空字符串（预览中字段保留但值显示为 '—'） */
+function sanitizeValue(fields: PreviewField[]): PreviewField[] {
+  return fields.map(f =>
+    f.value === 'N/A' || f.value === 'DNC' ? { ...f, value: '' } : f,
+  )
+}
+
 /** 将 section.fields 按 groupStart 分成卡片组 */
 function groupFields(fields: PreviewField[]): FieldGroup[] {
-  if (fields.length === 0) return []
+  const visible = sanitizeValue(fields)
+  if (visible.length === 0) return []
   const groups: FieldGroup[] = []
-  let current: FieldGroup = { cardName: fields[0].cardName ?? null, fields: [fields[0]] }
+  let current: FieldGroup = { cardName: visible[0].cardName ?? null, fields: [visible[0]] }
 
-  for (let i = 1; i < fields.length; i++) {
-    const field = fields[i]
+  for (let i = 1; i < visible.length; i++) {
+    const field = visible[i]
+    if (field.titleOnly) {
+      groups.push(current)
+      current = { cardName: null, fields: [field] }
+      continue
+    }
     if (field.groupStart) {
       groups.push(current)
       current = { cardName: field.cardName ?? null, fields: [field] }
@@ -58,7 +71,7 @@ function groupFields(fields: PreviewField[]): FieldGroup[] {
     }
   }
   groups.push(current)
-  return groups
+  return groups.filter(g => g.fields.length > 0)
 }
 </script>
 
@@ -118,16 +131,34 @@ function groupFields(fields: PreviewField[]): FieldGroup[] {
                           </div>
                         </div>
                       </div>
-                      <!-- 独立字段组（触发问题等）：直接渲染，不包卡片 -->
+                      <!-- 独立字段组 -->
                       <template v-else>
-                        <div
+                        <template
                           v-for="field in group.fields"
                           :key="field.label"
-                          :class="[fieldSpanClass(field), 'preview-field']"
                         >
-                          <span class="preview-field-label">{{ field.label }}</span>
-                          <span class="preview-field-value">{{ field.value || '—' }}</span>
-                        </div>
+                          <!-- titleOnly: 仅渲染 L2 标题，不渲染数据 -->
+                          <div
+                            v-if="field.titleOnly"
+                            class="preview-sub-label"
+                          >
+                            {{ field.subGroupTitle || field.label }}
+                          </div>
+                          <!-- 普通字段（含 subGroupTitle 的数据字段：先渲染标题再渲染数据） -->
+                          <div
+                            v-else
+                            :class="[fieldSpanClass(field), 'preview-field']"
+                          >
+                            <div
+                              v-if="field.subGroupTitle"
+                              class="preview-sub-label"
+                            >
+                              {{ field.subGroupTitle }}
+                            </div>
+                            <span class="preview-field-label">{{ field.label }}</span>
+                            <span class="preview-field-value">{{ field.value || '—' }}</span>
+                          </div>
+                        </template>
                       </template>
                     </template>
                   </div>
@@ -229,4 +260,19 @@ function groupFields(fields: PreviewField[]): FieldGroup[] {
   font-weight: 500;
   color: #111827;
 }
+
+/* L2 子组标题（蓝色左边框 + 浅蓝渐变背景，与表单页 sub-label 一致） */
+.preview-sub-label {
+  grid-column: span 4;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #1e40af;
+  margin: 1.25rem 0 0.75rem;
+  padding: 0.375rem 0.75rem;
+  background: linear-gradient(to right, #eff6ff, transparent);
+  border-left: 3px solid #3b82f6;
+  border-radius: 0 0.25rem 0.25rem 0;
+  letter-spacing: 0.025em;
+}
+
 </style>

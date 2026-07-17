@@ -16,13 +16,14 @@ const props = defineProps<{
   error?: string
   /** 帮助文本 */
   description?: string
-  /** 网格跨度：full=4列, half=2列, third=1列 */
-  span?: 'full' | 'half' | 'third'
+  /** 网格跨度：full=整行, half=1/2行, third=UK 3列网格的1/3, quarter=US 4列网格的1/4 */
+  span?: 'full' | 'half' | 'third' | 'quarter'
 }>()
 
 const spanClass = computed(() => {
   if (props.span === 'half') return 'field-span-half'
   if (props.span === 'third') return 'field-span-third'
+  if (props.span === 'quarter') return 'field-span-quarter'
   return 'field-span-full'
 })
 </script>
