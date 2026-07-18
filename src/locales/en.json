@@ -64,7 +64,7 @@
     "startUkVisa": "UK Visa",
     "startUkVisaDesc": "Fill in the UK visa information collection form",
     "startUsVisa": "US Visa",
-    "startUsVisaDesc": "Coming soon…"
+    "startUsVisaDesc": "Fill in the U.S. visa information collection form"
   },
   "ukVisa": {
     "title": "UK Visa",
@@ -992,8 +992,8 @@
     }
   },
   "usVisa": {
-    "title": "U.S. Visa DS-160",
-    "subtitle": "Nonimmigrant Visa Application",
+    "title": "U.S. Visa",
+    "subtitle": "DS-160 Nonimmigrant Visa Information Collection",
     "clearForm": "Clear Data",
     "clearConfirm": "Are you sure you want to clear all data? This cannot be undone.",
     "exportPdf": "Export PDF",

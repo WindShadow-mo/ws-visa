@@ -4,8 +4,8 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const visaTypes = [
-  { to: '/uk-visa', titleKey: 'home.startUkVisa', descKey: 'home.startUkVisaDesc', flag: 'gb', comingSoon: false },
   { to: '/us-visa', titleKey: 'home.startUsVisa', descKey: 'home.startUsVisaDesc', flag: 'us', comingSoon: false },
+  { to: '/uk-visa', titleKey: 'home.startUkVisa', descKey: 'home.startUkVisaDesc', flag: 'gb', comingSoon: false },
 ]
 </script>
 

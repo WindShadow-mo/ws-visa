@@ -64,7 +64,7 @@
     "startUkVisa": "英国签证",
     "startUkVisaDesc": "填写英国签证信息收集表",
     "startUsVisa": "美国签证",
-    "startUsVisaDesc": "即将上线…"
+    "startUsVisaDesc": "填写美国签证信息收集表"
   },
   "ukVisa": {
     "title": "英国签证",
@@ -992,8 +992,8 @@
     }
   },
   "usVisa": {
-    "title": "美国签证 DS-160",
-    "subtitle": "非移民签证申请表",
+    "title": "美国签证",
+    "subtitle": "DS-160 非移民签证信息收集",
     "clearForm": "清除数据",
     "clearConfirm": "确定要清除所有已填写的数据吗？此操作无法撤销。",
     "exportPdf": "导出 PDF",
