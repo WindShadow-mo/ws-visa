@@ -106,6 +106,7 @@ const { isDnaChecked, isDnkChecked, isDisabled, toggleDna, toggleDnk } =
     :error="error"
     :description="description"
     :span="span"
+    :field-name="name"
   >
     <div class="flex items-start gap-3">
       <div class="flex-1">

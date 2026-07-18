@@ -39,7 +39,7 @@ const options = computed(() => phoneCountryCodeOptions)
 
 // 按当前 locale 排序
 const sortedOptions = computed(() => {
-  const collator = new Intl.Collator(locale.value === 'zh' ? 'zh-CN' : 'en', { sensitivity: 'base' })
+  const collator = new Intl.Collator(locale.value.startsWith('zh') ? 'zh-CN' : 'en', { sensitivity: 'base' })
   return [...options.value].sort((a, b) => collator.compare(t(a.labelKey), t(b.labelKey)))
 })
 

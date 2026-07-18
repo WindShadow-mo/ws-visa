@@ -77,6 +77,9 @@ function removeVisit(index: number) {
               :model-value="visit.length_of_stay"
               @update:model-value="visit.length_of_stay = $event"
               :required="true"
+              inputmode="numeric"
+              constraint="numeric"
+              :max-length="3"
               span="third"
             />
             <SelectField

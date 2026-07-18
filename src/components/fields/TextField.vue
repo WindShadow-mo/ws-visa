@@ -102,6 +102,7 @@ const { isDnaChecked, isDnkChecked, isDisabled, toggleDna, toggleDnk } =
     :error="error"
     :description="description"
     :span="span"
+    :field-name="name"
   >
     <div class="flex items-start gap-3">
       <div class="relative flex-1">
@@ -129,6 +130,22 @@ const { isDnaChecked, isDnkChecked, isDisabled, toggleDna, toggleDnk } =
           :class="['flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50', IconComponent ? 'pl-10' : '']"
           @input="($event: Event) => emit('update:modelValue', filterByConstraint(constraint, ($event.target as HTMLTextAreaElement).value))"
         />
+        <!-- ponytail: when constraint is set, use native <input> with :value/@input —
+             shadcn Input uses v-model which can't sync DOM when filter produces same value -->
+        <input
+          v-else-if="constraint"
+          :id="name"
+          :name="name"
+          type="text"
+          :value="displayValue"
+          :placeholder="placeholder"
+          :maxlength="maxLength"
+          :inputmode="inputmode"
+          :disabled="isDisabled || disabled"
+          :pattern="CONSTRAINT_HTML_PATTERNS[constraint]"
+          :class="['flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-foreground file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50', IconComponent ? 'pl-10' : '', suffix ? 'pr-8' : '']"
+          @input="($event: Event) => { const t = $event.target as HTMLInputElement; const filtered = filterByConstraint(constraint, t.value); t.value = filtered; emit('update:modelValue', filtered) }"
+        />
         <Input
           v-else
           :id="name"
@@ -139,7 +156,6 @@ const { isDnaChecked, isDnkChecked, isDisabled, toggleDna, toggleDnk } =
           :maxlength="maxLength"
           :inputmode="inputmode"
           :disabled="isDisabled || disabled"
-          :pattern="constraint ? CONSTRAINT_HTML_PATTERNS[constraint] : undefined"
           :class="[IconComponent ? 'pl-10' : '', suffix ? 'pr-8' : '']"
           @update:model-value="(v: string | number) => emit('update:modelValue', filterByConstraint(constraint, String(v)))"
         />

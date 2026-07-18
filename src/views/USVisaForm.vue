@@ -401,6 +401,65 @@ const arrayLookup: Record<string, unknown[]> = {
   traveled_countries, organizations, military_service,
 }
 
+// 字段名 → formData 路径映射（组件用扁平 name，formData 用嵌套对象）
+const fieldPathMap: Record<string, string> = {
+  // travel
+  us_address_state: 'us_address.state', us_address_city: 'us_address.city',
+  us_address_street_addr1: 'us_address.street_addr1', us_address_zip_code: 'us_address.zip_code',
+  paying_person_surname: 'paying_person.surname', paying_person_given_name: 'paying_person.given_name',
+  paying_person_tel: 'paying_person.tel', paying_person_relationship: 'paying_person.relationship',
+  paying_person_address_same: 'paying_person.address_same',
+  paying_person_address_country: 'paying_person.address.country',
+  paying_person_address_state: 'paying_person.address.state',
+  paying_person_address_city: 'paying_person.address.city',
+  paying_person_address_street_addr1: 'paying_person.address.street_addr1',
+  paying_person_address_zip_code: 'paying_person.address.zip_code',
+  paying_org_name: 'paying_org.name', paying_org_tel: 'paying_org.tel',
+  paying_org_relationship: 'paying_org.relationship',
+  paying_org_address_country: 'paying_org.address.country',
+  paying_org_address_state: 'paying_org.address.state',
+  paying_org_address_city: 'paying_org.address.city',
+  paying_org_address_street_addr1: 'paying_org.address.street_addr1',
+  paying_org_address_zip_code: 'paying_org.address.zip_code',
+  // addressPhone
+  home_addr_country: 'home_addr.country', home_addr_state: 'home_addr.state',
+  home_addr_city: 'home_addr.city', home_addr_street_addr1: 'home_addr.street_addr1',
+  home_addr_zip_code: 'home_addr.zip_code',
+  mailing_addr_country: 'mailing_addr.country', mailing_addr_state: 'mailing_addr.state',
+  mailing_addr_city: 'mailing_addr.city', mailing_addr_street_addr1: 'mailing_addr.street_addr1',
+  mailing_addr_zip_code: 'mailing_addr.zip_code',
+  // presentWork
+  current_address_country: 'current_address.country', current_address_state: 'current_address.state',
+  current_address_city: 'current_address.city', current_address_street_addr1: 'current_address.street_addr1',
+  current_address_zip_code: 'current_address.zip_code', current_address_tel: 'current_address.tel',
+  // passport
+  issued_location_city: 'issued_location.city', issued_location_country: 'issued_location.country',
+  // usContact
+  us_contact_address_state: 'us_contact.address.state',
+  us_contact_address_city: 'us_contact.address.city',
+  us_contact_address_street_addr1: 'us_contact.address.street_addr1',
+  us_contact_address_zip_code: 'us_contact.address.zip_code',
+  us_contact_phone: 'us_contact.phone',
+  // family
+  father_surname: 'father.surname', father_given_name: 'father.given_name',
+  father_date_of_birth: 'father.date_of_birth', father_in_us: 'father.in_us',
+  father_status: 'father.status',
+  mother_surname: 'mother.surname', mother_given_name: 'mother.given_name',
+  mother_date_of_birth: 'mother.date_of_birth', mother_in_us: 'mother.in_us',
+  mother_status: 'mother.status',
+}
+
+function getFieldValue(fd: Record<string, unknown>, field: string): unknown {
+  const path = fieldPathMap[field] || field
+  const parts = path.split('.')
+  let obj: unknown = fd
+  for (const p of parts) {
+    if (obj == null || typeof obj !== 'object') return undefined
+    obj = (obj as Record<string, unknown>)[p]
+  }
+  return obj
+}
+
 // ---- 申请人姓名 ----
 
 const { buildPdfTitle, buildPdfFilename } = useApplicantName(
@@ -431,27 +490,144 @@ interface StepDef {
   component: ReturnType<typeof defineAsyncComponent>
   requiredFields: string[]
   /** 数组字段校验规则：校验数组内每个条目的必填子字段 */
-  arrayFieldRules?: { arrayKey: string; required: string[] }[]
+  arrayFieldRules?: { arrayKey: string; required: string[]; domPrefix: Record<string, string> }[]
+  /** 条件字段：仅当 when() 返回 true 时才校验 */
+  conditionalFields?: { field: string; when: () => boolean }[]
+  /** 条件数组：当 when() 为 true 时，数组必须至少有 1 条记录 */
+  conditionalArrays?: { arrayKey: string; when: () => boolean; flagField: string }[]
 }
 
 const steps: StepDef[] = [
-  { key: 'personal1', labelKey: 'usVisa.sections.personal1', component: stepComponents.PersonalInfo1, requiredFields: ['surname', 'given_name', 'sex', 'marital_status', 'date_of_birth', 'birth_city', 'birth_country'] },
-  { key: 'personal2', labelKey: 'usVisa.sections.personal2', component: stepComponents.PersonalInfo2, requiredFields: ['nationality'] },
-  { key: 'travel', labelKey: 'usVisa.sections.travel', component: stepComponents.Travel, requiredFields: ['purpose_of_trip', 'visa_category'] },
-  { key: 'travelCompanions', labelKey: 'usVisa.sections.travelCompanions', component: stepComponents.TravelCompanions, requiredFields: [] },
-  { key: 'previousUSTravel', labelKey: 'usVisa.sections.previousUSTravel', component: stepComponents.PreviousUSTravel, requiredFields: [] },
-  { key: 'addressPhone', labelKey: 'usVisa.sections.addressPhone', component: stepComponents.AddressPhone, requiredFields: ['email'] },
-  { key: 'passport', labelKey: 'usVisa.sections.passport', component: stepComponents.Passport, requiredFields: ['doc_type', 'doc_number', 'issuance_date', 'expiration_date'] },
-  { key: 'usContact', labelKey: 'usVisa.sections.usContact', component: stepComponents.USContact, requiredFields: ['us_relationship'] },
-  { key: 'family', labelKey: 'usVisa.sections.family', component: stepComponents.Family, requiredFields: [] },
-  { key: 'presentWork', labelKey: 'usVisa.sections.presentWork', component: stepComponents.PresentWork, requiredFields: ['occupation'] },
-  { key: 'previousWork', labelKey: 'usVisa.sections.previousWork', component: stepComponents.PreviousWork, requiredFields: [] },
+  { key: 'personal1', labelKey: 'usVisa.sections.personal1', component: stepComponents.PersonalInfo1, requiredFields: ['surname', 'given_name', 'native_name', 'sex', 'marital_status', 'date_of_birth', 'birth_city', 'birth_country', 'has_other_names', 'has_telecode'],
+    conditionalFields: [
+      { field: 'marital_status_explain', when: () => (formData as any).marital_status === 'OTHER' },
+      { field: 'other_surname', when: () => (formData as any).has_other_names === 'yes' },
+      { field: 'other_given_name', when: () => (formData as any).has_other_names === 'yes' },
+      { field: 'telecode_surname', when: () => (formData as any).has_telecode === 'yes' },
+      { field: 'telecode_given_name', when: () => (formData as any).has_telecode === 'yes' },
+    ],
+  },
+  { key: 'personal2', labelKey: 'usVisa.sections.personal2', component: stepComponents.PersonalInfo2, requiredFields: ['nationality', 'has_other_nationality', 'is_permanent_resident', 'national_id_number', 'social_security_number', 'tax_id_number'],
+    conditionalFields: [
+      { field: 'other_nationality', when: () => (formData as any).has_other_nationality === 'yes' },
+      { field: 'has_other_nationality_passport', when: () => (formData as any).has_other_nationality === 'yes' },
+      { field: 'other_nationality_passport_no', when: () => (formData as any).has_other_nationality_passport === 'yes' },
+      { field: 'permanent_resident_country', when: () => (formData as any).is_permanent_resident === 'yes' },
+    ],
+  },
+  { key: 'travel', labelKey: 'usVisa.sections.travel', component: stepComponents.Travel, requiredFields: ['purpose_of_trip', 'visa_category', 'arrival_date', 'length_of_stay', 'length_of_stay_period', 'paying_person_type'],
+    conditionalFields: [
+      { field: 'us_address_state', when: () => (formData as any).length_of_stay_period !== 'H' },
+      { field: 'us_address_city', when: () => (formData as any).length_of_stay_period !== 'H' },
+      { field: 'us_address_street_addr1', when: () => (formData as any).length_of_stay_period !== 'H' },
+      { field: 'paying_person_surname', when: () => (formData as any).paying_person_type === 'O' },
+      { field: 'paying_person_given_name', when: () => (formData as any).paying_person_type === 'O' },
+      { field: 'paying_person_tel', when: () => (formData as any).paying_person_type === 'O' },
+      { field: 'paying_person_relationship', when: () => (formData as any).paying_person_type === 'O' },
+      { field: 'paying_person_address_same', when: () => (formData as any).paying_person_type === 'O' },
+      { field: 'paying_org_name', when: () => (formData as any).paying_person_type === 'C' },
+      { field: 'paying_org_tel', when: () => (formData as any).paying_person_type === 'C' },
+      { field: 'paying_org_relationship', when: () => (formData as any).paying_person_type === 'C' },
+      { field: 'paying_org_address_country', when: () => (formData as any).paying_person_type === 'C' },
+    ],
+  },
+  { key: 'travelCompanions', labelKey: 'usVisa.sections.travelCompanions', component: stepComponents.TravelCompanions, requiredFields: ['has_travel_companions'],
+    conditionalFields: [
+      { field: 'is_group_travel', when: () => (formData as any).has_travel_companions === 'yes' },
+      { field: 'group_name', when: () => (formData as any).has_travel_companions === 'yes' && (formData as any).is_group_travel === 'yes' },
+    ],
+    arrayFieldRules: [
+      { arrayKey: 'companions', required: ['surname', 'given_name', 'relationship'], domPrefix: { surname: 'companion_surname', given_name: 'companion_given_name', relationship: 'companion_relationship' } },
+    ],
+    conditionalArrays: [
+      { arrayKey: 'companions', when: () => (formData as any).has_travel_companions === 'yes' && (formData as any).is_group_travel !== 'yes', flagField: 'has_travel_companions' },
+    ],
+  },
+  { key: 'previousUSTravel', labelKey: 'usVisa.sections.previousUSTravel', component: stepComponents.PreviousUSTravel, requiredFields: ['has_been_in_us', 'has_us_drivers_license', 'has_us_visa', 'has_been_refused', 'has_esta_refused', 'has_immigrant_petition'],
+    conditionalFields: [
+      { field: 'drivers_license_number', when: () => (formData as any).has_us_drivers_license === 'yes' },
+      { field: 'drivers_license_state', when: () => (formData as any).has_us_drivers_license === 'yes' },
+      { field: 'last_visa_date', when: () => (formData as any).has_us_visa === 'yes' },
+      { field: 'last_visa_number', when: () => (formData as any).has_us_visa === 'yes' },
+      { field: 'applying_same_type', when: () => (formData as any).has_us_visa === 'yes' },
+      { field: 'applying_same_country', when: () => (formData as any).has_us_visa === 'yes' },
+      { field: 'has_been_ten_printed', when: () => (formData as any).has_us_visa === 'yes' },
+      { field: 'visa_lost_or_stolen', when: () => (formData as any).has_us_visa === 'yes' },
+      { field: 'visa_cancelled', when: () => (formData as any).has_us_visa === 'yes' },
+      { field: 'refusal_explain', when: () => (formData as any).has_been_refused === 'yes' },
+      { field: 'esta_refusal_explain', when: () => (formData as any).has_esta_refused === 'yes' },
+      { field: 'immigrant_petition_explain', when: () => (formData as any).has_immigrant_petition === 'yes' },
+    ],
+    arrayFieldRules: [
+      { arrayKey: 'us_visits', required: ['arrival_date', 'length_of_stay', 'stay_period'], domPrefix: { arrival_date: 'visit_arrival_date', length_of_stay: 'visit_length_of_stay', stay_period: 'visit_stay_period' } },
+    ],
+    conditionalArrays: [
+      { arrayKey: 'us_visits', when: () => (formData as any).has_been_in_us === 'yes', flagField: 'has_been_in_us' },
+    ],
+  },
+  { key: 'addressPhone', labelKey: 'usVisa.sections.addressPhone', component: stepComponents.AddressPhone, requiredFields: ['home_addr_country', 'home_addr_state', 'home_addr_city', 'home_addr_street_addr1', 'home_addr_zip_code', 'phone_primary', 'email', 'email_confirm', 'has_other_phones', 'has_other_emails', 'has_other_social_media'],
+    conditionalFields: [
+      { field: 'mailing_addr_country', when: () => (formData as any).mailing_different === true },
+      { field: 'mailing_addr_state', when: () => (formData as any).mailing_different === true },
+      { field: 'mailing_addr_city', when: () => (formData as any).mailing_different === true },
+      { field: 'mailing_addr_street_addr1', when: () => (formData as any).mailing_different === true },
+      { field: 'mailing_addr_zip_code', when: () => (formData as any).mailing_different === true },
+    ],
+    arrayFieldRules: [
+      { arrayKey: 'other_phones', required: ['number'], domPrefix: { number: 'other_phone_number' } },
+      { arrayKey: 'other_emails', required: ['email'], domPrefix: { email: 'other_email' } },
+      { arrayKey: 'social_media', required: ['platform'], domPrefix: { platform: 'social_media_platform' } },
+      { arrayKey: 'other_social', required: ['platform', 'username'], domPrefix: { platform: 'other_social_platform', username: 'other_social_username' } },
+    ],
+  },
+  { key: 'passport', labelKey: 'usVisa.sections.passport', component: stepComponents.Passport, requiredFields: ['doc_type', 'doc_number', 'doc_authority', 'issued_location_city', 'issued_location_country', 'issuance_date', 'expiration_date', 'has_lost_passport'],
+    arrayFieldRules: [
+      { arrayKey: 'lost_passports', required: ['number', 'country', 'explain'], domPrefix: { number: 'lost_passport_number', country: 'lost_passport_country', explain: 'lost_passport_explain' } },
+    ],
+    conditionalArrays: [
+      { arrayKey: 'lost_passports', when: () => (formData as any).has_lost_passport === 'yes', flagField: 'has_lost_passport' },
+    ],
+  },
+  { key: 'usContact', labelKey: 'usVisa.sections.usContact', component: stepComponents.USContact, requiredFields: ['us_relationship', 'us_contact_address_state', 'us_contact_address_city', 'us_contact_address_street_addr1', 'us_contact_address_zip_code', 'us_contact_phone'] },
+  { key: 'family', labelKey: 'usVisa.sections.family', component: stepComponents.Family, requiredFields: ['father_surname', 'father_given_name', 'mother_surname', 'mother_given_name', 'has_immediate_relatives'],
+    conditionalFields: [
+      { field: 'father_date_of_birth', when: () => (formData as any).father?.surname !== 'DNC' || (formData as any).father?.given_name !== 'DNC' },
+      { field: 'father_in_us', when: () => (formData as any).father?.surname !== 'DNC' || (formData as any).father?.given_name !== 'DNC' },
+      { field: 'father_status', when: () => (formData as any).father?.in_us === 'yes' },
+      { field: 'mother_date_of_birth', when: () => (formData as any).mother?.surname !== 'DNC' || (formData as any).mother?.given_name !== 'DNC' },
+      { field: 'mother_in_us', when: () => (formData as any).mother?.surname !== 'DNC' || (formData as any).mother?.given_name !== 'DNC' },
+      { field: 'mother_status', when: () => (formData as any).mother?.in_us === 'yes' },
+    ],
+    arrayFieldRules: [
+      { arrayKey: 'immediate_relatives', required: ['surname', 'relationship', 'status'], domPrefix: { surname: 'ir_surname', relationship: 'ir_relationship', status: 'ir_status' } },
+    ],
+    conditionalArrays: [
+      { arrayKey: 'immediate_relatives', when: () => (formData as any).has_immediate_relatives === 'yes', flagField: 'has_immediate_relatives' },
+    ],
+  },
+  { key: 'presentWork', labelKey: 'usVisa.sections.presentWork', component: stepComponents.PresentWork, requiredFields: ['occupation', 'current_employer', 'current_address_country', 'current_address_state', 'current_address_city', 'current_address_street_addr1', 'current_address_zip_code', 'current_address_tel', 'start_date', 'job_description'] },
+  { key: 'previousWork', labelKey: 'usVisa.sections.previousWork', component: stepComponents.PreviousWork, requiredFields: [],
+    arrayFieldRules: [
+      { arrayKey: 'previous_work', required: ['employer_name', 'address.country', 'address.city', 'address.street_addr1', 'phone', 'job_title', 'date_from', 'date_to', 'job_description'], domPrefix: { employer_name: 'pw_employer', 'address.country': 'pw_country', 'address.city': 'pw_city', 'address.street_addr1': 'pw_addr1', phone: 'pw_phone', job_title: 'pw_title', date_from: 'pw_from', date_to: 'pw_to', job_description: 'pw_desc' } },
+      { arrayKey: 'education', required: ['name', 'address.country', 'address.city', 'address.street_addr1', 'course', 'date_from', 'date_to'], domPrefix: { name: 'edu_name', 'address.country': 'edu_country', 'address.city': 'edu_city', 'address.street_addr1': 'edu_addr1', course: 'edu_course', date_from: 'edu_from', date_to: 'edu_to' } },
+    ],
+    conditionalArrays: [
+      { arrayKey: 'previous_work', when: () => (formData as any).was_previously_employed === 'yes', flagField: 'was_previously_employed' },
+      { arrayKey: 'education', when: () => (formData as any).has_education === 'yes', flagField: 'has_education' },
+    ],
+  },
   { key: 'additionalWork', labelKey: 'usVisa.sections.additionalWork', component: stepComponents.AdditionalWork, requiredFields: [], arrayFieldRules: [
-    { arrayKey: 'languages', required: ['name'] },
-    { arrayKey: 'traveled_countries', required: ['country'] },
-    { arrayKey: 'organizations', required: ['name'] },
-    { arrayKey: 'military_service', required: ['country', 'branch', 'rank', 'specialty', 'date_from', 'date_to'] },
-  ] },
+    { arrayKey: 'languages', required: ['name'], domPrefix: { name: 'lang_name' } },
+    { arrayKey: 'traveled_countries', required: ['country'], domPrefix: { country: 'tc_country' } },
+    { arrayKey: 'organizations', required: ['name'], domPrefix: { name: 'org_name' } },
+    { arrayKey: 'military_service', required: ['country', 'branch', 'rank', 'specialty', 'date_from', 'date_to'], domPrefix: { country: 'mil_country', branch: 'mil_branch', rank: 'mil_rank', specialty: 'mil_specialty', date_from: 'mil_from', date_to: 'mil_to' } },
+  ],
+    conditionalArrays: [
+      { arrayKey: 'traveled_countries', when: () => (formData as any).has_traveled_5yr === 'yes', flagField: 'has_traveled_5yr' },
+      { arrayKey: 'organizations', when: () => (formData as any).has_organization === 'yes', flagField: 'has_organization' },
+      { arrayKey: 'military_service', when: () => (formData as any).has_military_service === 'yes', flagField: 'has_military_service' },
+    ],
+  },
   { key: 'securityBackground', labelKey: 'usVisa.sections.securityBackground', component: stepComponents.SecurityBackground, requiredFields: [] },
 ]
 
@@ -459,6 +635,83 @@ const steps: StepDef[] = [
 
 const currentStep = ref(0)
 const completedSteps = reactive(new Set<number>())
+const shakeNav = ref(false)
+const showValidationMsg = ref(false)
+const invalidFields = reactive(new Set<string>())
+provide('usVisaInvalidFields', invalidFields)
+let validationTimer: ReturnType<typeof setTimeout> | null = null
+let clearTimer: ReturnType<typeof setTimeout> | null = null
+
+function triggerShake() {
+  shakeNav.value = true
+  showValidationMsg.value = true
+  setTimeout(() => { shakeNav.value = false }, 500)
+  if (validationTimer) clearTimeout(validationTimer)
+  validationTimer = setTimeout(() => { showValidationMsg.value = false }, 3000)
+}
+
+// 用户编辑后，只清除已填好字段的红边，未填的保留
+watch(formData, () => {
+  if (invalidFields.size === 0) return
+  if (clearTimer) clearTimeout(clearTimer)
+  clearTimer = setTimeout(() => {
+    const fd = formData as unknown as Record<string, unknown>
+    const step = steps[currentStep.value]
+    for (const field of [...invalidFields]) {
+      // _not_applicable 跳过
+      const naKey = `${field}_not_applicable`
+      const naPath = fieldPathMap[naKey] || naKey
+      const isNA = naPath.includes('.')
+        ? getFieldValue(fd, naKey) === true
+        : naKey in fd && fd[naKey] === true
+      if (isNA || isFieldFilled(getFieldValue(fd, field))) {
+        invalidFields.delete(field)
+      }
+    }
+    // 条件字段：条件不满足时也清除
+    if (step.conditionalFields) {
+      for (const cf of step.conditionalFields) {
+        if (!cf.when() || isFieldFilled(getFieldValue(fd, cf.field))) {
+          invalidFields.delete(cf.field)
+        }
+      }
+    }
+    // 条件数组：条件不满足时清除标记字段
+    if (step.conditionalArrays) {
+      for (const rule of step.conditionalArrays) {
+        if (!rule.when()) {
+          invalidFields.delete(rule.flagField)
+        }
+      }
+    }
+    // 数组子字段：已填好时清除红边
+    if (step.arrayFieldRules) {
+      for (const rule of step.arrayFieldRules) {
+        const arr = arrayLookup[rule.arrayKey]
+        if (!arr) continue
+        for (const field of [...invalidFields]) {
+          for (const [key, domKey] of Object.entries(rule.domPrefix || {})) {
+            const match = field.match(new RegExp(`^${domKey}_(\\d+)$`))
+            if (match) {
+              const idx = parseInt(match[1])
+              const entry = arr[idx]
+              if (entry) {
+                const parts = key.split('.')
+                let val: unknown = entry
+                for (const p of parts) {
+                  if (val == null || typeof val !== 'object') { val = undefined; break }
+                  val = (val as Record<string, unknown>)[p]
+                }
+                if (isFieldFilled(val)) invalidFields.delete(field)
+              }
+            }
+          }
+        }
+      }
+    }
+    if (invalidFields.size === 0) showValidationMsg.value = false
+  }, 150)
+}, { deep: true })
 
 function isFieldFilled(value: unknown): boolean {
   if (value === null || value === undefined) return false
@@ -474,9 +727,48 @@ function isFieldFilled(value: unknown): boolean {
 function validateStep(stepIndex: number): boolean {
   const step = steps[stepIndex]
   const fd = formData as unknown as Record<string, unknown>
+  invalidFields.clear()
 
-  // 扁平字段校验
-  if (!step.requiredFields.every((field) => isFieldFilled(fd[field]))) return false
+  let allValid = true
+
+  const checkField = (field: string) => {
+    // _not_applicable 标记跳过
+    const naKey = `${field}_not_applicable`
+    const isNA = getFieldValue(fd, naKey) === true
+    if (!isNA && !isFieldFilled(getFieldValue(fd, field))) {
+      invalidFields.add(field)
+      allValid = false
+    }
+  }
+
+  // 固定必填字段
+  for (const field of step.requiredFields) checkField(field)
+
+  // 条件字段
+  if (step.conditionalFields) {
+    for (const cf of step.conditionalFields) {
+      if (cf.when()) checkField(cf.field)
+    }
+  }
+
+  // 安全背景题（32 道）
+  if (step.key === 'securityBackground') {
+    const answers = fd.securityAnswers as Record<number, { answer: string; explain: string }> | undefined
+    if (answers) {
+      for (let q = 1; q <= 32; q++) {
+        const ans = answers[q]?.answer
+        if (!isFieldFilled(ans)) {
+          invalidFields.add(`securityQ${q}`)
+          allValid = false
+        }
+      }
+    } else {
+      for (let q = 1; q <= 32; q++) {
+        invalidFields.add(`securityQ${q}`)
+      }
+      allValid = false
+    }
+  }
 
   // 数组条目校验：每个已存在的条目中，required 子字段都必须已填
   // 注意：数组是独立 reactive 变量，不在 formData 中，从数组查找表取值
@@ -484,13 +776,39 @@ function validateStep(stepIndex: number): boolean {
     for (const rule of step.arrayFieldRules) {
       const arr = arrayLookup[rule.arrayKey]
       if (!arr) continue
-      for (const entry of arr) {
-        if (!rule.required.every((key) => isFieldFilled((entry as Record<string, unknown>)[key]))) return false
+      arr.forEach((entry, idx) => {
+        for (const key of rule.required) {
+          // 直接解析点路径（如 address.country），不走 fieldPathMap
+          const parts = key.split('.')
+          let val: unknown = entry
+          for (const p of parts) {
+            if (val == null || typeof val !== 'object') { val = undefined; break }
+            val = (val as Record<string, unknown>)[p]
+          }
+          if (!isFieldFilled(val)) {
+            const domKey = rule.domPrefix?.[key] || key
+            invalidFields.add(`${domKey}_${idx}`)
+            allValid = false
+          }
+        }
+      })
+    }
+  }
+
+  // 条件数组校验：当条件满足时，数组必须至少有 1 条记录
+  if (step.conditionalArrays) {
+    for (const rule of step.conditionalArrays) {
+      if (rule.when()) {
+        const arr = arrayLookup[rule.arrayKey]
+        if (!arr || arr.length === 0) {
+          invalidFields.add(rule.flagField)
+          allValid = false
+        }
       }
     }
   }
 
-  return true
+  return allValid
 }
 
 function goToStep(index: number) {
@@ -499,7 +817,7 @@ function goToStep(index: number) {
   if (index > currentStep.value) {
     // Validate all steps between current and target
     for (let i = currentStep.value; i < index; i++) {
-      if (!validateStep(i)) return
+      if (!validateStep(i)) { triggerShake(); return }
     }
     // Mark intermediate steps as completed
     for (let i = currentStep.value; i < index; i++) {
@@ -511,7 +829,7 @@ function goToStep(index: number) {
 }
 
 function goToNext() {
-  if (!validateStep(currentStep.value)) return
+  if (!validateStep(currentStep.value)) { triggerShake(); return }
   completedSteps.add(currentStep.value)
   if (currentStep.value < steps.length - 1) {
     currentStep.value++
@@ -1116,19 +1434,19 @@ function handleExportClick() {
 
   // 2. 校验可重复组（选"是"后至少添加 1 条）
   const repeatableChecks = [
-    { condition: formData.has_travel_companions === 'yes' && formData.is_group_travel !== 'yes', items: companions, name: '_add_companion', label: t('usVisa.addRow') + ' - ' + t('usVisa.subLabelsRepeat.companion'), section: t('usVisa.sections.travelCompanions') },
-    { condition: formData.has_been_in_us === 'yes', items: us_visits, name: '_add_visit', label: t('usVisa.addRow') + ' - ' + t('usVisa.subLabelsRepeat.usVisit', { N: 1 }), section: t('usVisa.sections.previousUSTravel') },
-    { condition: formData.has_lost_passport === 'yes', items: lost_passports, name: '_add_lost_passport', label: t('usVisa.addRow') + ' - ' + t('usVisa.subLabels.lostPassport'), section: t('usVisa.sections.passport') },
-    { condition: formData.has_immediate_relatives === 'yes', items: immediate_relatives, name: '_add_relative', label: t('usVisa.addRow') + ' - ' + t('usVisa.subLabels.immediateRelatives'), section: t('usVisa.sections.family') },
-    { condition: formData.was_previously_employed === 'yes', items: previous_work, name: '_add_previous_work', label: t('usVisa.addRow') + ' - ' + t('usVisa.subLabelsRepeat.previousWork', { N: 1 }), section: t('usVisa.sections.previousWork') },
-    { condition: formData.has_education === 'yes', items: education, name: '_add_education', label: t('usVisa.addRow') + ' - ' + t('usVisa.subLabelsRepeat.education', { N: 1 }), section: t('usVisa.sections.previousWork') },
-    { condition: formData.has_traveled_5yr === 'yes', items: traveled_countries, name: '_add_traveled_country', label: t('usVisa.addRow') + ' - ' + t('usVisa.fields.has_traveled_5yr.label'), section: t('usVisa.sections.additionalWork') },
-    { condition: formData.has_organization === 'yes', items: organizations, name: '_add_organization', label: t('usVisa.addRow') + ' - ' + t('usVisa.fields.has_organization.label'), section: t('usVisa.sections.additionalWork') },
-    { condition: formData.has_military_service === 'yes', items: military_service, name: '_add_military', label: t('usVisa.addRow') + ' - ' + t('usVisa.subLabels.militaryService'), section: t('usVisa.sections.additionalWork') },
+    { condition: formData.has_travel_companions === 'yes' && formData.is_group_travel !== 'yes', items: companions, flagField: 'has_travel_companions', label: t('usVisa.addRow') + ' - ' + t('usVisa.subLabelsRepeat.companion'), section: t('usVisa.sections.travelCompanions') },
+    { condition: formData.has_been_in_us === 'yes', items: us_visits, flagField: 'has_been_in_us', label: t('usVisa.addRow') + ' - ' + t('usVisa.subLabelsRepeat.usVisit', { N: 1 }), section: t('usVisa.sections.previousUSTravel') },
+    { condition: formData.has_lost_passport === 'yes', items: lost_passports, flagField: 'has_lost_passport', label: t('usVisa.addRow') + ' - ' + t('usVisa.subLabels.lostPassport'), section: t('usVisa.sections.passport') },
+    { condition: formData.has_immediate_relatives === 'yes', items: immediate_relatives, flagField: 'has_immediate_relatives', label: t('usVisa.addRow') + ' - ' + t('usVisa.subLabels.immediateRelatives'), section: t('usVisa.sections.family') },
+    { condition: formData.was_previously_employed === 'yes', items: previous_work, flagField: 'was_previously_employed', label: t('usVisa.addRow') + ' - ' + t('usVisa.subLabelsRepeat.previousWork', { N: 1 }), section: t('usVisa.sections.previousWork') },
+    { condition: formData.has_education === 'yes', items: education, flagField: 'has_education', label: t('usVisa.addRow') + ' - ' + t('usVisa.subLabelsRepeat.education', { N: 1 }), section: t('usVisa.sections.previousWork') },
+    { condition: formData.has_traveled_5yr === 'yes', items: traveled_countries, flagField: 'has_traveled_5yr', label: t('usVisa.addRow') + ' - ' + t('usVisa.fields.has_traveled_5yr.label'), section: t('usVisa.sections.additionalWork') },
+    { condition: formData.has_organization === 'yes', items: organizations, flagField: 'has_organization', label: t('usVisa.addRow') + ' - ' + t('usVisa.fields.has_organization.label'), section: t('usVisa.sections.additionalWork') },
+    { condition: formData.has_military_service === 'yes', items: military_service, flagField: 'has_military_service', label: t('usVisa.addRow') + ' - ' + t('usVisa.subLabels.militaryService'), section: t('usVisa.sections.additionalWork') },
   ]
   for (const check of repeatableChecks) {
     if (check.condition && check.items.length === 0) {
-      groupErrors.push({ name: check.name, label: check.label, section: check.section })
+      groupErrors.push({ name: check.flagField, label: check.label, section: check.section })
     }
   }
 
@@ -1158,6 +1476,8 @@ function handleExportClick() {
         completedSteps.add(currentStep.value)
         currentStep.value = idx
       }
+      // 触发该步骤的红边校验
+      nextTick(() => { validateStep(idx); triggerShake() })
     }
     nextTick(() => {
       setTimeout(() => {
@@ -1251,12 +1571,18 @@ function handleExportClick() {
             <button
               v-if="currentStep < steps.length - 1"
               class="nav-btn nav-btn-next"
+              :class="{ 'nav-shake': shakeNav }"
               @click="goToNext"
             >
               {{ t('usVisa.buttons.next') }}
               <ChevronRight :size="16" />
             </button>
           </div>
+          <Transition name="fade">
+            <p v-if="showValidationMsg" class="validation-hint">
+              {{ t('usVisa.buttons.validation_failed') }}
+            </p>
+          </Transition>
         </div>
       </div>
     </div>
@@ -1396,7 +1722,7 @@ function handleExportClick() {
   font-weight: 500;
   border-radius: 0.5rem;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: opacity 0.2s;
   border: none;
 }
 
@@ -1417,6 +1743,26 @@ function handleExportClick() {
 .nav-btn-next:hover {
   opacity: 0.9;
 }
+
+@keyframes nav-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+.nav-shake {
+  animation: nav-shake 0.4s ease-in-out;
+  background-color: hsl(var(--destructive, 0 84.2% 60.2%)) !important;
+}
+
+.validation-hint {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: hsl(var(--destructive, 0 84.2% 60.2%));
+}
+
+.fade-enter-active, .fade-leave-active { transition: opacity 0.3s; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
 
 /* 国旗图标样式 */
 .flag-icon {

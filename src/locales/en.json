@@ -1005,7 +1005,8 @@
     "fillTestData": "Fill Test Data",
     "buttons": {
       "back": "Back",
-      "next": "Next"
+      "next": "Next",
+      "validation_failed": "Please complete all required fields"
     },
     "sections": {
       "personal1": "Personal Information (I)",
@@ -2631,7 +2632,7 @@
         "VA": "Holy See (Vatican City)",
         "HN": "Honduras",
         "HK_BNO": "Hong Kong BNO",
-        "HK": "Hong Kong SAR",
+        "HK": "Hong Kong, China",
         "HU": "Hungary",
         "IS": "Iceland",
         "IN": "India",
@@ -2661,7 +2662,7 @@
         "LI": "Liechtenstein",
         "LT": "Lithuania",
         "LU": "Luxembourg",
-        "MO": "Macau",
+        "MO": "Macao, China",
         "MK": "Macedonia North",
         "MG": "Madagascar",
         "MW": "Malawi",
@@ -2732,7 +2733,7 @@
         "SE": "Sweden",
         "CH": "Switzerland",
         "SY": "Syria",
-        "TW": "Taiwan",
+        "TW": "Taiwan, China",
         "TJ": "Tajikistan",
         "TZ": "Tanzania",
         "TH": "Thailand",

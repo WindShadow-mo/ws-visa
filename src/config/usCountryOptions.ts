@@ -15,11 +15,11 @@ interface TypedEntry extends SelectOption { type: EntryType }
 // 非主权地区/领地
 const REGION_CODES = new Set([
   'HK', 'MO', 'TW', 'HK_BNO',
-  'ARUBA', 'BONAIRE', 'CHRISTMAS_ISLAND', 'COOK_ISLANDS', 'CURACAO',
-  'FK', 'FO', 'GAZA', 'GL', 'GP', 'GU', 'JERUSALEM', 'YT', 'NC', 'NU',
-  'NF', 'MP', 'NIRELAND', 'PALESTINE', 'PALMYRA', 'PR', 'REUNION', 'SABA',
-  'SAINT_MARTIN', 'SINT_MAARTEN', 'SGSSI', 'ST_EUSTATIUS', 'PM',
-  'ST_MARTIN', 'SVALBARD', 'TK', 'VI', 'WAKE', 'WEST_BANK',
+  'AI', 'ARUBA', 'BM', 'BONAIRE', 'CHRISTMAS_ISLAND', 'COOK_ISLANDS', 'CURACAO', 'EH',
+  'FK', 'FO', 'GAZA', 'GI', 'GL', 'GP', 'GU', 'JERUSALEM', 'KY', 'YT', 'NC', 'NU',
+  'NF', 'MP', 'MS', 'NIRELAND', 'PALESTINE', 'PALMYRA', 'PN', 'PR', 'REUNION', 'SABA',
+  'SAINT_MARTIN', 'SINT_MAARTEN', 'SGSSI', 'SH', 'ST_EUSTATIUS', 'PM',
+  'ST_MARTIN', 'SVALBARD', 'TC', 'TK', 'VI', 'VG', 'WAKE', 'WEST_BANK', 'WF',
 ])
 
 // 政治当局/超国家实体（非主权国家但可签发旅行证件）

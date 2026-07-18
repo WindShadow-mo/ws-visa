@@ -47,6 +47,7 @@ const description = computed(() =>
     :error="error"
     :description="description"
     :span="span"
+    :field-name="name"
   >
     <RadioGroup
       :model-value="modelValue"
