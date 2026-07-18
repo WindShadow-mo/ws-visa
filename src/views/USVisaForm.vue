@@ -1363,7 +1363,7 @@ const previewSections = computed<PreviewSection[]>(() => {
       fields: [
         // L2: 语言能力
         ...languages.map((l, i) => [
-          { label: t('usVisa.fields.languages_name.label'), value: l.name, required: true, type: 'text', name: `lang_${i}_name`, span: 'third' as const, groupStart: true, cardName: i === 0 ? t('usVisa.subLabels.languageList') : undefined },
+          { label: t('usVisa.fields.languages_name.label'), value: l.name, required: true, type: 'text', name: `lang_${i}_name`, span: 'third' as const, ...(i === 0 ? { groupStart: true, cardName: t('usVisa.subLabels.languageList') } : {}) },
         ]).flat(),
         { label: t('usVisa.fields.has_clan.label'), value: resolveOption(yesNoOptions, formData.has_clan), required: true, type: 'radio', name: 'has_clan' },
         ...(formData.has_clan === 'yes' ? [
@@ -1371,11 +1371,11 @@ const previewSections = computed<PreviewSection[]>(() => {
         ] : []),
         { label: t('usVisa.fields.has_traveled_5yr.label'), value: resolveOption(yesNoOptions, formData.has_traveled_5yr), required: true, type: 'radio', name: 'has_traveled_5yr' },
         ...(formData.has_traveled_5yr === 'yes' ? traveled_countries.map((tc, i) => [
-          { label: t('usVisa.fields.traveled_countries_country.label'), value: resolveOption(usCountryOptions, tc.country) || tc.country, required: true, type: 'select', name: `tc_${i}_country`, span: 'third' as const, groupStart: true, cardName: i === 0 ? t('usVisa.fields.has_traveled_5yr.label') : undefined },
+          { label: t('usVisa.fields.traveled_countries_country.label'), value: resolveOption(usCountryOptions, tc.country) || tc.country, required: true, type: 'select', name: `tc_${i}_country`, span: 'third' as const, ...(i === 0 ? { groupStart: true, cardName: t('usVisa.fields.has_traveled_5yr.label') } : {}) },
         ]).flat() : []),
         { label: t('usVisa.fields.has_organization.label'), value: resolveOption(yesNoOptions, formData.has_organization), required: true, type: 'radio', name: 'has_organization' },
         ...(formData.has_organization === 'yes' ? organizations.map((o, i) => [
-          { label: t('usVisa.fields.organizations_name.label'), value: o.name, required: true, type: 'text', name: `org_${i}_name`, span: 'third' as const, groupStart: true, cardName: i === 0 ? t('usVisa.fields.has_organization.label') : undefined },
+          { label: t('usVisa.fields.organizations_name.label'), value: o.name, required: true, type: 'text', name: `org_${i}_name`, span: 'third' as const, ...(i === 0 ? { groupStart: true, cardName: t('usVisa.fields.has_organization.label') } : {}) },
         ]).flat() : []),
         // L2: 军事服役
         { label: t('usVisa.fields.has_military_service.label'), value: resolveOption(yesNoOptions, formData.has_military_service), required: true, type: 'radio', name: 'has_military_service' },
