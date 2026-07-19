@@ -2,7 +2,7 @@
 // NumberField — 数字输入字段组件
 // 基于 shadcn-vue NumberField，通过 i18n key 引用所有可见文字
 
-import { computed, ref, watch } from 'vue'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
   NumberField,
@@ -57,7 +57,7 @@ function dnaEmit(_event: 'update:modelValue', value: string) {
   }
 }
 const { isDnaChecked, isDnkChecked, isDisabled, toggleDna, toggleDnk } =
-  useDnaDnk(stringModelValue as any, dnaEmit as any, props)
+  useDnaDnk(stringModelValue as any, dnaEmit as any)
 </script>
 
 <template>

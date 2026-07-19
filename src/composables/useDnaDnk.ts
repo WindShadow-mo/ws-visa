@@ -7,7 +7,6 @@ import { computed, ref, watch, type ComputedRef, type Ref } from 'vue'
 export function useDnaDnk(
   modelValue: Ref<string>,
   emit: (event: 'update:modelValue', value: string) => void,
-  props: { doesNotApply?: boolean; doNotKnow?: boolean },
 ) {
   const isDnaChecked = ref(false)
   const isDnkChecked = ref(false)

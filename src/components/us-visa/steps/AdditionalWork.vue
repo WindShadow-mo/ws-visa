@@ -4,7 +4,6 @@
 import { inject } from 'vue'
 import type { USVisaFormData, LanguageEntry, TraveledCountry, OrganizationEntry, MilitaryServiceRecord } from '@/views/USVisaForm.vue'
 import TextField from '@/components/fields/TextField.vue'
-import SelectField from '@/components/fields/SelectField.vue'
 import NationalityField from '@/components/fields/NationalityField.vue'
 import RadioField from '@/components/fields/RadioField.vue'
 import DateField from '@/components/fields/DateField.vue'

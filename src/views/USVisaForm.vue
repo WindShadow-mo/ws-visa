@@ -4,7 +4,7 @@
 // 每步对应一个异步加载的子组件，通过 provide/inject 共享 formData
 // v2: 字段 ID 对齐 docs/us-visa-ds160-form-design-v2.md
 
-import { reactive, ref, computed, provide, watch, onMounted, nextTick, defineAsyncComponent } from 'vue'
+import { reactive, ref, computed, provide, watch, nextTick, defineAsyncComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 import { Check, ChevronRight } from '@lucide/vue'
@@ -345,15 +345,15 @@ const formData = reactive<USVisaFormData>({
   ...savedData,
   // Restore nested objects
   us_address: { ...emptyUSAddr(), ...(savedData?.us_address ?? {}) },
-  paying_person: { surname: '', given_name: '', tel: '', email: '', relationship: '', address_same: '', address: { ...emptyAddr(), ...(savedData?.paying_person?.address ?? {}) }, ...(savedData?.paying_person ?? { address: {} }) },
-  paying_org: { name: '', tel: '', relationship: '', address: { ...emptyAddr(), ...(savedData?.paying_org?.address ?? {}) }, ...(savedData?.paying_org ?? { address: {} }) },
+  paying_person: { surname: '', given_name: '', tel: '', email: '', relationship: '', address_same: '', ...(savedData?.paying_person ?? {}), address: { ...emptyAddr(), ...(savedData?.paying_person?.address ?? {}) } },
+  paying_org: { name: '', tel: '', relationship: '', ...(savedData?.paying_org ?? {}), address: { ...emptyAddr(), ...(savedData?.paying_org?.address ?? {}) } },
   home_addr: { ...emptyAddr(), ...(savedData?.home_addr ?? {}) },
   mailing_addr: { ...emptyAddr(), ...(savedData?.mailing_addr ?? {}) },
   issued_location: { city: '', state: '', country: '', ...(savedData?.issued_location ?? {}) },
-  us_contact: { surname: '', given_name: '', organization: '', address: { ...emptyUSAddr(), ...(savedData?.us_contact?.address ?? {}) }, phone: '', email: '', ...(savedData?.us_contact ?? { address: {} }) },
+  us_contact: { surname: '', given_name: '', organization: '', phone: '', email: '', ...(savedData?.us_contact ?? {}), address: { ...emptyUSAddr(), ...(savedData?.us_contact?.address ?? {}) } },
   father: { surname: 'DNC', given_name: 'DNC', date_of_birth: '', in_us: '', status: '', ...(savedData?.father ?? {}) },
   mother: { surname: 'DNC', given_name: 'DNC', date_of_birth: '', in_us: '', status: '', ...(savedData?.mother ?? {}) },
-  spouse: { surname: '', given_name: '', date_of_birth: '', nationality: '', birth_city: '', birth_country: '', address_type: '', address: { ...emptyAddr(), ...(savedData?.spouse?.address ?? {}) }, ...(savedData?.spouse ?? { address: {} }) },
+  spouse: { surname: '', given_name: '', date_of_birth: '', nationality: '', birth_city: '', birth_country: '', address_type: '', ...(savedData?.spouse ?? {}), address: { ...emptyAddr(), ...(savedData?.spouse?.address ?? {}) } },
   current_address: { country: '', state: '', city: '', street_addr1: '', zip_code: '', tel: '', ...(savedData?.current_address ?? {}) },
   securityAnswers: savedData?.securityAnswers ?? {},
 })
@@ -864,7 +864,7 @@ function fillMockData() {
   const defaults = buildDefaultFormData()
   Object.assign(formData, defaults) // reset to clean state
   for (const key of Object.keys(mockUSFormData)) {
-    const val = (mockUSFormData as Record<string, unknown>)[key]
+    const val = (mockUSFormData as unknown as Record<string, unknown>)[key]
     if (Array.isArray(val)) {
       ;(formData as Record<string, unknown>)[key] = [...val]
     } else if (val !== null && typeof val === 'object') {

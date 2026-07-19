@@ -10,7 +10,6 @@ import SelectField from '@/components/fields/SelectField.vue'
 import DateField from '@/components/fields/DateField.vue'
 import RadioField from '@/components/fields/RadioField.vue'
 import type { RadioOption } from '@/components/fields/RadioField.vue'
-import type { SelectOption } from '@/components/fields/SelectField.vue'
 import { usStatesOptions, stayPeriodOptions } from '@/config/usCountryOptions'
 import { Plus, Trash2 } from '@lucide/vue'
 

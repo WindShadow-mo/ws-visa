@@ -91,7 +91,7 @@ const displayValue = computed(() =>
 
 // DNA/DNK — ponytail: cast needed because modelValue is always string for TextField
 const { isDnaChecked, isDnkChecked, isDisabled, toggleDna, toggleDnk } =
-  useDnaDnk(computed(() => props.modelValue) as any, emit as any, props)
+  useDnaDnk(computed(() => props.modelValue) as any, emit as any)
 </script>
 
 <template>

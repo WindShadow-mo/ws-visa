@@ -9,7 +9,6 @@ import TextField from '@/components/fields/TextField.vue'
 import SelectField from '@/components/fields/SelectField.vue'
 import RadioField from '@/components/fields/RadioField.vue'
 import type { RadioOption } from '@/components/fields/RadioField.vue'
-import type { SelectOption } from '@/components/fields/SelectField.vue'
 import { relationshipOptions } from '@/config/usCountryOptions'
 import { Plus, Trash2 } from '@lucide/vue'
 

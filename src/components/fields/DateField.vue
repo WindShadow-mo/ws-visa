@@ -89,7 +89,7 @@ function onDateSelect(date: DateValue | undefined) {
 
 // DNA/DNK
 const { isDnaChecked, isDnkChecked, isDisabled, toggleDna, toggleDnk } =
-  useDnaDnk(computed(() => props.modelValue), emit, props)
+  useDnaDnk(computed(() => props.modelValue), emit)
 </script>
 
 <template>

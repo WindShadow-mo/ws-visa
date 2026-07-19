@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<{
   required?: boolean
   options: SelectOption[]
   multiple?: boolean
-  modelValue: string | string[]
+  modelValue: string
   error?: string
   /** 网格跨度，默认 half（下拉字段需要更多空间显示选项文本，占1/2行） */
   span?: 'full' | 'half' | 'third' | 'quarter'
@@ -48,7 +48,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string | string[]]
+  'update:modelValue': [value: string]
 }>()
 
 const { t } = useI18n()
@@ -61,7 +61,6 @@ const description = computed(() =>
 // 根据当前值返回翻译后的标签（响应式，语言切换时自动更新）
 const selectedLabel = computed(() => {
   const value = props.modelValue
-  if (Array.isArray(value)) return ''
   // ponytail: DNA/DNK sentinel values — show empty, not raw 'N/A'/'DNC'
   if (value === 'N/A' || value === 'DNC') return ''
   const option = props.options.find(o => o.value === value)
@@ -91,11 +90,9 @@ watch(popoverOpen, (open) => {
 })
 
 // DNA/DNK — ponytail: coerce modelValue to string for composable
-const dnaModelValue = computed(() =>
-  Array.isArray(props.modelValue) ? '' : (props.modelValue ?? ''),
-)
+const dnaModelValue = computed(() => props.modelValue ?? '')
 const { isDnaChecked, isDnkChecked, isDisabled, toggleDna, toggleDnk } =
-  useDnaDnk(dnaModelValue as any, emit as any, props)
+  useDnaDnk(dnaModelValue as any, emit as any)
 </script>
 
 <template>
@@ -116,7 +113,7 @@ const { isDnaChecked, isDnkChecked, isDisabled, toggleDna, toggleDnk } =
           :model-value="modelValue"
           :multiple="multiple"
           :disabled="isDisabled || disabled"
-          @update:model-value="emit('update:modelValue', $event as string | string[])"
+          @update:model-value="emit('update:modelValue', $event as string)"
         >
           <SelectTrigger :id="name" :name="name" class="bg-muted/30">
             <SelectValue :placeholder="selectedLabel">{{ selectedLabel }}</SelectValue>
