@@ -1019,7 +1019,7 @@
       "usContact": "U.S. Contact",
       "family": "Family Information",
       "presentWork": "Present Work/Education",
-      "previousWork": "Previous Work/Education",
+      "previousWork": "Recent 5 Years Work/Education/Training",
       "additionalWork": "Additional Work/Education",
       "security": "Security and Background",
       "travelCompanions": "Travel Companions",
@@ -1059,7 +1059,7 @@
       "spouse": "Spouse/Partner Information",
       "languageList": "Languages",
       "militaryService": "Military Service",
-      "previousWorkRecords": "Previous Work Records",
+      "previousWorkRecords": "Recent 5 Years Work/Education/Training Records",
       "educationRecords": "Education Records",
       "part1": "Part 1 — Health Related",
       "part2": "Part 2 — Crimes/Trafficking",
@@ -1072,8 +1072,8 @@
     "subLabelsRepeat": {
       "companion": "Companion {N}",
       "usVisit": "Visit {N}",
-      "previousWork": "Previous Work {N}",
-      "education": "Education {N}",
+      "previousWork": "Job {N} (past 5 years)",
+      "education": "Education/Training {N} (past 5 years)",
       "relative": "Relative {N}",
       "military": "Military Service {N}",
       "lostPassport": "Lost Passport {N}"
@@ -2090,10 +2090,10 @@
         "label": "Job Description"
       },
       "wasPreviouslyEmployed": {
-        "label": "Were you previously employed?"
+        "label": "Have you had any employment in the past 5 years?"
       },
       "was_previously_employed": {
-        "label": "Were you previously employed?"
+        "label": "Have you had any employment in the past 5 years?"
       },
       "prevWorkEmployerName": {
         "label": "Employer Name"
@@ -2174,10 +2174,10 @@
         "label": "Job Description"
       },
       "hasEducation": {
-        "label": "Have you attended any educational institutions at secondary level or above?"
+        "label": "Have you received any education or training (secondary level or above) in the past 5 years?"
       },
       "has_education": {
-        "label": "Have you attended any educational institutions at secondary level or above?"
+        "label": "Have you received any education or training (secondary level or above) in the past 5 years?"
       },
       "educationName": {
         "label": "Institution Name"
@@ -2928,5 +2928,17 @@
       "q31": "Did you enter a public elementary or public secondary school in F student status after November 30, 1996, without reimbursing the school for the cost of your education?",
       "q32": "Are you a former exchange visitor (J) who has not fulfilled the two-year foreign residence requirement?"
     }
+  },
+  "helpBanner": {
+    "title": "Visa Application Guide",
+    "subtitle": "Just three steps to complete your visa application",
+    "navLabel": "Help",
+    "steps": [
+      { "title": "Fill in the Form", "desc": "Follow the prompts to enter all required visa information" },
+      { "title": "Export PDF Document", "desc": "Review your information and click Export to generate a PDF" },
+      { "title": "Contact Visa Consultant", "desc": "Send the PDF to Qingqing for professional translation assistance" }
+    ],
+    "contactName": "Bangkok Visa Translation · Qingqing",
+    "contactWechatHint": "Scan QR code to add on WeChat"
   }
 }

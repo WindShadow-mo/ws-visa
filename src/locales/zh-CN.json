@@ -1019,7 +1019,7 @@
       "usContact": "美国联系人",
       "family": "家庭信息",
       "presentWork": "当前工作/教育/培训",
-      "previousWork": "以往工作/教育/培训",
+      "previousWork": "近5年工作/教育/培训",
       "additionalWork": "附加工作/教育/培训",
       "security": "安全与背景",
       "travelCompanions": "同行人员",
@@ -1056,7 +1056,7 @@
       "spouse": "配偶/伴侣信息",
       "languageList": "语言能力",
       "militaryService": "军事服役",
-      "previousWorkRecords": "以往工作记录",
+      "previousWorkRecords": "近5年工作/教育/培训记录",
       "educationRecords": "教育经历",
       "part1": "Part 1 — 健康相关",
       "part2": "Part 2 — 犯罪/贩运",
@@ -1069,8 +1069,8 @@
     "subLabelsRepeat": {
       "companion": "同行人",
       "usVisit": "第{N}次访问",
-      "previousWork": "第{N}份工作",
-      "education": "第{N}段教育",
+      "previousWork": "近5年第{N}份工作",
+      "education": "近5年第{N}段教育/培训",
       "relative": "第{N}位亲属",
       "military": "第{N}段服役",
       "lostPassport": "第{N}本遗失护照"
@@ -2123,10 +2123,10 @@
         "placeholder": "请简要描述工作职责"
       },
       "wasPreviouslyEmployed": {
-        "label": "以前工作过吗？"
+        "label": "近5年内是否有过工作经历？"
       },
       "was_previously_employed": {
-        "label": "以前工作过吗？"
+        "label": "近5年内是否有过工作经历？"
       },
       "previousWork[].employerName": {
         "label": "雇主名称"
@@ -2211,10 +2211,10 @@
         "placeholder": "请简要描述工作职责"
       },
       "hasEducation": {
-        "label": "上过中学或以上教育机构？"
+        "label": "近5年内是否接受过中学或以上的教育/培训？"
       },
       "has_education": {
-        "label": "上过中学或以上教育机构？"
+        "label": "近5年内是否接受过中学或以上的教育/培训？"
       },
       "education[].name": {
         "label": "机构名称"
@@ -2987,5 +2987,17 @@
       "q31": "你是否在1996年11月30日之后进入了具有学生（F）身份的公立小学或公立中学，而没有偿还学校费用？",
       "q32": "你是否是以前的交流访问者（J），尚未满足两年的外国居住要求？"
     }
+  },
+  "helpBanner": {
+    "title": "签证申请指引",
+    "subtitle": "只需三步，轻松完成签证申请",
+    "navLabel": "帮助",
+    "steps": [
+      { "title": "填写信息收集表", "desc": "根据提示逐步填写签证所需的全部信息" },
+      { "title": "导出 PDF 文档", "desc": "确认信息无误后，点击导出按钮生成 PDF" },
+      { "title": "联系签证翻译官", "desc": "将 PDF 发送给青青，由专业翻译官协助您完成申请" }
+    ],
+    "contactName": "曼谷签证翻译 · 青青",
+    "contactWechatHint": "扫码添加微信好友"
   }
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// PreviousWork — DS-160 Step 11 (v2): 以往工作/教育/培训
+// PreviousWork — DS-160 Step 11 (v2): 近5年工作经历
 
 import { inject } from 'vue'
 import type { USVisaFormData, PreviousWorkRecord, EducationRecord } from '@/views/USVisaForm.vue'
@@ -45,7 +45,7 @@ function removeEdu(i: number) { education.splice(i, 1) }
 
 <template>
   <div class="fields-grid">
-    <!-- ======== 11.1 以往工作 ======== -->
+    <!-- ======== 11.1 近5年工作 ======== -->
     <RadioField
       name="was_previously_employed"
       label-key="usVisa.fields.was_previously_employed.label"

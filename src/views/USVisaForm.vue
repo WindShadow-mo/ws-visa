@@ -1325,7 +1325,7 @@ const previewSections = computed<PreviewSection[]>(() => {
     {
       title: t('usVisa.sections.previousWork'),
       fields: [
-        // L2: 以往工作记录
+        // L2: 近5年工作记录
         { label: t('usVisa.fields.was_previously_employed.label'), value: resolveOption(yesNoOptions, formData.was_previously_employed), required: true, type: 'radio', name: 'was_previously_employed' },
         ...(formData.was_previously_employed === 'yes' ? previous_work.map((w, i) => [
           { label: t('usVisa.fields.pw_employer_name.label'), value: w.employer_name, required: true, type: 'text', name: `pw_${i}_employer_name`, span: 'half' as const, groupStart: true, cardName: t('usVisa.subLabelsRepeat.previousWork', { N: i + 1 }) },
