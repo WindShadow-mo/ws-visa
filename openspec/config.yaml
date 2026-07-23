@@ -1,0 +1,36 @@
+schema: spec-driven
+
+context: |
+  青青签证（ws-visa）— 签证信息收集与 PDF 导出工具
+
+  技术栈：
+  - Vue 3.5 + TypeScript + Vite 8
+  - UI: shadcn-vue (v4) + Reka UI + Tailwind CSS v3
+  - 路由: vue-router v4
+  - 工具: @vueuse/core, class-variance-authority, clsx, tailwind-merge, @lucide/vue
+  - PDF: html2canvas + jsPDF（所见即所得导出）
+  - 无后端，纯前端 SPA
+
+  项目路径别名：@/ → src/
+
+  关键约束：
+  - components/ui/ 由 shadcn CLI 生成，不手动编辑
+  - 全局 CSS 变量在 src/style.css，颜色用 HSL 格式
+  - 暗色模式通过 .dark class 控制（非系统偏好）
+  - lucide-vue-next 图标 size 只接受 number，不接受字符串
+
+  已有签证模块：
+  - 英国签证（UK Visa）：/uk-visa，14 分组 ~180 字段
+  - 美国签证 DS-160（US Visa）：/us-visa，13 步向导 ~200+ 字段
+
+rules:
+  proposal:
+    - 用中文撰写
+    - 包含"不做什么"（Non-goals）部分
+  spec:
+    - 用中文撰写
+    - 字段清单用表格格式
+    - 条件联动用 [条件] 标记
+  tasks:
+    - 每个任务不超过 2 小时工作量
+    - 任务间标注依赖关系
